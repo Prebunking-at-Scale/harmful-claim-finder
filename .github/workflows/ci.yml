@@ -1,4 +1,4 @@
-name: Lint, Test and Build
+name: Lint and Test
 
 on:
   pull_request:
@@ -50,26 +50,3 @@ jobs:
         env:
           PYTHONPATH: src
 
-  build:
-    name: Build & Release
-    needs: test
-    runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.ff_release.outputs.version }}
-    steps:
-      - uses: FullFact/ff_release@v2
-        id: ff_release
-        with:
-          docker_token: ${{ secrets.DOCKER_TOKEN }}
-          docker_build: ${{ github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main' }}
-          # This is necessary to allow docker to pull dependencies from private repos
-          # gh_token_readonly: ${{ secrets.GH_TOKEN_READONLY }}
-
-  deploy:
-    name: Trigger deployment (dev only)
-    needs: build
-    if: ${{ github.ref == 'refs/heads/dev' }}
-    uses: ./.github/workflows/deploy.yml
-    secrets: inherit
-    with:
-      tag: ${{ needs.build.outputs.tag }}
