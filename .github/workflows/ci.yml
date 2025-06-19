@@ -1,0 +1,75 @@
+name: Lint, Test and Build
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - dev
+
+env:
+  POETRY_VERSION: 1.8.3
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # This step is necessary if any dependencies are in private repos
+      # - name: Setup git config
+      #   run: |
+      #     git config set --global --append url."https://fullfactdeploy:${{ secrets.GH_TOKEN_READONLY }}@github.com/".insteadOf "git@github.com:"
+      #     git config set --global --append url."https://fullfactdeploy:${{ secrets.GH_TOKEN_READONLY }}@github.com/".insteadOf "ssh://git@github.com/"
+      - name: Install poetry
+        run: pipx install poetry==${{ env.POETRY_VERSION }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+          cache: "poetry"
+      - name: Check poetry.lock is in sync with pyproject.toml
+        run: poetry check --lock
+      - name: Install dependencies
+        run: poetry install
+      - name: Check typing with mypy
+        run: poetry run mypy --install-types --non-interactive src
+      - name: Check code formatting with black
+        run: poetry run black --check .
+      - name: Check import order
+        run: poetry run isort --check-only .
+      - name: PEP8
+        run: poetry run flake8 .
+      - name: Run tests
+        run: poetry run pytest
+        env:
+          PYTHONPATH: src
+
+  build:
+    name: Build & Release
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.ff_release.outputs.version }}
+    steps:
+      - uses: FullFact/ff_release@v2
+        id: ff_release
+        with:
+          docker_token: ${{ secrets.DOCKER_TOKEN }}
+          docker_build: ${{ github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main' }}
+          # This is necessary to allow docker to pull dependencies from private repos
+          # gh_token_readonly: ${{ secrets.GH_TOKEN_READONLY }}
+
+  deploy:
+    name: Trigger deployment (dev only)
+    needs: build
+    if: ${{ github.ref == 'refs/heads/dev' }}
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
+    with:
+      tag: ${{ needs.build.outputs.tag }}

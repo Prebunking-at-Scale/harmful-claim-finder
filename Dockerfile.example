@@ -1,0 +1,18 @@
+FROM python:3.10-bookworm
+
+# Create application directory
+WORKDIR /app
+
+RUN pip install poetry==1.8.3
+
+ADD pyproject.toml poetry.lock .
+
+RUN mkdir /root/.ssh && touch /root/.ssh/known_hosts && \
+  ssh-keyscan github.com >> /root/.ssh/known_hosts
+
+RUN --mount=type=secret,id=gitconfig,target=/root/.gitconfig \
+  --mount=type=ssh \
+  poetry install --no-dev --no-root --remove-untracked
+
+# Install and run the program
+ENTRYPOINT python3 -m python-template

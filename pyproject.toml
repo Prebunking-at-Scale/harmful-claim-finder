@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "python-template"
+version = "0.0.1"
+description = "A template for Python projects"
+authors = ["Full Fact <afc@fullfact.org>"]
+maintainers = ["Full Fact <afc@fullfact.org>"]
+readme = "README.md"
+license = "Proprietary"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0.0"
+structlog = "^23.1.0"
+pydantic = "^2.10.6"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+flake8 = "^6.0.0"
+isort = "^5.12.0"
+mypy = "^1.4.1"
+pre-commit = "^3.3.3"
+pytest = "^7.4.0"
+pytest-asyncio = "^0.21.1"
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+testpaths = ["tests"]
+filterwarnings = [
+    # "ignore:Deprecated call to `pkg_resources.declare_namespace\\('.*'\\):DeprecationWarning",
+    # "ignore::DeprecationWarning:google.rpc",
+    # "ignore:Call to deprecated function _.*:schematics.deprecated.SchematicsDeprecationWarning", # Schematics internal warnings
+    # "ignore:pkg_resources is deprecated as an API:DeprecationWarning",
+] # Ignore some noisy and unfixable warnings
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+warn_unused_configs = true
+disallow_untyped_calls = true
+check_untyped_defs = true
