@@ -1,6 +1,5 @@
 from textwrap import dedent
 
-
 CLAIMS_PROMPT_TEXT = dedent(
     """
     Find the main claims made in the provided text.

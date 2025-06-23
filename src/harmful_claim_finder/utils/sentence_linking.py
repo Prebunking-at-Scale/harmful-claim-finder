@@ -1,7 +1,7 @@
 import logging
 
-from rapidfuzz import fuzz
 from pydantic import BaseModel
+from rapidfuzz import fuzz
 
 
 class Span(BaseModel):

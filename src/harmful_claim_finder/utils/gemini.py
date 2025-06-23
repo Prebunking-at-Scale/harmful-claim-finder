@@ -1,9 +1,9 @@
 import os
 from typing import Any
-from pydantic import BaseModel
+
 from google import genai
 from google.genai import types
-
+from pydantic import BaseModel
 
 DEFAULT_SAFETY_SETTINGS = [
     types.SafetySetting(
@@ -112,9 +112,7 @@ def run_prompt(
     prompt: str,
     video_uri: str | None = None,
     generation_config: dict[str, Any] = DEFAULT_PARAMETERS,
-    safety_settings: dict[
-        types.HarmCategory, types.HarmBlockThreshold
-    ] = DEFAULT_SAFETY_SETTINGS,
+    safety_settings: list[types.SafetySetting] = DEFAULT_SAFETY_SETTINGS,
     model_config: ModelConfig | None = None,
 ) -> str:
     """
@@ -168,9 +166,8 @@ def run_prompt(
             **generation_config,
         ),
     )
-    if not response.candidates:
-        raise GeminiError(
-            f"No model output: possible reason: {response.prompt_feedback}"
-        )
 
-    return response.text
+    if response.candidates and response.text and isinstance(response.text, str):
+        return response.text
+
+    raise GeminiError(f"No model output: possible reason: {response.prompt_feedback}")

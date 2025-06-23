@@ -1,8 +1,6 @@
 import os
-from harmful_claim_finder.utils.gemini import (
-    GeminiError,
-    generate_model_config,
-)
+
+from harmful_claim_finder.utils.gemini import GeminiError, generate_model_config
 
 
 def test_generate_model_config():

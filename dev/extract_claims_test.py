@@ -1,9 +1,9 @@
-from pprint import pp
 from pathlib import Path
+from pprint import pp
+
+from harmful_claim_finder.prompts import CLAIMS_PROMPT_TEXT, CLAIMS_PROMPT_VIDEO
 from harmful_claim_finder.utils.gemini import run_prompt
 from harmful_claim_finder.utils.parsing import parse_model_json_output
-from harmful_claim_finder.prompts import CLAIMS_PROMPT_TEXT, CLAIMS_PROMPT_VIDEO
-
 
 example_transcript_text = "data/new_statesman_transcript.txt"
 example_video = "gs://raphael-test/tiktok/7304218971153124651.mp4"
@@ -26,4 +26,4 @@ def extract_claims_from_video():
 
 
 if __name__ == "__main__":
-    extract_claims_from_video()
+    extract_claims_from_text()

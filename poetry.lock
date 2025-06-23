@@ -594,6 +594,23 @@ files = [
 ]
 
 [[package]]
+name = "optype"
+version = "0.10.0"
+description = "Building blocks for precise & flexible type hints"
+optional = false
+python-versions = ">=3.11"
+files = [
+    {file = "optype-0.10.0-py3-none-any.whl", hash = "sha256:7e9ccc329fb65c326c6bd62c30c2ba03b694c28c378a96c2bcdd18a084f2c96b"},
+    {file = "optype-0.10.0.tar.gz", hash = "sha256:2b89a1b8b48f9d6dd8c4dd4f59e22557185c81823c6e2bfc43c4819776d5a7ca"},
+]
+
+[package.dependencies]
+typing-extensions = {version = ">=4.10", markers = "python_version < \"3.13\""}
+
+[package.extras]
+numpy = ["numpy (>=1.25.2)"]
+
+[[package]]
 name = "packaging"
 version = "24.2"
 description = "Core utilities for Python packages"
@@ -1162,6 +1179,23 @@ doc = ["intersphinx_registry", "jupyterlite-pyodide-kernel", "jupyterlite-sphinx
 test = ["Cython", "array-api-strict (>=2.0,<2.1.1)", "asv", "gmpy2", "hypothesis (>=6.30)", "meson", "mpmath", "ninja", "pooch", "pytest", "pytest-cov", "pytest-timeout", "pytest-xdist", "scikit-umfpack", "threadpoolctl"]
 
 [[package]]
+name = "scipy-stubs"
+version = "1.16.0.0"
+description = "Type annotations for SciPy"
+optional = false
+python-versions = ">=3.11"
+files = [
+    {file = "scipy_stubs-1.16.0.0-py3-none-any.whl", hash = "sha256:c91410eef4476e4e39a5eaf635869b5421c52285ba2d15969dabe289a36788b3"},
+    {file = "scipy_stubs-1.16.0.0.tar.gz", hash = "sha256:cef483854a08a4165b960c5b83e09c468eabb7cf89e564fdff3449b5d6938449"},
+]
+
+[package.dependencies]
+optype = ">=0.10.0,<1"
+
+[package.extras]
+scipy = ["scipy (>=1.16.0rc2,<1.17)"]
+
+[[package]]
 name = "sniffio"
 version = "1.3.1"
 description = "Sniff out which async library your code is running under"
@@ -1333,4 +1367,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "56498fb63cf86d0d4412f72a9b953e8708e2ffd1b6434da5a5997a12818c4b46"
+content-hash = "639b9cae2a752a3b31d2861ebd752fb8678c5182dd6037b93d98aaeb12e8a1aa"
