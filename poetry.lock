@@ -439,13 +439,13 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "json-repair"
-version = "0.47.1"
+version = "0.40.0"
 description = "A package to repair broken json strings"
 optional = false
-python-versions = ">=3.10"
+python-versions = ">=3.9"
 files = [
-    {file = "json_repair-0.47.1-py3-none-any.whl", hash = "sha256:0b9c0b3ae400e83317efdaab91983a2b63faebebda2924dcfdd16080839673c7"},
-    {file = "json_repair-0.47.1.tar.gz", hash = "sha256:e232ae4def2cb5ce00900f74ca8c0a05cab148bd2ec7eba85506aef26e750805"},
+    {file = "json_repair-0.40.0-py3-none-any.whl", hash = "sha256:46955bfd22338ba60cc5239c0b01462ba419871b19fcd68d8881aca4fa3b0d2f"},
+    {file = "json_repair-0.40.0.tar.gz", hash = "sha256:ce3cdef63f033d072295ca892cba51487292cd937da42dc20a8d629ecf5eb82d"},
 ]
 
 [[package]]
@@ -1333,4 +1333,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "76ce68b66d188de1a09705f7d65fcfe5876ea25c86d30dbeb531f7fe756080a8"
+content-hash = "56498fb63cf86d0d4412f72a9b953e8708e2ffd1b6434da5a5997a12818c4b46"
