@@ -1,7 +1,9 @@
 from textwrap import dedent
 from typing import Optional
-
 from pydantic import BaseModel, Field
+
+from harmful_claim_finder.utils.gemini import run_prompt
+from harmful_claim_finder.utils.parsing import parse_model_json_output
 
 
 class TextClaimSchema(BaseModel):
@@ -28,11 +30,11 @@ class VideoClaimSchema(BaseModel):
             "but rephrase to make the claim clear without context."
         )
     )
-    original_text: Optional[str] = Field(
+    original_text: str = Field(
         description=(
             "The original sentence containing the claim, "
             "exactly as it appears in the input."
-            "If the claim is made non-verbally, leave this blank."
+            "If the claim is made non-verbally, describe how the claim is made."
         )
     )
     timestamp: str = Field(
@@ -51,12 +53,6 @@ CLAIMS_PROMPT_TEXT = dedent(
     Include any claims that are significant to the overall narrative of the text.
     Include no more than 20 of the most significant claims.
 
-    Return a json list of claims in the following format:
-    {
-        "claim": <claim being made. Do not change the meaning of the claim, but rephrase to make the claim clear without context.>,
-        "original_text": <the original sentence, exactly as it appears in the input, containing the claim>,
-    }
-
     Here is the text:
     ```
     {TEXT}
@@ -69,13 +65,25 @@ CLAIMS_PROMPT_VIDEO = dedent(
     """
     Find all the claims made in this video.
     Include both spoken claims, and claims made visually.
-
-    Return a json list of claims in the following format:
-    {
-        "claim": <claim being made. Do not change the meaning of the claim, but rephrase to make the claim clear without context.>,
-        "original_text": <the original sentence, exactly as it appears in the input, containing the claim. If the claim is made non-verbally, leave this blank.>,
-        "timestamp": "<how far through the video was the claim made? Give value in HH:MM:SS,
-        "duration": "How long, in ms, is the claim made for?"
-    }
     """
 )
+
+
+def extract_claims_from_transcript(transcript: list[str]):
+    transcript_text = " ".join(transcript)
+    prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
+    response = run_prompt(prompt, output_schema=list[TextClaimSchema])
+    parsed = parse_model_json_output(response)
+    claims = [TextClaimSchema(**claim) for claim in parsed]
+    return claims
+
+
+def extract_claims_from_video(video_uri: str):
+    response = run_prompt(
+        CLAIMS_PROMPT_VIDEO,
+        video_uri=video_uri,
+        output_schema=list[VideoClaimSchema],
+    )
+    parsed = parse_model_json_output(response)
+    claims = [VideoClaimSchema(**claim) for claim in parsed]
+    return claims
