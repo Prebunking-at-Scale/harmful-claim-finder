@@ -1,4 +1,49 @@
 from textwrap import dedent
+from typing import Optional
+
+from pydantic import BaseModel, Field
+
+
+class TextClaimSchema(BaseModel):
+    claim: str = Field(
+        description=(
+            "claim being made. "
+            "Do not change the meaning of the claim, "
+            "but rephrase to make the claim clear without context."
+        )
+    )
+    original_text: str = Field(
+        description=(
+            "The original sentence containing the claim, "
+            "exactly as it appears in the text"
+        )
+    )
+
+
+class VideoClaimSchema(BaseModel):
+    claim: str = Field(
+        description=(
+            "claim being made. "
+            "Do not change the meaning of the claim, "
+            "but rephrase to make the claim clear without context."
+        )
+    )
+    original_text: Optional[str] = Field(
+        description=(
+            "The original sentence containing the claim, "
+            "exactly as it appears in the input."
+            "If the claim is made non-verbally, leave this blank."
+        )
+    )
+    timestamp: str = Field(
+        description=(
+            "how far through the video was the claim made? Give value in HH:MM:SS"
+        )
+    )
+    duration: int = Field(
+        description="How long, in ms, is the claim made for?",
+    )
+
 
 CLAIMS_PROMPT_TEXT = dedent(
     """
