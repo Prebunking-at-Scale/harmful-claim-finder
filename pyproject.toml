@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "python-template"
+name = "harmful-claim-finder"
 version = "0.0.1"
-description = "A template for Python projects"
+description = "Library for finding harmful claims in videos."
 authors = ["Full Fact <afc@fullfact.org>"]
 maintainers = ["Full Fact <afc@fullfact.org>"]
 readme = "README.md"
@@ -12,10 +12,16 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
 python-dotenv = "^1.0.0"
 structlog = "^23.1.0"
 pydantic = "^2.10.6"
+google-genai = "^1.21.1"
+json-repair = "^0.40.0"
+numpy = "^2.3.0"
+scipy = "^1.15.3"
+rapidfuzz = "^3.13.0"
+scipy-stubs = "^1.16.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
