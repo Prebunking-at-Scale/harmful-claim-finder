@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "python-template"
+name = "harmful-claim-finder"
 version = "0.0.1"
-description = "A template for Python projects"
+description = "Library for finding harmful claims in videos."
 authors = ["Full Fact <afc@fullfact.org>"]
 maintainers = ["Full Fact <afc@fullfact.org>"]
 readme = "README.md"
