@@ -6,8 +6,8 @@ from harmful_claim_finder.keyword_filter.prompts import (
     FIX_JSON,
     TOPIC_KEYWORD_ARTICLE_PROMPT,
 )
-from harmful_claim_finder.models import ParsingError, TopicDetectionError
 from harmful_claim_finder.utils.gemini import GeminiError, run_prompt
+from harmful_claim_finder.utils.models import ParsingError, TopicDetectionError
 from harmful_claim_finder.utils.parsing import ParsedType, parse_model_json_output
 
 AllKeywordsType = dict[str, dict[str, dict[str, dict[str, list[str]]]]]

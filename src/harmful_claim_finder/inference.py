@@ -4,13 +4,13 @@ import time
 import pycountry
 
 from harmful_claim_finder.keyword_filter.topic_keyword_filter import TopicKeywordFilter
-from harmful_claim_finder.models import (
+from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
+from harmful_claim_finder.utils.models import (
     CheckworthyError,
     CheckworthyResult,
     PastelError,
     TopicDetectionError,
 )
-from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
 
 logger = logging.getLogger(__name__)
 
