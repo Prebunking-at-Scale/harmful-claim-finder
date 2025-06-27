@@ -1,0 +1,1897 @@
+[
+    {
+        "text": "hello and welcome to today's talk",
+        "start": 0.88,
+        "duration": 5.2
+    },
+    {
+        "text": "thursday the 21st of july now the risk",
+        "start": 2.72,
+        "duration": 6.0
+    },
+    {
+        "text": "benefit analysis of vaccination has",
+        "start": 6.08,
+        "duration": 5.28
+    },
+    {
+        "text": "changed in omicron times",
+        "start": 8.72,
+        "duration": 4.4
+    },
+    {
+        "text": "so today i want to look at a study from",
+        "start": 11.36,
+        "duration": 3.92
+    },
+    {
+        "text": "singapore over a quarter of a million",
+        "start": 13.12,
+        "duration": 5.44
+    },
+    {
+        "text": "children now in this group of children",
+        "start": 15.28,
+        "duration": 6.72
+    },
+    {
+        "text": "22 of the children suffered a severe",
+        "start": 18.56,
+        "duration": 8.0
+    },
+    {
+        "text": "adverse reaction to the vaccination",
+        "start": 22.0,
+        "duration": 6.16
+    },
+    {
+        "text": "but in the same time period although",
+        "start": 26.56,
+        "duration": 3.36
+    },
+    {
+        "text": "there's quite a few children admitted to",
+        "start": 28.16,
+        "duration": 4.399
+    },
+    {
+        "text": "hospital only five",
+        "start": 29.92,
+        "duration": 5.28
+    },
+    {
+        "text": "children needed oxygen",
+        "start": 32.559,
+        "duration": 5.68
+    },
+    {
+        "text": "and of that five only four were admitted",
+        "start": 35.2,
+        "duration": 5.12
+    },
+    {
+        "text": "to intensive care",
+        "start": 38.239,
+        "duration": 3.681
+    },
+    {
+        "text": "so we've got five children needing",
+        "start": 40.32,
+        "duration": 4.0
+    },
+    {
+        "text": "vaccination out of this large group but",
+        "start": 41.92,
+        "duration": 4.08
+    },
+    {
+        "text": "22 children",
+        "start": 44.32,
+        "duration": 4.079
+    },
+    {
+        "text": "suffering a significant",
+        "start": 46.0,
+        "duration": 4.239
+    },
+    {
+        "text": "adverse reaction and in fact in those",
+        "start": 48.399,
+        "duration": 3.521
+    },
+    {
+        "text": "admitted to intensive care there was",
+        "start": 50.239,
+        "duration": 3.361
+    },
+    {
+        "text": "actually more",
+        "start": 51.92,
+        "duration": 4.72
+    },
+    {
+        "text": "uh vaccinated um fully vaccinated there",
+        "start": 53.6,
+        "duration": 5.04
+    },
+    {
+        "text": "was two went to intensive care from the",
+        "start": 56.64,
+        "duration": 4.399
+    },
+    {
+        "text": "fully vaccinated group and only one",
+        "start": 58.64,
+        "duration": 4.239
+    },
+    {
+        "text": "from the unvaccinated group now it's not",
+        "start": 61.039,
+        "duration": 3.361
+    },
+    {
+        "text": "as simple as that that's just the intro",
+        "start": 62.879,
+        "duration": 3.441
+    },
+    {
+        "text": "to this but it shows that the risk of",
+        "start": 64.4,
+        "duration": 3.92
+    },
+    {
+        "text": "benefit analysis has changed and of",
+        "start": 66.32,
+        "duration": 3.6
+    },
+    {
+        "text": "course this is talking about who it's",
+        "start": 68.32,
+        "duration": 2.88
+    },
+    {
+        "text": "talking about it's talking about this",
+        "start": 69.92,
+        "duration": 2.96
+    },
+    {
+        "text": "age group of children",
+        "start": 71.2,
+        "duration": 5.44
+    },
+    {
+        "text": "so let's dive straight into this now",
+        "start": 72.88,
+        "duration": 6.48
+    },
+    {
+        "text": "now this is from the new england journal",
+        "start": 76.64,
+        "duration": 5.68
+    },
+    {
+        "text": "of medicine so that's all absolutely",
+        "start": 79.36,
+        "duration": 4.32
+    },
+    {
+        "text": "fine",
+        "start": 82.32,
+        "duration": 2.96
+    },
+    {
+        "text": "pfizer vaccine",
+        "start": 83.68,
+        "duration": 4.24
+    },
+    {
+        "text": "published er 20th of july so publishes",
+        "start": 85.28,
+        "duration": 4.159
+    },
+    {
+        "text": "yesterday so",
+        "start": 87.92,
+        "duration": 3.36
+    },
+    {
+        "text": "you can't say we're not up to date on",
+        "start": 89.439,
+        "duration": 4.0
+    },
+    {
+        "text": "this channel",
+        "start": 91.28,
+        "duration": 4.72
+    },
+    {
+        "text": "data on real world uh effectiveness of",
+        "start": 93.439,
+        "duration": 4.881
+    },
+    {
+        "text": "vaccine against omicron in children is",
+        "start": 96.0,
+        "duration": 4.56
+    },
+    {
+        "text": "what they're looking at",
+        "start": 98.32,
+        "duration": 4.24
+    },
+    {
+        "text": "january so it's a bang in the middle of",
+        "start": 100.56,
+        "duration": 5.28
+    },
+    {
+        "text": "the omicron period of time now this is",
+        "start": 102.56,
+        "duration": 5.599
+    },
+    {
+        "text": "part of the problem so much of the",
+        "start": 105.84,
+        "duration": 4.16
+    },
+    {
+        "text": "evidence that we have is in previous",
+        "start": 108.159,
+        "duration": 4.0
+    },
+    {
+        "text": "waves we're now in omicron times things",
+        "start": 110.0,
+        "duration": 5.119
+    },
+    {
+        "text": "have changed and we need to move with",
+        "start": 112.159,
+        "duration": 4.801
+    },
+    {
+        "text": "the times to keep keep up to date with",
+        "start": 115.119,
+        "duration": 5.36
+    },
+    {
+        "text": "the evidence of the time",
+        "start": 116.96,
+        "duration": 5.839
+    },
+    {
+        "text": "some policies you might think are a",
+        "start": 120.479,
+        "duration": 5.28
+    },
+    {
+        "text": "little behind the times",
+        "start": 122.799,
+        "duration": 2.96
+    },
+    {
+        "text": "so this is this is the time period we're",
+        "start": 126.0,
+        "duration": 4.399
+    },
+    {
+        "text": "looking at now five to 11 year old",
+        "start": 127.759,
+        "duration": 5.041
+    },
+    {
+        "text": "children just over quarter million of",
+        "start": 130.399,
+        "duration": 3.121
+    },
+    {
+        "text": "them",
+        "start": 132.8,
+        "duration": 4.0
+    },
+    {
+        "text": "now of that group 67 fully vaccinated",
+        "start": 133.52,
+        "duration": 5.52
+    },
+    {
+        "text": "there's the real numbers they're 173 000",
+        "start": 136.8,
+        "duration": 4.0
+    },
+    {
+        "text": "fully vaccinated",
+        "start": 139.04,
+        "duration": 4.76
+    },
+    {
+        "text": "partially vaccinated 12 unvaccinated",
+        "start": 140.8,
+        "duration": 4.72
+    },
+    {
+        "text": "20.3",
+        "start": 143.8,
+        "duration": 3.32
+    },
+    {
+        "text": "now what this means is there's a very",
+        "start": 145.52,
+        "duration": 3.28
+    },
+    {
+        "text": "good sum these are very good numbers now",
+        "start": 147.12,
+        "duration": 4.16
+    },
+    {
+        "text": "this is all real data from the singapore",
+        "start": 148.8,
+        "duration": 4.719
+    },
+    {
+        "text": "authorities very good at collecting data",
+        "start": 151.28,
+        "duration": 4.4
+    },
+    {
+        "text": "in singapore very very good at it all",
+        "start": 153.519,
+        "duration": 4.641
+    },
+    {
+        "text": "anonymized um",
+        "start": 155.68,
+        "duration": 4.24
+    },
+    {
+        "text": "and so we have the basically the full",
+        "start": 158.16,
+        "duration": 3.52
+    },
+    {
+        "text": "data set to analyze this is very good",
+        "start": 159.92,
+        "duration": 4.48
+    },
+    {
+        "text": "quality uh data that we are",
+        "start": 161.68,
+        "duration": 4.4
+    },
+    {
+        "text": "looking at",
+        "start": 164.4,
+        "duration": 3.44
+    },
+    {
+        "text": "so um",
+        "start": 166.08,
+        "duration": 3.84
+    },
+    {
+        "text": "so that they're the unvaccinated right",
+        "start": 167.84,
+        "duration": 4.28
+    },
+    {
+        "text": "now 16.4",
+        "start": 169.92,
+        "duration": 5.84
+    },
+    {
+        "text": "17.9 million person days at risk so what",
+        "start": 172.12,
+        "duration": 5.56
+    },
+    {
+        "text": "they did here was it's a bit confusing",
+        "start": 175.76,
+        "duration": 3.36
+    },
+    {
+        "text": "this i don't particularly like it but",
+        "start": 177.68,
+        "duration": 2.72
+    },
+    {
+        "text": "what we've got they look they looked at",
+        "start": 179.12,
+        "duration": 4.72
+    },
+    {
+        "text": "person days at risk in in this age group",
+        "start": 180.4,
+        "duration": 5.119
+    },
+    {
+        "text": "and the reason the numbers differ is",
+        "start": 183.84,
+        "duration": 2.72
+    },
+    {
+        "text": "because they stopped collecting",
+        "start": 185.519,
+        "duration": 4.72
+    },
+    {
+        "text": "hospitalization data in early april so",
+        "start": 186.56,
+        "duration": 5.039
+    },
+    {
+        "text": "so the numbers are slightly different",
+        "start": 190.239,
+        "duration": 2.801
+    },
+    {
+        "text": "but it's not enough to worry about so",
+        "start": 191.599,
+        "duration": 2.961
+    },
+    {
+        "text": "we'll just look at the numbers as as",
+        "start": 193.04,
+        "duration": 4.4
+    },
+    {
+        "text": "we're giving them directly in the paper",
+        "start": 194.56,
+        "duration": 4.72
+    },
+    {
+        "text": "but it does mean the infection data that",
+        "start": 197.44,
+        "duration": 3.439
+    },
+    {
+        "text": "data and hospitalization data is based",
+        "start": 199.28,
+        "duration": 2.879
+    },
+    {
+        "text": "on slightly different numbers but that",
+        "start": 200.879,
+        "duration": 3.201
+    },
+    {
+        "text": "doesn't matter too much",
+        "start": 202.159,
+        "duration": 3.36
+    },
+    {
+        "text": "now um",
+        "start": 204.08,
+        "duration": 3.36
+    },
+    {
+        "text": "so um",
+        "start": 205.519,
+        "duration": 3.36
+    },
+    {
+        "text": "during this period during this period of",
+        "start": 207.44,
+        "duration": 3.84
+    },
+    {
+        "text": "time we had 53 000 infections",
+        "start": 208.879,
+        "duration": 5.36
+    },
+    {
+        "text": "uh just over 5000 confirmed with uh",
+        "start": 211.28,
+        "duration": 7.519
+    },
+    {
+        "text": "pcr and 288 hospitalizations now",
+        "start": 214.239,
+        "duration": 7.041
+    },
+    {
+        "text": "no one is trying to minimize",
+        "start": 218.799,
+        "duration": 6.08
+    },
+    {
+        "text": "uh 288 hospitalizations in this uh these",
+        "start": 221.28,
+        "duration": 6.0
+    },
+    {
+        "text": "group of children it's a lot but",
+        "start": 224.879,
+        "duration": 4.881
+    },
+    {
+        "text": "remember only five",
+        "start": 227.28,
+        "duration": 5.519
+    },
+    {
+        "text": "needed oxygen so a lot of being admitted",
+        "start": 229.76,
+        "duration": 4.96
+    },
+    {
+        "text": "uh on a precautionary basis and we do",
+        "start": 232.799,
+        "duration": 3.281
+    },
+    {
+        "text": "this with children we admit children",
+        "start": 234.72,
+        "duration": 2.879
+    },
+    {
+        "text": "much more readily than adults at least",
+        "start": 236.08,
+        "duration": 3.76
+    },
+    {
+        "text": "i've always tended to do that because",
+        "start": 237.599,
+        "duration": 4.321
+    },
+    {
+        "text": "it's it's we just don't take any chances",
+        "start": 239.84,
+        "duration": 3.759
+    },
+    {
+        "text": "with children",
+        "start": 241.92,
+        "duration": 2.56
+    },
+    {
+        "text": "um",
+        "start": 243.599,
+        "duration": 3.92
+    },
+    {
+        "text": "we're very very careful with children",
+        "start": 244.48,
+        "duration": 5.039
+    },
+    {
+        "text": "um so",
+        "start": 247.519,
+        "duration": 5.28
+    },
+    {
+        "text": "that there we have the the the the so 53",
+        "start": 249.519,
+        "duration": 5.121
+    },
+    {
+        "text": "000 infections good good numbers two",
+        "start": 252.799,
+        "duration": 3.041
+    },
+    {
+        "text": "hundred hospital i said that",
+        "start": 254.64,
+        "duration": 3.76
+    },
+    {
+        "text": "that's right so amongst hospitalization",
+        "start": 255.84,
+        "duration": 3.919
+    },
+    {
+        "text": "amongst amongst the hospitalized",
+        "start": 258.4,
+        "duration": 2.559
+    },
+    {
+        "text": "children",
+        "start": 259.759,
+        "duration": 4.401
+    },
+    {
+        "text": "five received supplementary oxygen",
+        "start": 260.959,
+        "duration": 5.041
+    },
+    {
+        "text": "very small number four of whom were",
+        "start": 264.16,
+        "duration": 5.2
+    },
+    {
+        "text": "admitted to intensive care of these five",
+        "start": 266.0,
+        "duration": 5.919
+    },
+    {
+        "text": "children one was unvaccinated",
+        "start": 269.36,
+        "duration": 4.16
+    },
+    {
+        "text": "two were partially vaccinated and two",
+        "start": 271.919,
+        "duration": 3.441
+    },
+    {
+        "text": "were fully vaccinated now to be fair of",
+        "start": 273.52,
+        "duration": 3.76
+    },
+    {
+        "text": "course there is",
+        "start": 275.36,
+        "duration": 4.32
+    },
+    {
+        "text": "more in the vaccinated group but it does",
+        "start": 277.28,
+        "duration": 4.24
+    },
+    {
+        "text": "show that um",
+        "start": 279.68,
+        "duration": 3.6
+    },
+    {
+        "text": "in terms of admission to intensive care",
+        "start": 281.52,
+        "duration": 3.2
+    },
+    {
+        "text": "there's no evidence here that",
+        "start": 283.28,
+        "duration": 3.84
+    },
+    {
+        "text": "vaccination provides protection",
+        "start": 284.72,
+        "duration": 4.16
+    },
+    {
+        "text": "there's no evidence that vaccination",
+        "start": 287.12,
+        "duration": 4.24
+    },
+    {
+        "text": "provides protection against oxygenation",
+        "start": 288.88,
+        "duration": 3.52
+    },
+    {
+        "text": "here",
+        "start": 291.36,
+        "duration": 3.68
+    },
+    {
+        "text": "there's more data to come but from that",
+        "start": 292.4,
+        "duration": 4.56
+    },
+    {
+        "text": "the most severe outcome but all the time",
+        "start": 295.04,
+        "duration": 4.719
+    },
+    {
+        "text": "weighing this against the 22 severe",
+        "start": 296.96,
+        "duration": 4.239
+    },
+    {
+        "text": "adverse reactions now we're not given a",
+        "start": 299.759,
+        "duration": 3.601
+    },
+    {
+        "text": "lot of data or a lot of detail on the",
+        "start": 301.199,
+        "duration": 4.401
+    },
+    {
+        "text": "adverse reactions but they do describe",
+        "start": 303.36,
+        "duration": 4.8
+    },
+    {
+        "text": "them as severe adverse reactions",
+        "start": 305.6,
+        "duration": 3.36
+    },
+    {
+        "text": "so",
+        "start": 308.16,
+        "duration": 3.039
+    },
+    {
+        "text": "you see the balance that the balance is",
+        "start": 308.96,
+        "duration": 4.72
+    },
+    {
+        "text": "has changed because of omgrom",
+        "start": 311.199,
+        "duration": 4.641
+    },
+    {
+        "text": "um",
+        "start": 313.68,
+        "duration": 5.28
+    },
+    {
+        "text": "so that they were the ones admitted uh",
+        "start": 315.84,
+        "duration": 5.44
+    },
+    {
+        "text": "to intensive care",
+        "start": 318.96,
+        "duration": 4.72
+    },
+    {
+        "text": "um now um no deaths retributive",
+        "start": 321.28,
+        "duration": 4.4
+    },
+    {
+        "text": "recovered 19 in this age group amongst",
+        "start": 323.68,
+        "duration": 5.28
+    },
+    {
+        "text": "children in the uh unvaccinated group",
+        "start": 325.68,
+        "duration": 5.519
+    },
+    {
+        "text": "so this is the unvaccinated group",
+        "start": 328.96,
+        "duration": 4.32
+    },
+    {
+        "text": "now we see that there was uh three",
+        "start": 331.199,
+        "duration": 3.881
+    },
+    {
+        "text": "thousand uh",
+        "start": 333.28,
+        "duration": 4.8
+    },
+    {
+        "text": "3303 infections",
+        "start": 335.08,
+        "duration": 4.6
+    },
+    {
+        "text": "479",
+        "start": 338.08,
+        "duration": 3.04
+    },
+    {
+        "text": "confirmed pcr tests and 30",
+        "start": 339.68,
+        "duration": 2.959
+    },
+    {
+        "text": "hospitalizations compared to the",
+        "start": 341.12,
+        "duration": 3.12
+    },
+    {
+        "text": "unvaccinated group",
+        "start": 342.639,
+        "duration": 3.28
+    },
+    {
+        "text": "and we can see that",
+        "start": 344.24,
+        "duration": 3.6
+    },
+    {
+        "text": "children in the fully vaccinated group",
+        "start": 345.919,
+        "duration": 4.081
+    },
+    {
+        "text": "were getting slightly fewer infections",
+        "start": 347.84,
+        "duration": 4.639
+    },
+    {
+        "text": "less official diagnosis and there were",
+        "start": 350.0,
+        "duration": 3.759
+    },
+    {
+        "text": "fewer of them",
+        "start": 352.479,
+        "duration": 2.961
+    },
+    {
+        "text": "admitted to",
+        "start": 353.759,
+        "duration": 3.041
+    },
+    {
+        "text": "hospital",
+        "start": 355.44,
+        "duration": 3.68
+    },
+    {
+        "text": "but it's not so much the admissions to",
+        "start": 356.8,
+        "duration": 4.239
+    },
+    {
+        "text": "hospitals that uh",
+        "start": 359.12,
+        "duration": 3.12
+    },
+    {
+        "text": "might be considered the key thing it's",
+        "start": 361.039,
+        "duration": 3.521
+    },
+    {
+        "text": "whether how sick those children are",
+        "start": 362.24,
+        "duration": 4.079
+    },
+    {
+        "text": "and remember only five of the whole",
+        "start": 364.56,
+        "duration": 4.16
+    },
+    {
+        "text": "group required oxygen",
+        "start": 366.319,
+        "duration": 4.0
+    },
+    {
+        "text": "oxygen",
+        "start": 368.72,
+        "duration": 5.039
+    },
+    {
+        "text": "therapy a very small number so i've just",
+        "start": 370.319,
+        "duration": 5.6
+    },
+    {
+        "text": "left those two um",
+        "start": 373.759,
+        "duration": 4.16
+    },
+    {
+        "text": "those two metrics up there on the screen",
+        "start": 375.919,
+        "duration": 3.921
+    },
+    {
+        "text": "together so we can see them together so",
+        "start": 377.919,
+        "duration": 4.72
+    },
+    {
+        "text": "30 hospitalizations in the um",
+        "start": 379.84,
+        "duration": 5.359
+    },
+    {
+        "text": "in the group that were unvaccinated",
+        "start": 382.639,
+        "duration": 4.4
+    },
+    {
+        "text": "and 6.6 in the group that were",
+        "start": 385.199,
+        "duration": 3.361
+    },
+    {
+        "text": "vaccinated now we haven't finished yet",
+        "start": 387.039,
+        "duration": 3.921
+    },
+    {
+        "text": "there's more to come on this",
+        "start": 388.56,
+        "duration": 4.72
+    },
+    {
+        "text": "vaccine efficacy against hospitalization",
+        "start": 390.96,
+        "duration": 4.88
+    },
+    {
+        "text": "so partly vaccinated versus unvaccinated",
+        "start": 393.28,
+        "duration": 5.359
+    },
+    {
+        "text": "children we do see a level of efficacy",
+        "start": 395.84,
+        "duration": 6.0
+    },
+    {
+        "text": "all reported infections 13.6 percent",
+        "start": 398.639,
+        "duration": 7.12
+    },
+    {
+        "text": "pcr uh protection 24.3 hospitalizations",
+        "start": 401.84,
+        "duration": 7.359
+    },
+    {
+        "text": "42 protection fully vaccinated children",
+        "start": 405.759,
+        "duration": 6.0
+    },
+    {
+        "text": "it goes up quite a bit",
+        "start": 409.199,
+        "duration": 4.641
+    },
+    {
+        "text": "um so these are children that had the",
+        "start": 411.759,
+        "duration": 3.041
+    },
+    {
+        "text": "two",
+        "start": 413.84,
+        "duration": 4.079
+    },
+    {
+        "text": "courses of vaccines so we do see",
+        "start": 414.8,
+        "duration": 5.839
+    },
+    {
+        "text": "we do see here a significant protective",
+        "start": 417.919,
+        "duration": 5.68
+    },
+    {
+        "text": "effect in terms of being hospitalized",
+        "start": 420.639,
+        "duration": 4.641
+    },
+    {
+        "text": "in children that had two doses of",
+        "start": 423.599,
+        "duration": 3.841
+    },
+    {
+        "text": "vaccine compared to",
+        "start": 425.28,
+        "duration": 6.319
+    },
+    {
+        "text": "children that had no doses of vaccine",
+        "start": 427.44,
+        "duration": 5.92
+    },
+    {
+        "text": "but we don't see a difference in the",
+        "start": 431.599,
+        "duration": 3.921
+    },
+    {
+        "text": "children requiring oxygen or the",
+        "start": 433.36,
+        "duration": 5.2
+    },
+    {
+        "text": "children getting very sick so again",
+        "start": 435.52,
+        "duration": 5.76
+    },
+    {
+        "text": "there's this risk benefit analysis to",
+        "start": 438.56,
+        "duration": 5.28
+    },
+    {
+        "text": "to always be trying to uh way up here",
+        "start": 441.28,
+        "duration": 3.52
+    },
+    {
+        "text": "but",
+        "start": 443.84,
+        "duration": 2.0
+    },
+    {
+        "text": "the other thing we'll look at in a",
+        "start": 444.8,
+        "duration": 3.36
+    },
+    {
+        "text": "minute is the fast degree of vaccine",
+        "start": 445.84,
+        "duration": 4.56
+    },
+    {
+        "text": "efficacy wearing but let's go on let's",
+        "start": 448.16,
+        "duration": 3.92
+    },
+    {
+        "text": "go through this data",
+        "start": 450.4,
+        "duration": 2.96
+    },
+    {
+        "text": "um",
+        "start": 452.08,
+        "duration": 2.8
+    },
+    {
+        "text": "so that was fully vaccinated children we",
+        "start": 453.36,
+        "duration": 2.88
+    },
+    {
+        "text": "do see this protective effect now",
+        "start": 454.88,
+        "duration": 3.039
+    },
+    {
+        "text": "vaccine effectiveness against all",
+        "start": 456.24,
+        "duration": 3.84
+    },
+    {
+        "text": "confirmed infections",
+        "start": 457.919,
+        "duration": 4.481
+    },
+    {
+        "text": "fully vaccinated versus unvaccinated",
+        "start": 460.08,
+        "duration": 3.28
+    },
+    {
+        "text": "group",
+        "start": 462.4,
+        "duration": 3.359
+    },
+    {
+        "text": "at times after the second dose so now",
+        "start": 463.36,
+        "duration": 5.04
+    },
+    {
+        "text": "we're comparing infections",
+        "start": 465.759,
+        "duration": 4.56
+    },
+    {
+        "text": "with fully vaccinated versus",
+        "start": 468.4,
+        "duration": 3.6
+    },
+    {
+        "text": "unvaccinated",
+        "start": 470.319,
+        "duration": 4.72
+    },
+    {
+        "text": "now the vaccine protection here we see",
+        "start": 472.0,
+        "duration": 5.919
+    },
+    {
+        "text": "7 to 14 days it's just under 50 percent",
+        "start": 475.039,
+        "duration": 5.361
+    },
+    {
+        "text": "protection against infection what we'd",
+        "start": 477.919,
+        "duration": 6.881
+    },
+    {
+        "text": "used to say is is uh is 48.9 efficacy",
+        "start": 480.4,
+        "duration": 6.72
+    },
+    {
+        "text": "of the vaccine",
+        "start": 484.8,
+        "duration": 6.239
+    },
+    {
+        "text": "15 to 29 days already already even after",
+        "start": 487.12,
+        "duration": 6.24
+    },
+    {
+        "text": "just just over two weeks",
+        "start": 491.039,
+        "duration": 4.56
+    },
+    {
+        "text": "down to 37.6 protection against",
+        "start": 493.36,
+        "duration": 3.6
+    },
+    {
+        "text": "infection",
+        "start": 495.599,
+        "duration": 4.081
+    },
+    {
+        "text": "30 to 59 days not a long period of time",
+        "start": 496.96,
+        "duration": 5.04
+    },
+    {
+        "text": "28.5",
+        "start": 499.68,
+        "duration": 3.359
+    },
+    {
+        "text": "down to",
+        "start": 502.0,
+        "duration": 5.52
+    },
+    {
+        "text": "just over a quarter 25.6 after 60 days",
+        "start": 503.039,
+        "duration": 8.0
+    },
+    {
+        "text": "and now that is all the data that we are",
+        "start": 507.52,
+        "duration": 4.639
+    },
+    {
+        "text": "given",
+        "start": 511.039,
+        "duration": 3.92
+    },
+    {
+        "text": "so what we see here is even even when",
+        "start": 512.159,
+        "duration": 4.481
+    },
+    {
+        "text": "the vaccine is at its most effective",
+        "start": 514.959,
+        "duration": 4.241
+    },
+    {
+        "text": "we've got under a 50 efficacy",
+        "start": 516.64,
+        "duration": 3.92
+    },
+    {
+        "text": "of course at the very start of this the",
+        "start": 519.2,
+        "duration": 3.36
+    },
+    {
+        "text": "who and all the experts were saying that",
+        "start": 520.56,
+        "duration": 4.399
+    },
+    {
+        "text": "if a vaccine was going to be any good",
+        "start": 522.56,
+        "duration": 4.64
+    },
+    {
+        "text": "it would have to give us a 50 50",
+        "start": 524.959,
+        "duration": 3.361
+    },
+    {
+        "text": "efficacy",
+        "start": 527.2,
+        "duration": 3.28
+    },
+    {
+        "text": "and here we see it simply not and that's",
+        "start": 528.32,
+        "duration": 5.92
+    },
+    {
+        "text": "deteriorating rapidly over over time so",
+        "start": 530.48,
+        "duration": 5.039
+    },
+    {
+        "text": "the protection against infection is",
+        "start": 534.24,
+        "duration": 3.68
+    },
+    {
+        "text": "deteriorating rapidly over time",
+        "start": 535.519,
+        "duration": 3.76
+    },
+    {
+        "text": "and we can't con",
+        "start": 537.92,
+        "duration": 3.2
+    },
+    {
+        "text": "realistically how can we continue",
+        "start": 539.279,
+        "duration": 3.521
+    },
+    {
+        "text": "vaccinating children",
+        "start": 541.12,
+        "duration": 4.48
+    },
+    {
+        "text": "on this sort of time scale",
+        "start": 542.8,
+        "duration": 5.599
+    },
+    {
+        "text": "so very rapid reduction in vaccine",
+        "start": 545.6,
+        "duration": 5.12
+    },
+    {
+        "text": "efficacy now the conclusions let's this",
+        "start": 548.399,
+        "duration": 4.88
+    },
+    {
+        "text": "is direct from the paper",
+        "start": 550.72,
+        "duration": 4.16
+    },
+    {
+        "text": "during a period when the omicron variant",
+        "start": 553.279,
+        "duration": 3.921
+    },
+    {
+        "text": "was predominant fisa vaccine reduced the",
+        "start": 554.88,
+        "duration": 5.2
+    },
+    {
+        "text": "risk of sarcoidosis infection covered 19",
+        "start": 557.2,
+        "duration": 4.16
+    },
+    {
+        "text": "related hospitalizations amongst",
+        "start": 560.08,
+        "duration": 4.64
+    },
+    {
+        "text": "children five to 11 years of age true",
+        "start": 561.36,
+        "duration": 4.24
+    },
+    {
+        "text": "true",
+        "start": 564.72,
+        "duration": 2.96
+    },
+    {
+        "text": "but it didn't reduce their chances of",
+        "start": 565.6,
+        "duration": 4.0
+    },
+    {
+        "text": "needing oxygen or their chances of being",
+        "start": 567.68,
+        "duration": 4.32
+    },
+    {
+        "text": "admitted to intensive care there was no",
+        "start": 569.6,
+        "duration": 4.72
+    },
+    {
+        "text": "evidence for that",
+        "start": 572.0,
+        "duration": 5.04
+    },
+    {
+        "text": "which is the most concerning uh",
+        "start": 574.32,
+        "duration": 5.28
+    },
+    {
+        "text": "outcomes of course",
+        "start": 577.04,
+        "duration": 4.799
+    },
+    {
+        "text": "um",
+        "start": 579.6,
+        "duration": 2.239
+    },
+    {
+        "text": "these findings suggest greater vaccine",
+        "start": 581.92,
+        "duration": 4.0
+    },
+    {
+        "text": "efficacy against higher levels of",
+        "start": 583.839,
+        "duration": 4.801
+    },
+    {
+        "text": "disease severity so they are saying",
+        "start": 585.92,
+        "duration": 4.32
+    },
+    {
+        "text": "let's let's be clear that they are",
+        "start": 588.64,
+        "duration": 3.52
+    },
+    {
+        "text": "saying that the vaccine is providing",
+        "start": 590.24,
+        "duration": 3.92
+    },
+    {
+        "text": "some protection against higher",
+        "start": 592.16,
+        "duration": 4.08
+    },
+    {
+        "text": "levels of disease severity",
+        "start": 594.16,
+        "duration": 4.56
+    },
+    {
+        "text": "they are saying that um but they don't",
+        "start": 596.24,
+        "duration": 4.159
+    },
+    {
+        "text": "appear to give data because there's only",
+        "start": 598.72,
+        "duration": 3.92
+    },
+    {
+        "text": "five children needing oxygenation",
+        "start": 600.399,
+        "duration": 4.241
+    },
+    {
+        "text": "they appear to give data to support that",
+        "start": 602.64,
+        "duration": 3.04
+    },
+    {
+        "text": "so",
+        "start": 604.64,
+        "duration": 3.759
+    },
+    {
+        "text": "but i'm i'm not being cynical about",
+        "start": 605.68,
+        "duration": 4.8
+    },
+    {
+        "text": "these researchers these are experts it's",
+        "start": 608.399,
+        "duration": 3.68
+    },
+    {
+        "text": "a peer-reviewed paper",
+        "start": 610.48,
+        "duration": 2.72
+    },
+    {
+        "text": "so so",
+        "start": 612.079,
+        "duration": 3.681
+    },
+    {
+        "text": "there will be some reasons as to why",
+        "start": 613.2,
+        "duration": 6.04
+    },
+    {
+        "text": "they're saying that",
+        "start": 615.76,
+        "duration": 3.48
+    },
+    {
+        "text": "the results of this study provide",
+        "start": 620.72,
+        "duration": 3.84
+    },
+    {
+        "text": "insight to enable decision makers to",
+        "start": 622.48,
+        "duration": 5.76
+    },
+    {
+        "text": "weigh the risk and the benefit",
+        "start": 624.56,
+        "duration": 3.68
+    },
+    {
+        "text": "against the potential risk so the",
+        "start": 628.399,
+        "duration": 4.081
+    },
+    {
+        "text": "researchers are saying that this data",
+        "start": 630.48,
+        "duration": 3.599
+    },
+    {
+        "text": "here",
+        "start": 632.48,
+        "duration": 3.76
+    },
+    {
+        "text": "should be used and i would agree with",
+        "start": 634.079,
+        "duration": 4.561
+    },
+    {
+        "text": "this this data here should be used by",
+        "start": 636.24,
+        "duration": 4.0
+    },
+    {
+        "text": "decision makers",
+        "start": 638.64,
+        "duration": 4.48
+    },
+    {
+        "text": "to weigh up the risk benefit analysis",
+        "start": 640.24,
+        "duration": 5.2
+    },
+    {
+        "text": "to decide if we should be vaccinating",
+        "start": 643.12,
+        "duration": 5.2
+    },
+    {
+        "text": "five to 11 year olds",
+        "start": 645.44,
+        "duration": 6.56
+    },
+    {
+        "text": "now just to finish off though um",
+        "start": 648.32,
+        "duration": 3.68
+    },
+    {
+        "text": "i'm on the wrong one there we go um",
+        "start": 652.32,
+        "duration": 5.68
+    },
+    {
+        "text": "so we need to wear that in singapore as",
+        "start": 656.16,
+        "duration": 3.359
+    },
+    {
+        "text": "i've said 22",
+        "start": 658.0,
+        "duration": 5.12
+    },
+    {
+        "text": "22 sorry serious adverse events that's",
+        "start": 659.519,
+        "duration": 5.201
+    },
+    {
+        "text": "not a point no not five percent of all",
+        "start": 663.12,
+        "duration": 3.04
+    },
+    {
+        "text": "doses administered",
+        "start": 664.72,
+        "duration": 2.72
+    },
+    {
+        "text": "that's",
+        "start": 666.16,
+        "duration": 3.84
+    },
+    {
+        "text": "no less let's cut to the quick here it's",
+        "start": 667.44,
+        "duration": 4.639
+    },
+    {
+        "text": "five and a hundred thousand",
+        "start": 670.0,
+        "duration": 3.76
+    },
+    {
+        "text": "five and a hundred thousand",
+        "start": 672.079,
+        "duration": 5.521
+    },
+    {
+        "text": "so the risk of adverse events",
+        "start": 673.76,
+        "duration": 3.84
+    },
+    {
+        "text": "is roughly",
+        "start": 678.24,
+        "duration": 3.76
+    },
+    {
+        "text": "a little more than four times greater",
+        "start": 679.44,
+        "duration": 4.639
+    },
+    {
+        "text": "than the risk of the child requiring",
+        "start": 682.0,
+        "duration": 4.88
+    },
+    {
+        "text": "oxygenation",
+        "start": 684.079,
+        "duration": 2.801
+    },
+    {
+        "text": "quite an interesting figure the risk of",
+        "start": 686.959,
+        "duration": 3.12
+    },
+    {
+        "text": "adverse events is more than four times",
+        "start": 688.48,
+        "duration": 3.68
+    },
+    {
+        "text": "the risk of the child requiring",
+        "start": 690.079,
+        "duration": 4.561
+    },
+    {
+        "text": "oxygenation or indeed being admitted to",
+        "start": 692.16,
+        "duration": 4.799
+    },
+    {
+        "text": "intensive care the risk benefit analysis",
+        "start": 694.64,
+        "duration": 3.759
+    },
+    {
+        "text": "has",
+        "start": 696.959,
+        "duration": 3.521
+    },
+    {
+        "text": "changed",
+        "start": 698.399,
+        "duration": 4.241
+    },
+    {
+        "text": "so just just to finish off um",
+        "start": 700.48,
+        "duration": 4.16
+    },
+    {
+        "text": "that's the actual",
+        "start": 702.64,
+        "duration": 3.439
+    },
+    {
+        "text": "slot there so",
+        "start": 704.64,
+        "duration": 2.72
+    },
+    {
+        "text": "you can you can look at the reference",
+        "start": 706.079,
+        "duration": 2.801
+    },
+    {
+        "text": "yourself the reference is of course",
+        "start": 707.36,
+        "duration": 3.279
+    },
+    {
+        "text": "given in the",
+        "start": 708.88,
+        "duration": 3.28
+    },
+    {
+        "text": "paper so",
+        "start": 710.639,
+        "duration": 3.921
+    },
+    {
+        "text": "um people are always asking me should i",
+        "start": 712.16,
+        "duration": 4.08
+    },
+    {
+        "text": "get the vaccine should i vaccinate my",
+        "start": 714.56,
+        "duration": 3.92
+    },
+    {
+        "text": "child of course i don't know you i don't",
+        "start": 716.24,
+        "duration": 3.92
+    },
+    {
+        "text": "give medical advice i can't possibly",
+        "start": 718.48,
+        "duration": 4.32
+    },
+    {
+        "text": "advise you on that but here's a paper",
+        "start": 720.16,
+        "duration": 4.96
+    },
+    {
+        "text": "look at it yourself see if i've got this",
+        "start": 722.8,
+        "duration": 3.839
+    },
+    {
+        "text": "right see if i've misinterpreted",
+        "start": 725.12,
+        "duration": 3.12
+    },
+    {
+        "text": "anything but this is the way i read that",
+        "start": 726.639,
+        "duration": 2.721
+    },
+    {
+        "text": "paper",
+        "start": 728.24,
+        "duration": 2.88
+    },
+    {
+        "text": "the risk benefit analysis has",
+        "start": 729.36,
+        "duration": 3.039
+    },
+    {
+        "text": "dramatically",
+        "start": 731.12,
+        "duration": 2.959
+    },
+    {
+        "text": "changed",
+        "start": 732.399,
+        "duration": 4.321
+    },
+    {
+        "text": "22 serious adverse events in children",
+        "start": 734.079,
+        "duration": 6.401
+    },
+    {
+        "text": "versus 5 requiring oxygen",
+        "start": 736.72,
+        "duration": 5.6
+    },
+    {
+        "text": "even though there is protection against",
+        "start": 740.48,
+        "duration": 4.159
+    },
+    {
+        "text": "hospitalization overall",
+        "start": 742.32,
+        "duration": 3.84
+    },
+    {
+        "text": "so they're the sort of numbers that",
+        "start": 744.639,
+        "duration": 4.241
+    },
+    {
+        "text": "parents can bear in mind policymakers i",
+        "start": 746.16,
+        "duration": 4.4
+    },
+    {
+        "text": "think really need to start reading this",
+        "start": 748.88,
+        "duration": 3.36
+    },
+    {
+        "text": "paper perhaps",
+        "start": 750.56,
+        "duration": 4.16
+    },
+    {
+        "text": "certain countries could be mentioned",
+        "start": 752.24,
+        "duration": 3.44
+    },
+    {
+        "text": "um",
+        "start": 754.72,
+        "duration": 3.2
+    },
+    {
+        "text": "maybe on the other side of the atlantic",
+        "start": 755.68,
+        "duration": 4.56
+    },
+    {
+        "text": "from where i live",
+        "start": 757.92,
+        "duration": 4.88
+    },
+    {
+        "text": "that are advocating strongly vaccinating",
+        "start": 760.24,
+        "duration": 4.24
+    },
+    {
+        "text": "in this age group of children and even",
+        "start": 762.8,
+        "duration": 3.12
+    },
+    {
+        "text": "younger children",
+        "start": 764.48,
+        "duration": 2.96
+    },
+    {
+        "text": "let's hope the policymakers are",
+        "start": 765.92,
+        "duration": 4.88
+    },
+    {
+        "text": "completely up to date with this data",
+        "start": 767.44,
+        "duration": 4.959
+    },
+    {
+        "text": "and uh thank you for",
+        "start": 770.8,
+        "duration": 3.52
+    },
+    {
+        "text": "watching of course",
+        "start": 772.399,
+        "duration": 3.041
+    },
+    {
+        "text": "i think i'll just say something else",
+        "start": 774.32,
+        "duration": 3.36
+    },
+    {
+        "text": "before i finish um",
+        "start": 775.44,
+        "duration": 4.24
+    },
+    {
+        "text": "there's there's lots of things in in the",
+        "start": 777.68,
+        "duration": 4.959
+    },
+    {
+        "text": "comments um people pretending to be me",
+        "start": 779.68,
+        "duration": 6.08
+    },
+    {
+        "text": "uh giving you a text number i won't give",
+        "start": 782.639,
+        "duration": 4.801
+    },
+    {
+        "text": "you a text number",
+        "start": 785.76,
+        "duration": 3.92
+    },
+    {
+        "text": "asking offering greater enlightenment i",
+        "start": 787.44,
+        "duration": 3.839
+    },
+    {
+        "text": "certainly don't offer any enlightenment",
+        "start": 789.68,
+        "duration": 2.959
+    },
+    {
+        "text": "that's for sure",
+        "start": 791.279,
+        "duration": 3.841
+    },
+    {
+        "text": "and uh and asking for money which i will",
+        "start": 792.639,
+        "duration": 3.921
+    },
+    {
+        "text": "never do",
+        "start": 795.12,
+        "duration": 3.36
+    },
+    {
+        "text": "so there's not a tick by the side of my",
+        "start": 796.56,
+        "duration": 4.399
+    },
+    {
+        "text": "picture um it's not for me",
+        "start": 798.48,
+        "duration": 3.76
+    },
+    {
+        "text": "ignore it",
+        "start": 800.959,
+        "duration": 3.12
+    },
+    {
+        "text": "and anything to do with cryptocurrencies",
+        "start": 802.24,
+        "duration": 3.12
+    },
+    {
+        "text": "has nothing to do with me it's just a",
+        "start": 804.079,
+        "duration": 3.121
+    },
+    {
+        "text": "pity the way spammers take over these",
+        "start": 805.36,
+        "duration": 2.96
+    },
+    {
+        "text": "things",
+        "start": 807.2,
+        "duration": 3.04
+    },
+    {
+        "text": "so bear in mind i won't put text numbers",
+        "start": 808.32,
+        "duration": 3.44
+    },
+    {
+        "text": "i won't offer you greater personal",
+        "start": 810.24,
+        "duration": 3.279
+    },
+    {
+        "text": "enlightenment i will not ask you",
+        "start": 811.76,
+        "duration": 3.36
+    },
+    {
+        "text": "certainly in the comments never ask you",
+        "start": 813.519,
+        "duration": 4.161
+    },
+    {
+        "text": "for money it's not me",
+        "start": 815.12,
+        "duration": 4.0
+    },
+    {
+        "text": "so there we go and thank you for",
+        "start": 817.68,
+        "duration": 4.44
+    },
+    {
+        "text": "watching",
+        "start": 819.12,
+        "duration": 3.0
+    }
+]
