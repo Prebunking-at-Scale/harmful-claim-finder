@@ -4,9 +4,9 @@ import logging
 import os
 from pathlib import Path
 
+from harmful_claim_finder.models import PastelError
 from harmful_claim_finder.pastel import pastel
 from harmful_claim_finder.utils.gemini import GeminiError
-from harmful_claim_finder.models import PastelError
 
 # flake8: noqa
 CHECKWORTHY_MODEL_FILE = (

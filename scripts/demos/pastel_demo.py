@@ -2,9 +2,7 @@
 
 
 from harmful_claim_finder.pastel import optimise_weights, pastel
-
-from harmful_claim_finder.pastel.inference import (
-    CHECKWORTHY_MODEL_FILE,
+from harmful_claim_finder.pastel.inference import (  # CHECKWORTHY_MODEL_FILE,
     CheckworthyClaimDetector,
 )
 

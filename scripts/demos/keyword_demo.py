@@ -4,12 +4,7 @@ Runs demo of both prompt types on Full Fact keywords and a collection of demo ar
 
 from pprint import pprint
 
-from dummy_text import (
-    all_articles,
-    arabic_articles,
-    test_keywords_ar,
-    test_keywords_en,
-)
+from dummy_text import all_articles, arabic_articles, test_keywords_ar, test_keywords_en
 
 from harmful_claim_finder.keyword_filter.keyword_formatter import (
     assert_keyword_type,
