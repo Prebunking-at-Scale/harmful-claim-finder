@@ -111,7 +111,7 @@ def generate_model_config() -> ModelConfig:
 def run_prompt(
     prompt: str,
     video_uri: str | None = None,
-    output_schema: type[BaseModel] | None = None,
+    output_schema: types.SchemaUnion | None = None,
     generation_config: dict[str, Any] = DEFAULT_PARAMETERS,
     safety_settings: list[types.SafetySetting] = DEFAULT_SAFETY_SETTINGS,
     model_config: ModelConfig | None = None,
@@ -125,9 +125,22 @@ def run_prompt(
         The prompt given to the model
     video_uri: str
         A Google Cloud URI for a video that you want to prompt.
-    output_schema: type[BaseModel]
-        A pydantic BaseModel inheriting class, which defines the desired schema of the
-        model output. Use this if you want structured JSON output.
+    output_schema: types.SchemaUnion
+        A valid schema for the model output.
+        Generally, we'd recommend this being a pydantic BaseModel inheriting class,
+        which defines the desired schema of the model output.
+        ```python
+        from pydantic import BaseModel, Field
+
+        class Movie(BaseModel):
+            title: str = Field(description="The title of the movie")
+            year: int = Field(description="The year the film was released in the UK")
+
+        schema = Movie
+        # or
+        schema = list[Movie]
+        ```
+        Use this if you want structured JSON output.
     generation_config: dict[str, Any]
         The parameters for the generation. See the docs (`generation config`_).
     safety_settings: dict[generative_models.HarmCategory, generative_models.HarmBlockThreshold]

@@ -1,10 +1,10 @@
-import os
 import json
+import os
 import time
 from pathlib import Path
-from youtube_transcript_api import YouTubeTranscriptApi
 from typing import TypedDict
 
+from youtube_transcript_api import YouTubeTranscriptApi
 
 OUT_DIRECTORY = "data/example_transcripts"
 

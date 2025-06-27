@@ -1,12 +1,13 @@
 from textwrap import dedent
-from typing import Optional
+from typing import Any, cast
+
 from pydantic import BaseModel, Field
 
 from harmful_claim_finder.utils.gemini import run_prompt
 from harmful_claim_finder.utils.parsing import parse_model_json_output
 
 
-class TextClaimSchema(BaseModel):
+class TextClaim(BaseModel):
     claim: str = Field(
         description=(
             "claim being made. "
@@ -22,7 +23,7 @@ class TextClaimSchema(BaseModel):
     )
 
 
-class VideoClaimSchema(BaseModel):
+class VideoClaim(BaseModel):
     claim: str = Field(
         description=(
             "claim being made. "
@@ -69,21 +70,23 @@ CLAIMS_PROMPT_VIDEO = dedent(
 )
 
 
-def extract_claims_from_transcript(transcript: list[str]):
+def extract_claims_from_transcript(transcript: list[str]) -> list[TextClaim]:
     transcript_text = " ".join(transcript)
     prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
-    response = run_prompt(prompt, output_schema=list[TextClaimSchema])
+    response = run_prompt(prompt, output_schema=list[TextClaim])
     parsed = parse_model_json_output(response)
-    claims = [TextClaimSchema(**claim) for claim in parsed]
+    parsed = cast(list[dict[str, Any]], parsed)
+    claims = [TextClaim(**claim) for claim in parsed]
     return claims
 
 
-def extract_claims_from_video(video_uri: str):
+def extract_claims_from_video(video_uri: str) -> list[VideoClaim]:
     response = run_prompt(
         CLAIMS_PROMPT_VIDEO,
         video_uri=video_uri,
-        output_schema=list[VideoClaimSchema],
+        output_schema=list[VideoClaim],
     )
     parsed = parse_model_json_output(response)
-    claims = [VideoClaimSchema(**claim) for claim in parsed]
+    parsed = cast(list[dict[str, Any]], parsed)
+    claims = [VideoClaim(**claim) for claim in parsed]
     return claims
