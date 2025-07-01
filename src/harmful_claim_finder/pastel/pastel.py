@@ -3,7 +3,7 @@
 
 import json
 from typing import Tuple, TypeAlias, TypedDict
-
+from collections.abc import Callable
 import numpy as np
 import numpy.typing as npt
 
@@ -16,23 +16,25 @@ ARRAY_TYPE: TypeAlias = npt.NDArray[np.float64]
 class ModelDict(TypedDict):
     bias: float
     questions: dict[str, float]
+    functions: dict[Callable[[str], float], float]
 
 
 class Pastel:
     """Uses list of yes/no questions to analyse a piece of text. Each question has an
     associated weight used to generate the final score for the text."""
 
-    def __init__(self, questions: list[str]) -> None:
+    def __init__(self, questions: list[str], functions: list[Callable]) -> None:
         """
-        Create a new Pastel object from a list of questions.
+        Create a new Pastel object from a list of questions and functions.
         The initial weights will be set to zero,
         so the model must be trained before use.
         """
-        # Create a new Pastel object from a list of questions. The initial
+        # Create a new Pastel object from a list of questions & functions. The initial
         # weights will be set to zero, so the model must be trained before use.
         self.questions = questions
+        self.functions = functions
         # Initialise weights to zero with an extra one for the bias term:
-        self.weights = np.zeros(1 + len(questions))
+        self.weights = np.zeros(1 + len(questions) + len(functions))
 
     @staticmethod
     def from_dict(model_dict: ModelDict) -> "Pastel":
@@ -50,14 +52,20 @@ class Pastel:
                         "Does this sentence relate to many people?": 0.4356950359,
                         ...
                     }
+                    "functions": {
+                       is_quantity,
+                       is_health}
                 }
                 ```
         """
         questions: list[str] = list(model_dict["questions"].keys())
+        functions: list[Callable] = list(model_dict["functions"].keys())
         weights = np.array(
-            [model_dict["bias"]] + list(model_dict["questions"].values())
+            [model_dict["bias"]]
+            + list(model_dict["questions"].values())
+            + list(model_dict["functions"].values())
         )
-        model = Pastel(questions)
+        model = Pastel(questions, functions)
         model.weights = weights
         return model
 
@@ -122,6 +130,7 @@ class Pastel:
             return label_map.get(label[0].lower(), 0.5)
 
         for ex in sentences:
+            # First, get answers to all the questions from genAI:
             prompt = self.make_prompt(ex)
             raw_output = run_prompt(prompt).strip().lower()
             if "question" in raw_output:
@@ -131,11 +140,15 @@ class Pastel:
             answers = output.split("\n")  # e.g. ["1. yes", "2. no"...]
 
             if len(answers) == len(self.questions):
-                all_answers.append([label_mapping(pl.split()[1]) for pl in answers])
+                qs_answers = [label_mapping(pl.split()[1]) for pl in answers]
             else:
                 raise ValueError(
                     f"Failed to parse output for the sentence: {ex}. Output received: {output}"
                 )
+            # Second, get values from the functions
+            fs_answers = [f(ex) for f in self.functions]
+            # Third and final: append to list of question-answers and function-values
+            all_answers.append(qs_answers + fs_answers)
 
         all_answers_arr = np.array(all_answers)
         return all_answers_arr
@@ -160,5 +173,6 @@ class Pastel:
         """Use the Pastel questions and weights model to generate
         a score for each of a list of sentences."""
         answers = self.get_answers_to_questions(sentences)
+        print(answers)
         scores = self.get_scores_from_answers(answers)
         return scores
