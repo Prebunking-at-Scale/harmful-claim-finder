@@ -12,7 +12,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<3.14"
 python-dotenv = "^1.0.0"
 structlog = "^23.1.0"
 pydantic = "^2.10.6"
@@ -25,6 +25,7 @@ scipy-stubs = "^1.16.0.0"
 torch = "^2.7.1"
 google-cloud-storage = "^3.1.1"
 transformers = "^4.53.0"
+pycountry = "^24.6.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
@@ -34,6 +35,7 @@ mypy = "^1.4.1"
 pre-commit = "^3.3.3"
 pytest = "^7.4.0"
 pytest-asyncio = "^0.21.1"
+youtube-transcript-api = "^1.1.0" # doesn't support python 3.14 - but could be removed without much hassle
 
 [tool.pytest.ini_options]
 pythonpath = "src"
