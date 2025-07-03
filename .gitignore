@@ -163,3 +163,7 @@ cython_debug/
 .devenv/
 .direnv/
 .vscode/
+
+# AI Models
+*.pt
+bert-models/
