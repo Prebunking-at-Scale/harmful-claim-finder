@@ -111,7 +111,6 @@ def _is_download_needed() -> bool:
     need_to_download = False
     if _CLAIM_TYPE_MODEL_FORCE_DOWNLOAD in os.environ:
         need_to_download = True
-        need_to_download = False
     if _MODEL_FILE_TO_DOWNLOAD_LOC.exists():
         file_info = os.stat(str(_MODEL_FILE_TO_DOWNLOAD_LOC))
         # A file with size zero might as well not exist:
