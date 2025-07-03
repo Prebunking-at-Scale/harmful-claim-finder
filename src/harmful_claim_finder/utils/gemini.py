@@ -159,6 +159,8 @@ def run_prompt(
     .. _generation config: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/GenerationConfig
     .. _safety settings: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters
     """
+    # make a copy of the generation config so it doesn't change between runs
+    built_gen_config = {**generation_config}
     if model_config is None:
         model_config = generate_model_config()
 
@@ -177,8 +179,8 @@ def run_prompt(
 
     # define the schema for the output of the model
     if output_schema:
-        generation_config["response_mime_type"] = "application/json"
-        generation_config["response_schema"] = output_schema
+        built_gen_config["response_mime_type"] = "application/json"
+        built_gen_config["response_schema"] = output_schema
 
     response = client.models.generate_content(
         model=model_config.model_name,
@@ -186,7 +188,7 @@ def run_prompt(
         config=types.GenerateContentConfig(
             system_instruction=DEFAULT_SYSTEM_INSTRUCTION,
             safety_settings=safety_settings,
-            **generation_config,
+            **built_gen_config,
         ),
     )
 
