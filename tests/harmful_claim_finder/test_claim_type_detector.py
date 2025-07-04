@@ -1,4 +1,4 @@
-from pytest import mark, param, fixture
+from pytest import fixture, mark, param
 
 from harmful_claim_finder.claim_type_detector import production_inference
 
