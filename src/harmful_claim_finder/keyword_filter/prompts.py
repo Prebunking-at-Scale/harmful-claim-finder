@@ -1,15 +1,17 @@
-TOPIC_KEYWORD_ARTICLE_PROMPT = """
-You are aiding a fact-checking organisation in finding claims in news media which may be worth checking.
-You will be given an entire news article, and a series of topics and sets of keywords which the fact-checkers use to define those topics,
+TOPIC_PROMPT = """
+You are aiding a fact-checking organisation in finding claims in videos which may be worth checking.
+You will be given the transcript of a shortform video, and a series of topics and sets of keywords which the fact-checkers use to define those topics,
 often particularly relating to current news stories.
 
-Determine if the article could be considered to be about any of the numbered topics, using that topic's keywords as a guide for defining the topic.
+Determine if the transcript could be considered to be about any of the numbered topics, using that topic's keywords as a guide for defining the topic.
 
-If an article fits a topic, but not specifically the area covered by the keywords, then do not return that topic.
+A transcript can be about more than one topic, or none of the topics.
 
-An article can be about more than one topic, or none of the topics. When it is about no topics, return an empty list ([]).
+For each topic, return the sentences which directly make claims about the topics listed.
 
-As a final step, return the sentences which directly make claims about the topics listed.
+If a sentence fits a topic, but not specifically the area covered by the keywords, then do not include that sentence.
+
+Each topic may have multiple sentences. If there are no sentences matching a topic, return an empty list ([]) for that topic.
 
 The output will have the format: 
 
@@ -37,7 +39,7 @@ Please use the topics defined in triple backticks below:
 [KEYWORDS]
 ```
 
-The article will take the form of a list of sentences.
+The transcript will take the form of a list of sentences.
 Make sure the sentences returned are exactly the same as those in the original list.
 Look for the above topics in the text delineated by triple backticks below:
 
