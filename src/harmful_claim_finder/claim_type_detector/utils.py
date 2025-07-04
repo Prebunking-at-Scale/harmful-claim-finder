@@ -1,6 +1,6 @@
 import logging
 import os
-from google.cloud import storage
+from google.cloud import storage  # type:ignore
 from pathlib import Path
 import torch
 from transformers import BertModel
