@@ -1,11 +1,11 @@
 import logging
 import os
-from google.cloud import storage  # type:ignore
 from pathlib import Path
+from typing import Any, Dict, Optional, Tuple
+
 import torch
+from google.cloud import storage  # type:ignore
 from transformers import BertModel
-from typing import Dict, Optional
-from typing import Any, Tuple
 
 _logger = logging.getLogger(__name__)
 live_model_path = (Path(__file__).parent.absolute() / "prod_model.pt").resolve()

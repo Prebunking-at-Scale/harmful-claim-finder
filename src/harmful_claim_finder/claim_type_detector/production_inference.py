@@ -1,5 +1,5 @@
-from harmful_claim_finder.claim_type_detector.claim_typer import ClaimTyper
 from harmful_claim_finder.claim_type_detector import utils
+from harmful_claim_finder.claim_type_detector.claim_typer import ClaimTyper
 
 claim_types = [
     "personal",
