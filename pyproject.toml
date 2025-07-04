@@ -12,7 +12,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
-python = ">=3.12,<3.14"
+python = ">=3.13,<3.14" # we can remove the "<3.14" easily if we remove youtube-transcript-api, which is only a dev dependency.
 python-dotenv = "^1.0.0"
 structlog = "^23.1.0"
 pydantic = "^2.10.6"
