@@ -5,19 +5,14 @@ from pathlib import Path
 
 import harmful_claim_finder.pastel.inference as pastel_inference
 import harmful_claim_finder.pastel.pastel_functions as pfun
-
-# from harmful_claim_finder.pastel.inference import (  # CHECKWORTHY_MODEL_FILE,
-# CheckworthyClaimDetector,
-# )
 from harmful_claim_finder.pastel import optimise_weights, pastel
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="demo.log", encoding="utf-8", level=logging.DEBUG)
 
 
+print("Inserting demo model file into pastel_inference!")
 CHECKWORTHY_MODEL_FILE = "scripts/demos/demo_model_file.json"
-# Path(os.path.dirname(os.path.abspath(__file__))) / "checkworthy_model.json"
-# harmful_claim_finder.pastel.inference
 pastel_inference.CHECKWORTHY_MODEL_FILE = Path(CHECKWORTHY_MODEL_FILE)
 
 MODEL_QUESTIONS = [
@@ -89,8 +84,10 @@ if __name__ == "__main__":
         "data/pastel_training/ff_annotations_20250403_1_5_clean.csv",
         CHECKWORTHY_MODEL_FILE,
     )
-    demo_inference()
+
     import pprint as pp
 
     pastelizer = pastel.Pastel.load_model(CHECKWORTHY_MODEL_FILE)
     pp.pprint(pastelizer.model)
+
+    demo_inference()

@@ -111,7 +111,7 @@ class Pastel:
 
         return questions
 
-    def get_functions(self) -> list[Callable]:
+    def get_functions(self) -> list[Callable[[str], float]]:
         """Return just the functions of a model as a list of strings.
         (No weights are returned, nor are the bias term or question components)"""
         functions = []
@@ -151,10 +151,11 @@ class Pastel:
 
         return prompt
 
-    def get_answers_to_questions(self, sentences: list[str]) -> list:
+    def get_answers_to_questions(
+        self, sentences: list[str]
+    ) -> list[dict[FEATURE_TYPE, float]]:
         """Embed each example into the prompt and pass to genAI.
-        Returns the unweighted numeric scores of the genAI answer
-        to each question/function."""
+        For each sentence, this Returns a dictionary mapping features to scores."""
 
         all_answers = []
 
@@ -194,7 +195,7 @@ class Pastel:
         # return list of (dicts of features -> scores), one dict per sentence
         return all_answers
 
-    def quantify_answers(self, answers: list[dict]) -> ARRAY_TYPE:
+    def quantify_answers(self, answers: list[dict[FEATURE_TYPE, float]]) -> ARRAY_TYPE:
         """Build np array of answers from list of dicts of answers;
         array will have one row per sentence and one col per feature
         AND the order should match the features in the model, complete with bias column
@@ -215,7 +216,9 @@ class Pastel:
         X = np.array(all_answers)
         return X
 
-    def get_scores_from_answers(self, answers: list[dict]) -> ARRAY_TYPE:
+    def get_scores_from_answers(
+        self, answers: list[dict[FEATURE_TYPE, float]]
+    ) -> ARRAY_TYPE:
         """Return the predicted score for each sentence.
         This is a linear regression model so the answers are theoretically unbounded,
         but will typically be in the range of the training data.
