@@ -30,7 +30,7 @@ scipy-stubs = "^1.16.0.0"
 google-cloud-storage = "^3.1.1"
 pycountry = "^24.6.1"
 types-google-cloud-ndb = "^2.3.0.20250317"
-torch = "^2.7.1"
+torch = { version = "2.7.1", source = "pytorch_cpu" }
 transformers = "^4.53.1"
 
 [tool.poetry.group.dev.dependencies]
