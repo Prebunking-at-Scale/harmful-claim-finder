@@ -1,5 +1,4 @@
 # Class to score each of a list of sentences for checkworthiness
-import json
 import logging
 import os
 from pathlib import Path
@@ -20,8 +19,7 @@ class CheckworthyClaimDetector:
     """A class for detecting which claims may be worth checking"""
 
     def __init__(self, countries: list[str]) -> None:
-        model_dict: pastel.ModelDict = json.loads(CHECKWORTHY_MODEL_FILE.read_text())
-
+        self.pastel = pastel.Pastel.load_model(CHECKWORTHY_MODEL_FILE)
         # Add the country question, which won't be in the file
         country_list = "[" + ", ".join(countries) + "]"
         new_question = (
@@ -29,8 +27,8 @@ class CheckworthyClaimDetector:
             f"If this sentence mentions any country in this list: {country_list} answer 'no'. If it doesn't name any country at all then also answer 'no'. "
             "If you're not sure, answer 'no'. Only answer 'yes' if it mentions or is clearly about some other country not on that list. "
         )
-        model_dict["questions"][new_question] = -1.0
-        self.pastel = pastel.Pastel.from_dict(model_dict)
+
+        self.pastel.model[new_question] = -1.0
 
     def score_sentences(
         self, sentences: list[str], max_attempts: int = 3
