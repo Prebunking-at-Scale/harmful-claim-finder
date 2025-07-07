@@ -4,7 +4,7 @@
 import enum
 import json
 from collections.abc import Callable
-from typing import Tuple, TypeAlias
+from typing import Dict, Tuple, TypeAlias
 
 import numpy as np
 import numpy.typing as npt
@@ -167,7 +167,7 @@ class Pastel:
             return label_map.get(label[0].lower(), 0.5)
 
         for ex in sentences:
-            sent_answers = dict()
+            sent_answers: Dict[FEATURE_TYPE, float] = {}
             # First, get answers to all the questions from genAI:
             prompt = self.make_prompt(ex)
             raw_output = run_prompt(prompt).strip().lower()
