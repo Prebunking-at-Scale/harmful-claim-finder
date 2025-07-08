@@ -1,5 +1,5 @@
 """
-This demo script runs the inference script, which pipes keywords into PASTEL.
+This demo script runs the transcript inference script, which pipes keywords into PASTEL for a transcript.
 """
 
 from pprint import pp
