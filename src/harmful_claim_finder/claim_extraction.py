@@ -85,6 +85,27 @@ FIX_JSON = dedent(
 )
 
 
+def _get_transcript_claims(transcript: list[str]) -> list[TextClaim]:
+    transcript_text = " ".join(transcript)
+    prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
+    response = run_prompt(prompt, output_schema=list[TextClaim])
+    try:
+        parsed = parse_model_json_output(response)
+        parsed = cast(list[dict[str, Any]], parsed)
+        claims = [TextClaim(**claim) for claim in parsed]
+    except ValueError:
+        _logger.info(f"Parsing error: {traceback.format_exc()}")
+        fixed_response = run_prompt(
+            FIX_JSON.replace("{TEXT}", response),
+            output_schema=list[TextClaim],
+        )
+        parsed = parse_model_json_output(fixed_response)
+        parsed = cast(list[dict[str, Any]], parsed)
+        claims = [TextClaim(**claim) for claim in parsed]
+
+    return claims
+
+
 def extract_claims_from_transcript(
     transcript: list[str], max_attempts: int = 1
 ) -> list[TextClaim]:
@@ -102,28 +123,34 @@ def extract_claims_from_transcript(
     """
     for _ in range(max_attempts):
         try:
-            transcript_text = " ".join(transcript)
-            prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
-            response = run_prompt(prompt, output_schema=list[TextClaim])
-            try:
-                parsed = parse_model_json_output(response)
-                parsed = cast(list[dict[str, Any]], parsed)
-                claims = [TextClaim(**claim) for claim in parsed]
-            except ValueError:
-                _logger.info(f"Parsing error: {traceback.format_exc()}")
-                parsed = run_prompt(
-                    FIX_JSON.replace("{TEXT}", response),
-                    output_schema=list[TextClaim],
-                )
-                parsed = cast(list[dict[str, Any]], parsed)
-                claims = [TextClaim(**claim) for claim in parsed]
-
-            return claims
+            return _get_transcript_claims(transcript)
         except Exception as exc:
             _logger.info(f"Error raised while running claim extraction: {repr(exc)}")
             traceback.print_exc()
 
     raise ClaimExtractionError(f"Claim extraction failed {max_attempts} times.")
+
+
+def _get_video_claims(video_uri: str) -> list[VideoClaim]:
+    response = run_prompt(
+        CLAIMS_PROMPT_VIDEO,
+        video_uri=video_uri,
+        output_schema=list[VideoClaim],
+    )
+    try:
+        parsed = parse_model_json_output(response)
+        parsed = cast(list[dict[str, Any]], parsed)
+        claims = [VideoClaim(**claim) for claim in parsed]
+    except ValueError:
+        _logger.info(f"Parsing error: {traceback.format_exc()}")
+        fixed_response = run_prompt(
+            FIX_JSON.replace("{TEXT}", response),
+            output_schema=list[VideoClaim],
+        )
+        parsed = parse_model_json_output(fixed_response)
+        parsed = cast(list[dict[str, Any]], parsed)
+        claims = [VideoClaim(**claim) for claim in parsed]
+    return claims
 
 
 def extract_claims_from_video(
@@ -145,24 +172,7 @@ def extract_claims_from_video(
     """
     for _ in range(max_attempts):
         try:
-            response = run_prompt(
-                CLAIMS_PROMPT_VIDEO,
-                video_uri=video_uri,
-                output_schema=list[VideoClaim],
-            )
-            try:
-                parsed = parse_model_json_output(response)
-                parsed = cast(list[dict[str, Any]], parsed)
-                claims = [VideoClaim(**claim) for claim in parsed]
-            except ValueError:
-                _logger.info(f"Parsing error: {traceback.format_exc()}")
-                parsed = run_prompt(
-                    FIX_JSON.replace("{TEXT}", response),
-                    output_schema=list[VideoClaim],
-                )
-                parsed = cast(list[dict[str, Any]], parsed)
-                claims = [VideoClaim(**claim) for claim in parsed]
-            return claims
+            return _get_video_claims(video_uri)
         except Exception as exc:
             _logger.info(f"Error raised while running claim extraction: {repr(exc)}")
             traceback.print_exc()
