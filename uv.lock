@@ -213,7 +213,7 @@ wheels = [
 [[package]]
 name = "harmful-claim-finder"
 version = "0.0.1"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "google-genai" },
     { name = "json-repair" },
@@ -258,7 +258,7 @@ requires-dist = [
     { name = "scipy", specifier = ">=1.15.3" },
     { name = "scipy-stubs", specifier = ">=1.16.0.0" },
     { name = "structlog", specifier = ">=23.1.0" },
-    { name = "torch", specifier = ">=2.7.0", index = "https://download.pytorch.org/whl/cpu" },
+    { name = "torch", specifier = ">=2.7.1", index = "https://download.pytorch.org/whl/cpu" },
     { name = "youtube-transcript-api", marker = "extra == 'dev'", specifier = ">=1.1.0" },
 ]
 provides-extras = ["dev"]
