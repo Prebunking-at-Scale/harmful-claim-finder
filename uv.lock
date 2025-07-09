@@ -217,7 +217,7 @@ dependencies = [
     { name = "structlog" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "black" },
     { name = "flake8" },
@@ -229,35 +229,31 @@ dev = [
     { name = "youtube-transcript-api" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "flake8" },
-]
-
 [package.metadata]
 requires-dist = [
-    { name = "black", marker = "extra == 'dev'", specifier = ">=25.1.0" },
-    { name = "flake8", marker = "extra == 'dev'", specifier = ">=6.0.0" },
     { name = "google-genai", specifier = "~=1.21.1" },
-    { name = "isort", marker = "extra == 'dev'", specifier = ">=5.12.0" },
     { name = "json-repair", specifier = "==0.40.0" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.4.1" },
-    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.3.3" },
     { name = "pycountry", specifier = "~=24.6.1" },
     { name = "pydantic", specifier = "~=2.10.6" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
-    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.21.1" },
     { name = "python-dotenv", specifier = "~=1.0.0" },
     { name = "rapidfuzz", specifier = "~=3.13.0" },
     { name = "scipy", specifier = "~=1.15.3" },
     { name = "scipy-stubs", specifier = "~=1.16.0.0" },
     { name = "structlog", specifier = "~=23.1.0" },
-    { name = "youtube-transcript-api", marker = "extra == 'dev'", specifier = ">=1.1.0" },
 ]
-provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
-dev = [{ name = "flake8", specifier = ">=7.3.0" }]
+dev = [
+    { name = "black", specifier = ">=25.1.0" },
+    { name = "flake8", specifier = ">=6.0.0" },
+    { name = "flake8", specifier = ">=7.3.0" },
+    { name = "isort", specifier = ">=5.12.0" },
+    { name = "mypy", specifier = ">=1.4.1" },
+    { name = "pre-commit", specifier = ">=3.3.3" },
+    { name = "pytest", specifier = ">=7.4.0" },
+    { name = "pytest-asyncio", specifier = ">=0.21.1" },
+    { name = "youtube-transcript-api", specifier = ">=1.1.0" },
+]
 
 [[package]]
 name = "httpcore"

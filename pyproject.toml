@@ -28,18 +28,6 @@ name = "pytorch-cpu"
 url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
-[project.optional-dependencies]
-dev = [
-    "black>=25.1.0",
-    "flake8>=6.0.0",
-    "isort>=5.12.0",
-    "mypy>=1.4.1",
-    "pre-commit>=3.3.3",
-    "pytest>=7.4.0",
-    "pytest-asyncio>=0.21.1",
-    "youtube-transcript-api>=1.1.0"
-]
-
 [build-system]
 requires = ["setuptools >= 61.0",
             "wheel"
@@ -49,6 +37,14 @@ build-backend = "setuptools.build_meta"
 [dependency-groups]
 dev = [
     "flake8>=7.3.0",
+    "black>=25.1.0",
+    "flake8>=6.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.4.1",
+    "pre-commit>=3.3.3",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.1",
+    "youtube-transcript-api>=1.1.0"
 ]
 
 [tool.pytest.ini_options]
