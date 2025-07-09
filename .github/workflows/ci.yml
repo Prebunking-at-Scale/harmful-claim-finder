@@ -38,7 +38,7 @@ jobs:
       - name: Check uv.lock is in sync with pyproject.toml
         run: uv lock --locked --offline
       - name: Install dependencies
-        run: uv sync --extras dev
+        run: uv sync --extra dev
       - name: Check typing with mypy
         run: uv run mypy --install-types --non-interactive src
       - name: Check code formatting with black
