@@ -22,6 +22,7 @@ dependencies = [
     "scipy-stubs==1.16.0.0",
     "pycountry==24.6.1",
     "torch==2.7.1",
+    "transformers>=4.53.1",
 ]
 
 [tool.uv.sources]
