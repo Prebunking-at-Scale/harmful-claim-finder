@@ -24,7 +24,7 @@ _BERT_TO_DOWNLOAD_LOC = (
 ).resolve()
 
 # Do we have a GPU (=CUDA) available?
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+device = torch.device("cpu")
 
 
 class BERTClass(torch.nn.Module):
