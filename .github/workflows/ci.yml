@@ -29,6 +29,10 @@ jobs:
       #     git config set --global --append url."https://fullfactdeploy:${{ secrets.GH_TOKEN_READONLY }}@github.com/".insteadOf "ssh://git@github.com/"
       - name: Install uv
         run: pipx install uv==${{ env.UV_VERSION }}
+      - name: Enable caching
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
       - uses: actions/setup-python@v5
         with:
           python-version-file: "pyproject.toml"
