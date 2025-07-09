@@ -36,7 +36,7 @@ jobs:
       - name: Set up Python
         run: uv python install
       - name: Check uv.lock is in sync with pyproject.toml
-        run: uv check --lock
+        run: uv lock --locked --offline
       - name: Install dependencies
         run: uv sync
       - name: Check typing with mypy
