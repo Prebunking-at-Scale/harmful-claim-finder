@@ -1,5 +1,5 @@
 import json_repair
-from json_repair.json_parser import JSONReturnType  # type: ignore[attr-defined]
+from json_repair.json_parser import JSONReturnType
 
 ParsedType = JSONReturnType | tuple[JSONReturnType, list[dict[str, str]]]
 
