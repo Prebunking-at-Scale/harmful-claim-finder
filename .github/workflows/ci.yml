@@ -22,25 +22,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # This step is necessary if any dependencies are in private repos
-      # - name: Setup git config
-      #   run: |
-      #     git config set --global --append url."https://fullfactdeploy:${{ secrets.GH_TOKEN_READONLY }}@github.com/".insteadOf "git@github.com:"
-      #     git config set --global --append url."https://fullfactdeploy:${{ secrets.GH_TOKEN_READONLY }}@github.com/".insteadOf "ssh://git@github.com/"
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
           version: ${{ env.UV_VERSION }}
           enable-cache: true
-          cache-dependency-glob: "./pyproject.toml"
       - name: Set up Python
-        run: uv python install
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
       - name: Check uv.lock is in sync with pyproject.toml
         run: uv lock --locked --offline
       - name: Install dependencies
-        run: uv sync --extra dev
+        run: uv sync --locked --all-extras --dev
       - name: Check typing with mypy
-        run: uv run mypy --install-types --non-interactive src
+        run: uv run mypy --install-types --non-interactive core
       - name: Check code formatting with black
         run: uv run black --check .
       - name: Check import order

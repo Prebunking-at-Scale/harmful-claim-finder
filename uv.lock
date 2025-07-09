@@ -240,6 +240,11 @@ dev = [
     { name = "youtube-transcript-api" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "flake8" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "black", marker = "extra == 'dev'", specifier = ">=25.1.0" },
@@ -262,6 +267,9 @@ requires-dist = [
     { name = "youtube-transcript-api", marker = "extra == 'dev'", specifier = ">=1.1.0" },
 ]
 provides-extras = ["dev"]
+
+[package.metadata.requires-dev]
+dev = [{ name = "flake8", specifier = ">=7.3.0" }]
 
 [[package]]
 name = "httpcore"
