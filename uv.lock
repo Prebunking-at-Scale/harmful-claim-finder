@@ -313,9 +313,8 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "google-cloud-storage", specifier = "~=3.2.0" },
-    { name = "google-genai", specifier = "~=1.24.0" },
-    { name = "json-repair", specifier = "==0.40.0" },
+    { name = "google-genai", specifier = "~=1.21.1" },
+    { name = "json-repair", specifier = "~=0.40.0" },
     { name = "pycountry", specifier = "~=24.6.1" },
     { name = "pydantic", specifier = "~=2.10.6" },
     { name = "python-dotenv", specifier = "~=1.0.0" },
