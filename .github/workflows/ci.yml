@@ -36,13 +36,13 @@ jobs:
       - name: Install dependencies
         run: uv sync --locked --all-extras --dev
       - name: Check typing with mypy
-        run: uv run mypy --install-types --non-interactive core
+        run: uv run mypy --install-types --non-interactive src
       - name: Check code formatting with black
         run: uv run black --check .
       - name: Check import order
         run: uv run isort --check-only .
       - name: PEP8
-        run: uv run flake8 .
+        run: uv run flake8 src tests
       - name: Run tests
         run: uv run pytest
         env:
