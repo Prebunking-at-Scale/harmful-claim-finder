@@ -1,15 +1,14 @@
 # Load a model and use it to tag data
-from dataclasses import dataclass
 from typing import Any, Dict, List
 
 import torch
+from pydantic import BaseModel
 from transformers import BertTokenizer
 
 from harmful_claim_finder.claim_type_detector import utils
 
 
-@dataclass(frozen=True)
-class ClaimTypeResult:
+class ClaimTypeResult(BaseModel):
     types_detected: List[str]
     type_scores: dict[str, Any]
 
@@ -20,8 +19,7 @@ class ClaimTypeResult:
         }
 
 
-@dataclass(frozen=True)
-class ClaimTypeResults:
+class ClaimTypeResults(BaseModel):
     results: List[ClaimTypeResult]
 
     def to_json(self) -> List[Dict[str, Any]]:
@@ -83,7 +81,7 @@ class ClaimTyper:
                 for label, prob in zip(self.target_list, final_output)
                 if prob > self.thresholds[label]
             ]
-        return ClaimTypeResult(pred_classes, pred_scores)
+        return ClaimTypeResult(types_detected=pred_classes, type_scores=pred_scores)
 
     def label_batch(self, texts: list[str]) -> list[ClaimTypeResult]:
         """Add claim types to each of a list of texts."""
@@ -121,6 +119,10 @@ class ClaimTyper:
                     label: prob
                     for label, prob in zip(self.target_list, final_outputs[i])
                 }
-                batch_results.append(ClaimTypeResult(pred_classes, pred_scores))
+                batch_results.append(
+                    ClaimTypeResult(
+                        types_detected=pred_classes, type_scores=pred_scores
+                    )
+                )
 
         return batch_results
