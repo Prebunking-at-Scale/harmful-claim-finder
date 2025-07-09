@@ -26,17 +26,18 @@ FEATURE_TYPE: TypeAlias = Callable[[str], float] | str | BiasType
 
 
 class Pastel:
-    """Uses list of yes/no questions and boolean functions to analyse a piece of text.
-    Each feature has an associated weight used to generate the final score for the text.
-    Main model is a dict mapping features to weights.
+    """Uses list of yes/no questions and functions to analyse a piece of text.
+    Each of these features has an associated weight which is used to generate
+    the final score for the text.
+    The main model is a dict mapping features to weights.
     """
 
     def __init__(self, model: dict[FEATURE_TYPE, float]) -> None:
         """
         Create a new Pastel object from a list of questions and functions.
-        A Pastel model is just a list of PastelFeatures. Exactly one
-        should have the component BiasType.BIAS; zero or more may have components
-        that are questions (ie strings) and zero or more may have components that
+        A Pastel model is dict of features to weights. Exactly one
+        entry should be BiasType.BIAS; zero or more may be features
+        that are questions (ie strings) and zero or more may be
         are callable functions defined in the pastel_functions module.
         """
         self.model = model
@@ -196,9 +197,10 @@ class Pastel:
         return all_answers
 
     def quantify_answers(self, answers: list[dict[FEATURE_TYPE, float]]) -> ARRAY_TYPE:
-        """Build np array of answers from list of dicts of answers;
-        array will have one row per sentence and one col per feature
-        AND the order should match the features in the model, complete with bias column
+        """Build numpy array of answers from list of dicts of answers, with one
+        dict per sentence.
+        Output array will have one row per sentence and one col per feature
+        AND the order should match the features in the model, complete with bias column.
         """
         all_answers = []
         for sentence_answers in answers:

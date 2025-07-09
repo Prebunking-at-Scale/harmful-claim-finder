@@ -67,20 +67,3 @@ def learn_weights(
     for idx, k in enumerate(pasteliser.model.keys()):
         pasteliser.model[k] = weights[idx]
     return weights
-
-
-# def evaluate_weights(test_data_filename: str, model_file: str) -> None:
-#     """Loads a list of sentences with target scores as test data;
-#     loads a model (i.e. questions with weight scores); generates predictions
-#     from the model and compares to the target scores."""
-#     # TODO: is this even used? why would we use RMS error???
-#     pasteliser = pastel.Pastel.load_model(model_file)
-
-#     examples = load_examples(test_data_filename)
-#     predictions = pasteliser.make_predictions([e[0] for e in examples])
-#     targs = [e[1] for e in examples]
-#     targs_arr = np.array(targs)
-#     pred_arr = np.array(predictions)
-#     errors = targs_arr - pred_arr @ pasteliser.weights
-#     rms_error = np.sqrt(np.mean(errors**2))
-#     _logger.debug(f"RMS Error: {rms_error:.4f}")

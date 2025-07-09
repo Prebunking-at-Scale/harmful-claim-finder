@@ -10,6 +10,10 @@ The bias term is a float that is included to make the model a full linear regres
 
 All the responses (from questions and functions) are then multiplied by the corresponding weight in the file and summed to give a final score for that sentence.
 
+## Saving/loading models
+
+Models are stored a JSON files. To achieve this, Callable functions are converted to strings (i.e. the function names) in `save_model()`. When re-loaded (i.e `load_model()`), any key that matches a function name in `pastel_functions.py` is converted to a Callable. Similarly, the bias term is saved with the key `bias` and that's converted to the special bias type on load.
+
 ## Usage
 
 Typically, a list of questions and functions is set up and then the optimise_weights script is used to calculate the optimum weights with respect to a given set of labelled examples. 

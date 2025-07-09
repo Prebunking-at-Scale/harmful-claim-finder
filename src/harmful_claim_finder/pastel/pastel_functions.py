@@ -1,9 +1,9 @@
-# Functions called by Pastel models should take a string and return a float
-# The output will be multiplied by the corresponding weight defined in the Pastel model
+# Functions called by Pastel models should take a string and return a float.
+# The output will be multiplied by the corresponding weight defined in the Pastel model.
 # The plan is to enhance these with functions for claim-types and news-categories,
 # among others.
 
-__all__ = ["is_short"]
+__all__ = ["is_short", "has_number"]
 
 
 def is_short(text: str) -> float:

@@ -14,6 +14,7 @@ logging.basicConfig(filename="demo.log", encoding="utf-8", level=logging.DEBUG)
 print("Inserting demo model file into pastel_inference!")
 CHECKWORTHY_MODEL_FILE = "scripts/demos/demo_model_file.json"
 pastel_inference.CHECKWORTHY_MODEL_FILE = Path(CHECKWORTHY_MODEL_FILE)
+# Note that this model file is not in production so is safe to overwrite or break
 
 MODEL_QUESTIONS = [
     "Answer 'yes' if this sentence is making a specific claim or answer 'no' if it is vague\
@@ -81,7 +82,7 @@ def learn_weights(training_examples_file: str, new_model_file: str) -> None:
 
 if __name__ == "__main__":
     learn_weights(
-        "data/pastel_training/ff_annotations_20250403_1_5_clean.csv",
+        "data/pastel_training/ff_annotations_sample.csv",
         CHECKWORTHY_MODEL_FILE,
     )
 

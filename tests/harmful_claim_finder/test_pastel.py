@@ -65,3 +65,16 @@ def test_get_scores_from_answers_no_weights(pastel_instance: Pastel) -> None:
     answers = [{Q1: 1, Q2: 1}, {Q1: 0, Q2: 1}]
     with pytest.raises(ValueError):
         pastel_instance.get_scores_from_answers(answers)
+
+
+def test_quantify_answers(pastel_instance: Pastel) -> None:
+    answers = [{Q1: 1.0, Q2: 0.0}, {Q1: 1.0, Q2: 1.0}]
+    numeric_answers = pastel_instance.quantify_answers(answers)
+    print(numeric_answers)
+    # One row of output per sentence (i.e. input dict):
+    assert numeric_answers.shape[0] == len(answers)
+    # First column is bias term so should be all 1's:
+    # (NB: Model above defines first term is bias)
+    assert all(x == 1 for x in numeric_answers[:, 0])
+    # Given no sentences, return no answers
+    assert pastel_instance.quantify_answers([]).shape[0] == 0
