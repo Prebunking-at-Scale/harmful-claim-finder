@@ -10,7 +10,7 @@ on:
       - dev
 
 env:
-  POETRY_VERSION: 1.8.3
+  UV_VERSION: 0.7.19
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,26 +27,26 @@ jobs:
       #   run: |
       #     git config set --global --append url."https://fullfactdeploy:${{ secrets.GH_TOKEN_READONLY }}@github.com/".insteadOf "git@github.com:"
       #     git config set --global --append url."https://fullfactdeploy:${{ secrets.GH_TOKEN_READONLY }}@github.com/".insteadOf "ssh://git@github.com/"
-      - name: Install poetry
-        run: pipx install poetry==${{ env.POETRY_VERSION }}
+      - name: Install uv
+        run: pipx install uv==${{ env.UV_VERSION }}
       - uses: actions/setup-python@v5
         with:
           python-version-file: "pyproject.toml"
-          cache: "poetry"
-      - name: Check poetry.lock is in sync with pyproject.toml
-        run: poetry check --lock
+          cache: "uv"
+      - name: Check uv.lock is in sync with pyproject.toml
+        run: uv check --lock
       - name: Install dependencies
-        run: poetry install
+        run: uv sync
       - name: Check typing with mypy
-        run: poetry run mypy --install-types --non-interactive src
+        run: uv run mypy --install-types --non-interactive src
       - name: Check code formatting with black
-        run: poetry run black --check .
+        run: uv run black --check .
       - name: Check import order
-        run: poetry run isort --check-only .
+        run: uv run isort --check-only .
       - name: PEP8
-        run: poetry run flake8 .
+        run: uv run flake8 .
       - name: Run tests
-        run: poetry run pytest
+        run: uv run pytest
         env:
           PYTHONPATH: src
 
