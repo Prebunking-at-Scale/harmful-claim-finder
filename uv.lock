@@ -156,31 +156,6 @@ wheels = [
 ]
 
 [[package]]
-name = "fsspec"
-version = "2025.5.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/00/f7/27f15d41f0ed38e8fcc488584b57e902b331da7f7c6dcda53721b15838fc/fsspec-2025.5.1.tar.gz", hash = "sha256:2e55e47a540b91843b755e83ded97c6e897fa0942b11490113f09e9c443c2475", size = 303033, upload-time = "2025-05-24T12:03:23.792Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/bb/61/78c7b3851add1481b048b5fdc29067397a1784e2910592bc81bb3f608635/fsspec-2025.5.1-py3-none-any.whl", hash = "sha256:24d3a2e663d5fc735ab256263c4075f374a174c3410c0b25e5bd1970bceaa462", size = 199052, upload-time = "2025-05-24T12:03:21.66Z" },
-]
-
-[[package]]
-name = "google-api-core"
-version = "2.25.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "google-auth" },
-    { name = "googleapis-common-protos" },
-    { name = "proto-plus" },
-    { name = "protobuf" },
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/dc/21/e9d043e88222317afdbdb567165fdbc3b0aad90064c7e0c9eb0ad9955ad8/google_api_core-2.25.1.tar.gz", hash = "sha256:d2aaa0b13c78c61cb3f4282c464c046e45fbd75755683c9c525e6e8f7ed0a5e8", size = 165443, upload-time = "2025-06-12T20:52:20.439Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/14/4b/ead00905132820b623732b175d66354e9d3e69fcf2a5dcdab780664e7896/google_api_core-2.25.1-py3-none-any.whl", hash = "sha256:8a2a56c1fef82987a524371f99f3bd0143702fecc670c72e600c1cda6bf8dbb7", size = 160807, upload-time = "2025-06-12T20:52:19.334Z" },
-]
-
-[[package]]
 name = "google-auth"
 version = "2.40.3"
 source = { registry = "https://pypi.org/simple" }
@@ -307,10 +282,9 @@ dependencies = [
     { name = "scipy" },
     { name = "scipy-stubs" },
     { name = "structlog" },
-    { name = "transformers" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "black" },
     { name = "flake8" },
@@ -322,38 +296,31 @@ dev = [
     { name = "youtube-transcript-api" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "flake8" },
-]
-
 [package.metadata]
 requires-dist = [
-    { name = "black", marker = "extra == 'dev'", specifier = ">=25.1.0" },
-    { name = "flake8", marker = "extra == 'dev'", specifier = ">=6.0.0" },
-    { name = "google-cloud-storage", specifier = ">=3.2.0" },
-    { name = "google-genai", specifier = ">=1.21.1" },
-    { name = "isort", marker = "extra == 'dev'", specifier = ">=5.12.0" },
+    { name = "google-genai", specifier = "~=1.21.1" },
     { name = "json-repair", specifier = "==0.40.0" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.4.1" },
-    { name = "pip", specifier = ">=25.1.1" },
-    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.3.3" },
-    { name = "pycountry", specifier = ">=24.6.1" },
-    { name = "pydantic", specifier = ">=2.10.6" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
-    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.21.1" },
-    { name = "python-dotenv", specifier = ">=1.0.0" },
-    { name = "rapidfuzz", specifier = ">=3.13.0" },
-    { name = "scipy", specifier = ">=1.15.3" },
-    { name = "scipy-stubs", specifier = ">=1.16.0.0" },
-    { name = "structlog", specifier = ">=23.1.0" },
-    { name = "transformers", specifier = "==4.35.0" },
-    { name = "youtube-transcript-api", marker = "extra == 'dev'", specifier = ">=1.1.0" },
+    { name = "pycountry", specifier = "~=24.6.1" },
+    { name = "pydantic", specifier = "~=2.10.6" },
+    { name = "python-dotenv", specifier = "~=1.0.0" },
+    { name = "rapidfuzz", specifier = "~=3.13.0" },
+    { name = "scipy", specifier = "~=1.15.3" },
+    { name = "scipy-stubs", specifier = "~=1.16.0.0" },
+    { name = "structlog", specifier = "~=23.1.0" },
 ]
-provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
-dev = [{ name = "flake8", specifier = ">=7.3.0" }]
+dev = [
+    { name = "black", specifier = ">=25.1.0" },
+    { name = "flake8", specifier = ">=6.0.0" },
+    { name = "flake8", specifier = ">=7.3.0" },
+    { name = "isort", specifier = ">=5.12.0" },
+    { name = "mypy", specifier = ">=1.4.1" },
+    { name = "pre-commit", specifier = ">=3.3.3" },
+    { name = "pytest", specifier = ">=7.4.0" },
+    { name = "pytest-asyncio", specifier = ">=0.21.1" },
+    { name = "youtube-transcript-api", specifier = ">=1.1.0" },
+]
 
 [[package]]
 name = "httpcore"
@@ -906,7 +873,7 @@ dependencies = [
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/4b/19/a8461383f7328300e83c34f58bf38ccc05f57c2289c0e54e2bea757de83c/scipy_stubs-1.16.0.2.tar.gz", hash = "sha256:f83aacaf2e899d044de6483e6112bf7a1942d683304077bc9e78cf6f21353acd", size = 306747, upload-time = "2025-07-01T23:19:04.513Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8f/30/b73418e6d3d8209fef684841d9a0e5b439d3528fa341a23b632fe47918dd/scipy_stubs-1.16.0.2-py3-none-any.whl", hash = "sha256:dc364d24a3accd1663e7576480bdb720533f94de8a05590354ff6d4a83d765c7", size = 491346, upload-time = "2025-07-01T23:19:03.222Z" },
+    { url = "https://files.pythonhosted.org/packages/27/ec/e9f2b2c2b115a5fd5425dea9d993b38bbfae6ace673d6f1b51d9e79a4779/scipy_stubs-1.16.0.0-py3-none-any.whl", hash = "sha256:c91410eef4476e4e39a5eaf635869b5421c52285ba2d15969dabe289a36788b3", size = 483577, upload-time = "2025-06-18T03:49:32.674Z" },
 ]
 
 [[package]]
@@ -924,7 +891,7 @@ version = "25.4.0"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/79/b9/6e672db4fec07349e7a8a8172c1a6ae235c58679ca29c3f86a61b5e59ff3/structlog-25.4.0.tar.gz", hash = "sha256:186cd1b0a8ae762e29417095664adf1d6a31702160a46dacb7796ea82f7409e4", size = 1369138, upload-time = "2025-06-02T08:21:12.971Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a0/4a/97ee6973e3a73c74c8120d59829c3861ea52210667ec3e7a16045c62b64d/structlog-25.4.0-py3-none-any.whl", hash = "sha256:fe809ff5c27e557d14e613f45ca441aabda051d119ee5a0102aaba6ce40eed2c", size = 68720, upload-time = "2025-06-02T08:21:11.43Z" },
+    { url = "https://files.pythonhosted.org/packages/0c/b2/0c0951c78f3f59ce44e93cb9b2140d305a00bb8262532041c702d4d4300a/structlog-23.1.0-py3-none-any.whl", hash = "sha256:79b9e68e48b54e373441e130fa447944e6f87a05b35de23138e475c05d0f7e0e", size = 62425, upload-time = "2023-04-06T12:20:28.868Z" },
 ]
 
 [[package]]
@@ -934,48 +901,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/a3/4d/6a19536c50b849338fcbe9290d562b52cbdcf30d8963d3588a68a4107df1/tenacity-8.5.0.tar.gz", hash = "sha256:8bc6c0c8a09b31e6cad13c47afbed1a567518250a9a171418582ed8d9c20ca78", size = 47309, upload-time = "2024-07-05T07:25:31.836Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d2/3f/8ba87d9e287b9d385a02a7114ddcef61b26f86411e121c9003eb509a1773/tenacity-8.5.0-py3-none-any.whl", hash = "sha256:b594c2a5945830c267ce6b79a166228323ed52718f30302c1359836112346687", size = 28165, upload-time = "2024-07-05T07:25:29.591Z" },
-]
-
-[[package]]
-name = "tokenizers"
-version = "0.14.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "huggingface-hub" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/b2/b9/bf025d763bbdd333cb88bedb23426f932c5b4a6ce6f033c498517fad5b90/tokenizers-0.14.1.tar.gz", hash = "sha256:ea3b3f8908a9a5b9d6fc632b5f012ece7240031c44c6d4764809f33736534166", size = 317273, upload-time = "2023-10-06T11:31:35.322Z" }
-
-[[package]]
-name = "tqdm"
-version = "4.67.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a8/4b/29b4ef32e036bb34e4ab51796dd745cdba7ed47ad142a9f4a1eb8e0c744d/tqdm-4.67.1.tar.gz", hash = "sha256:f8aef9c52c08c13a65f30ea34f4e5aac3fd1a34959879d7e59e63027286627f2", size = 169737, upload-time = "2024-11-24T20:12:22.481Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d0/30/dc54f88dd4a2b5dc8a0279bdd7270e735851848b762aeb1c1184ed1f6b14/tqdm-4.67.1-py3-none-any.whl", hash = "sha256:26445eca388f82e72884e0d580d5464cd801a3ea01e63e5601bdff9ba6a48de2", size = 78540, upload-time = "2024-11-24T20:12:19.698Z" },
-]
-
-[[package]]
-name = "transformers"
-version = "4.35.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "filelock" },
-    { name = "huggingface-hub" },
-    { name = "numpy" },
-    { name = "packaging" },
-    { name = "pyyaml" },
-    { name = "regex" },
-    { name = "requests" },
-    { name = "safetensors" },
-    { name = "tokenizers" },
-    { name = "tqdm" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/53/36/a6479f41d5b998cd1cd4b9e3f42d3da4ca93b448c7d10a65f27d9cbf6dca/transformers-4.35.0.tar.gz", hash = "sha256:e4b41763f651282fc979348d3aa148244387ddc9165f4b18455798c770ae23b9", size = 6841284, upload-time = "2023-11-02T16:45:32.722Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/9a/06/e4ec2a321e57c03b7e9345d709d554a52c33760e5015fdff0919d9459af0/transformers-4.35.0-py3-none-any.whl", hash = "sha256:45aa9370d7d9ba1c43e6bfa04d7f8b61238497d4b646e573fd95e597fe4040ff", size = 7920519, upload-time = "2023-11-02T16:45:27.429Z" },
 ]
 
 [[package]]
