@@ -1,0 +1,19 @@
+{
+  "Answer 'yes' if this sentence is making a specific claim or answer 'no' if it is vague     or unclear": 0.22083113859922357,
+  "Does this sentence relate to many people?": 0.520274384101831,
+  "Is this sentence about someone's personal experience?": -0.40700720717983807,
+  "Does the sentence contain specific numbers or quantities?": 0.2697015041118784,
+  "Does the sentence contain compare quantities, such as 'more' or 'less'?": 0.4899892637343968,
+  "Does the sentence discuss superlatives, such as 'biggest ever' or  'fastest growth'?": 0.2558878118584644,
+  "Does the sentence suggest a course of action?": -0.3198004268720844,
+  "Does the sentence use emotive language?": -0.23626951981738456,
+  "Answer 'yes' if this is a general or universal claim or answer 'no' if it is about a      single event or individual": -0.007962623830708957,
+  "Could believing this claim harm someone's health?": 0.607968463349725,
+  "Could believing this claim lead to violence": -0.7356974296655368,
+  "Is this sentence ambiguous?": -0.42496425315663344,
+  "Is this sentence a joke or satirical?": 9.246063299547796,
+  "Is this making a claim that is too good to be true?": -0.2876433049963366,
+  "is_short": -0.002629378882300328,
+  "has_number": 0.3732919809848763,
+  "bias": 0.8450754791888597
+}
