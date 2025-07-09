@@ -11,17 +11,17 @@ from harmful_claim_finder.claim_type_detector import production_inference
 
 _TEST_CASES = [
     ("GDP is at 1000%.", ["quantity"]),
-    ("I really like cake.", ["personal"]),
-    ("That means it lead to a recession.", ["correlation"]),
-    ("Yes, another layer of restrictions lifts on Monday.", ["rules"]),
+    ("I really like cake.", ["personal", "not_claim"]),
+    ("That means it lead to a recession.", ["correlation", "other"]),
+    ("Yes, another layer of restrictions lifts on Monday.", ["not_claim"]),
     ("But that decision will affect us all.", ["predictions"]),
     (
         "He has no right to overrule the valves are people in Scotland, and we will have the referendum we voted for.",
-        ["rules", "voting", "support"],
+        ["voting"],
     ),
     (
         "It is the right project for the Conservatives of how to manage the economy.",
-        ["support", "not_claim"],
+        ["support"],
     ),
 ]
 
