@@ -21,6 +21,9 @@ dependencies = [
     "rapidfuzz~=3.13.0",
     "scipy-stubs~=1.16.0.0",
     "pycountry~=24.6.1",
+    "transformers~=4.53.1",
+    "google-cloud-storage~=3.2.0",
+    "torch~=2.7.1",
 ]
 
 [[tool.uv.index]]
