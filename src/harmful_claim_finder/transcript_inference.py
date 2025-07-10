@@ -10,6 +10,8 @@ from harmful_claim_finder.utils.models import (
     CheckworthyResult,
     PastelError,
     TopicDetectionError,
+    TranscriptSentence,
+    VideoClaims,
 )
 
 logger = logging.getLogger(__name__)
@@ -45,11 +47,11 @@ def parse_country_codes(codes: list[str]) -> list[str]:
         raise CheckworthyError from exc
 
 
-def run_checkworthy(
+def get_claims(
     keywords: dict[str, list[str]],
-    sentences: list[str],
+    sentences: list[TranscriptSentence],
     country_codes: list[str],
-) -> list[CheckworthyResult]:
+) -> list[VideoClaims]:
     """
     A wrapper function to run genai checkworthy.
     First finds the topics for each provided sentence.
@@ -64,15 +66,15 @@ def run_checkworthy(
                 "health": ["doctor", "hospital"],
             }
             ```
-        sentences (list[str]):
-            A list of sentences to run checkworthy on.
+        sentences (list[TranscriptSentence]):
+            A list of transcript sentences to run checkworthy on.
 
         country_codes (list[str]):
             A list of 3-letter ISO country codes for the current sentences.
             e.g. `["GBR", "USA"]`
 
     Returns:
-        A score and list of topics for each sentence.
+        A list of claims contained within the transcript.
 
     Raises:
         CheckworthyError:
@@ -80,16 +82,14 @@ def run_checkworthy(
             pastel, the CheckworthyError will say what went wrong.
     """
     try:
+        texts = [sentence.text for sentence in sentences]
+
         topics_start_time = time.time()
         topic_filter = TopicKeywordFilter(keywords=keywords)
-        topic_keywords = topic_filter.run_all_for_article(sentences, max_attempts=2)
+        topic_keywords = topic_filter.run_all_for_article(texts, max_attempts=2)
 
         have_topic = [sentence for sentence, topics in topic_keywords.items() if topics]
         logger.debug(f"{len(have_topic)} sentences have topics.")
-
-        result_dict = {
-            sentence: CheckworthyResult(score=0, topics=[]) for sentence in sentences
-        }
 
         keywords_runtime = time.time() - topics_start_time
         if not have_topic:
@@ -99,7 +99,7 @@ def run_checkworthy(
                 "0 sentences checked by PASTEL | "
                 "0 have nonzero score"
             )
-            return [result_dict[sentence] for sentence in sentences]
+            return []
 
         pastel_start_time = time.time()
         country_names = parse_country_codes(country_codes)
@@ -108,23 +108,32 @@ def run_checkworthy(
 
         scores = checkworthy_model.score_sentences(have_topic, max_attempts=2)
 
-        count_scored = 0
-        for sentence, score in zip(have_topic, scores):
-            result_dict[sentence] = CheckworthyResult(
-                score=float(score),
-                topics=topic_keywords[sentence],
+        scored_sentences = {
+            sentence: score for sentence, score in zip(have_topic, scores)
+        }
+
+        claims = [
+            VideoClaims(
+                video_id=sentence.video_id,
+                claim=sentence.text,
+                start_time_s=sentence.start_time_s,
+                metadata={
+                    "score": float(scored_sentences[sentence.text]),
+                    "topics": topic_keywords[sentence.text],
+                },
             )
-            if score > 0:
-                count_scored += 1
+            for sentence in sentences
+            if sentence.text in scored_sentences and scored_sentences[sentence.text] > 0
+        ]
 
         pastel_runtime = time.time() - pastel_start_time
         logger.info(
             f"Topics runtime: {keywords_runtime:.2f}s | "
             f"PASTEL runtime: {pastel_runtime:.2f}s | "
             f"{len(have_topic)} sentences checked by PASTEL | "
-            f"{count_scored} have nonzero score"
+            f"{len(claims)} have nonzero score"
         )
-        return [result_dict[sentence] for sentence in sentences]
+        return claims
 
     except (TopicDetectionError, PastelError) as e:
         raise CheckworthyError from e
