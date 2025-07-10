@@ -9,7 +9,7 @@ maintainers = [
     { name = "Full Fact", email = "afc@fullfact.org" }
 ]
 readme = "README.md"
-license = { text = "Proprietary" }
+license = { text = "Apache License 2.0" }
 requires-python = ">=3.13,<3.14" # we can remove the "<3.14" easily if we remove youtube-transcript-api, which is only a dev dependency.
 dependencies = [
     "python-dotenv~=1.0.0",
