@@ -9,7 +9,7 @@ maintainers = [
     { name = "Full Fact", email = "afc@fullfact.org" }
 ]
 readme = "README.md"
-license = { text = "Proprietary" }
+license = { text = "Apache License 2.0" }
 requires-python = ">=3.13,<3.14" # we can remove the "<3.14" easily if we remove youtube-transcript-api, which is only a dev dependency.
 dependencies = [
     "python-dotenv~=1.0.0",
@@ -21,11 +21,6 @@ dependencies = [
     "rapidfuzz~=3.13.0",
     "scipy-stubs~=1.16.0.0",
     "pycountry~=24.6.1",
-    "google-cloud-storage~=3.2.0",
-    "google-genai>=1.21.0",
-    "torch>=2.7.1",
-    "pip>=25.1.1",
-    "transformers>=4.53.1",
 ]
 
 [[tool.uv.index]]

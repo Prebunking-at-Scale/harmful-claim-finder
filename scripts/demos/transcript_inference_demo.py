@@ -1,10 +1,10 @@
 """
-This demo script runs the inference script, which pipes keywords into PASTEL.
+This demo script runs the transcript inference script, which pipes keywords into PASTEL for a transcript.
 """
 
 from pprint import pp
 
-from harmful_claim_finder.inference import run_checkworthy
+from harmful_claim_finder.transcript_inference import run_checkworthy
 
 sentences = [
     "But in words that could further enrage his critics, Starmer insisted that new migrants must “learn the language and integrate” once in the UK.",
