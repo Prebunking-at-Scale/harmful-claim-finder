@@ -22,7 +22,7 @@ def find_checkworthy_claims():
     output = {}
     for video_uri in videos:
         try:
-            scored_claims = get_claims(video_uri)
+            scored_claims = get_claims(video_uri, ["GBR", "USA"])
             output[video_uri] = []
             for claim, score in scored_claims:
                 claim_dict = claim.model_dump(mode="json")

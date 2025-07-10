@@ -22,7 +22,7 @@ def test_output_format(mock_extract_claims, mock_pastel):
     mock_pastel_class = Mock(CheckworthyClaimDetector)
     mock_pastel_class.score_sentences.return_value = [0.9, 0.2, 0]
     mock_pastel.return_value = mock_pastel_class
-    output = get_claims("video_uri")
+    output = get_claims("video_uri", ["GBR"])
     assert output == [
         (
             VideoClaim(

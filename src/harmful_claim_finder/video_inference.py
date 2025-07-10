@@ -6,7 +6,9 @@ from harmful_claim_finder.claim_extraction import VideoClaim, extract_claims_fro
 from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
 
 
-def get_claims(video_uri: str) -> list[tuple[VideoClaim, float]]:
+def get_claims(
+    video_uri: str, country_codes: list[str]
+) -> list[tuple[VideoClaim, float]]:
     """
     Retrieve claims from a video directly.
 
@@ -15,6 +17,10 @@ def get_claims(video_uri: str) -> list[tuple[VideoClaim, float]]:
             A URI to a video in a Google Cloud Bucket.
             The file should be an mp4.
 
+        country_codes (list[str]):
+            A list of 3-letter ISO country codes for the current sentences.
+            e.g. `["GBR", "USA"]`
+
     Returns:
         list[tuple[VideoClaim, float]]
             A list of claim, score tuples.
@@ -22,7 +28,7 @@ def get_claims(video_uri: str) -> list[tuple[VideoClaim, float]]:
             Each score was given by the PASTEL model.
     """
     claims = extract_claims_from_video(video_uri)
-    pastel = CheckworthyClaimDetector(countries=["GBR"])
+    pastel = CheckworthyClaimDetector(countries=country_codes)
     claims_text = [claim.claim for claim in claims]
     scores = pastel.score_sentences(claims_text, max_attempts=2)
     return [(claim, float(score)) for claim, score in zip(claims, scores)]
