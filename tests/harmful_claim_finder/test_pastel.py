@@ -4,21 +4,22 @@ import tempfile
 import numpy as np
 import pytest
 
-from harmful_claim_finder.pastel.pastel import Pastel
+from harmful_claim_finder.pastel.pastel import BiasType, Pastel
 
 # mypy: ignore-errors
 # getting "Untyped decorator makes function ... untyped " so ignoring for now:
 
+Q1 = "Is the statement factual?"
+Q2 = "Does the statement contain bias?"
+
 
 @pytest.fixture
 def pastel_instance() -> Pastel:
-    pasteliser = Pastel.from_dict(
+    pasteliser = Pastel(
         {
-            "bias": 1,
-            "questions": {
-                "Is the statement factual?": -3.1,
-                "Does the statement contain bias?": 2.1,
-            },
+            BiasType.BIAS: 1.0,
+            Q1: -3.0,
+            Q2: 2.0,
         }
     )
     return pasteliser
@@ -29,17 +30,13 @@ def test_load_file(pastel_instance: Pastel) -> None:
         mode="w", delete=False, suffix=".json"
     ) as temp_file:
         model = {
-            "bias": 1,
-            "questions": {
-                "Is the statement factual?": -3.1,
-                "Does the statement contain bias?": 2.1,
-            },
+            "bias": 1.0,
+            Q1: -3.0,
+            Q2: 2.0,
         }
         json.dump(model, temp_file)
-        print(f"Wrote to {temp_file.name}")
     loaded: Pastel = Pastel.load_model(temp_file.name)
-    assert loaded.questions == pastel_instance.questions
-    assert (loaded.weights == pastel_instance.weights).all()
+    assert loaded.model == pastel_instance.model
 
 
 def test_make_prompt(pastel_instance: Pastel) -> None:
@@ -54,15 +51,30 @@ def test_make_prompt(pastel_instance: Pastel) -> None:
 
 
 def test_get_scores_from_answers(pastel_instance: Pastel) -> None:
-    pastel_instance.weights = np.array([0.5, 1.0, 1.5])
-    answers = np.array([[1.0, 0.0]])
+    answers = [{Q1: 1, Q2: 1}, {Q1: 0, Q2: 1}]
     scores = pastel_instance.get_scores_from_answers(answers)
-    expected_scores = np.array([1.5])  # 0.5 (=bias) + 1.0*1.0 + 1.5*0.0
+    expected_scores = np.array([0.0, 3.0])
+    # [1.0 (=bias) + -3.0*1.0 + 2.0*1 = 0.0 ,
+    #  1.0 + -3.0 * 0 + 2.0*1 = 3.0
     assert np.allclose(scores, expected_scores)
 
 
 def test_get_scores_from_answers_no_weights(pastel_instance: Pastel) -> None:
-    answers = np.array([[1.0, 0.0]])
-    pastel_instance.weights = [0.0, 0.0]
+    for k in pastel_instance.model.keys():
+        pastel_instance.model[k] = 0.0
+    answers = [{Q1: 1, Q2: 1}, {Q1: 0, Q2: 1}]
     with pytest.raises(ValueError):
         pastel_instance.get_scores_from_answers(answers)
+
+
+def test_quantify_answers(pastel_instance: Pastel) -> None:
+    answers = [{Q1: 1.0, Q2: 0.0}, {Q1: 1.0, Q2: 1.0}]
+    numeric_answers = pastel_instance.quantify_answers(answers)
+    print(numeric_answers)
+    # One row of output per sentence (i.e. input dict):
+    assert numeric_answers.shape[0] == len(answers)
+    # First column is bias term so should be all 1's:
+    # (NB: Model above defines first term is bias)
+    assert all(x == 1 for x in numeric_answers[:, 0])
+    # Given no sentences, return no answers
+    assert pastel_instance.quantify_answers([]).shape[0] == 0

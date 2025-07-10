@@ -15,12 +15,9 @@ def lin_reg(X: pastel.ARRAY_TYPE, y: pastel.ARRAY_TYPE) -> pastel.ARRAY_TYPE:
     """Calculates optimum weight vector of linear regression model. This is the
     best-fit line through the X,y data.
     Minimise squared error for y = w.x
-    The first column of X should be all 1's corresponding to the intercept
-    term in the first value of the weight vector. Without it, the line would always
-    go through the origin (0,0) which is an unnecessary constraint."""
-
-    # Add a left-most column of 1's for the bias (or intercept) term
-    X = np.hstack([np.ones((X.shape[0], 1)), X])
+    One column of X should be all 1's corresponding to the bias (or intercept
+    term) in the model. Without it, the line would always go through the
+    origin (0,0) which is an unnecessary constraint."""
 
     def residuals(ww: pastel.ARRAY_TYPE) -> pastel.ARRAY_TYPE:
         """Define the residual function.
@@ -60,31 +57,13 @@ def learn_weights(
     weight vector is one longer than the number of questions in the prompt."""
 
     examples = load_examples(training_data_filename)
-    predictions = pasteliser.get_answers_to_questions([e[0] for e in examples])
+    answers = pasteliser.get_answers_to_questions([e[0] for e in examples])
+    predictions = pasteliser.quantify_answers(answers)
     targs = [e[1] for e in examples]
     targs_arr = np.array(targs)
     pred_arr = np.array(predictions)
     weights = lin_reg(pred_arr, targs_arr)
 
-    _logger.debug(f"{weights[0]:+4.2f}  (bias term)")
-    for idx, w in enumerate(weights[1:]):
-        _logger.debug(f"{w:+4.2f}  {list(pasteliser.questions)[idx]}")
-
-    pasteliser.weights = weights
+    for idx, k in enumerate(pasteliser.model.keys()):
+        pasteliser.model[k] = weights[idx]
     return weights
-
-
-def evaluate_weights(test_data_filename: str, model_file: str) -> None:
-    """Loads a list of sentences with target scores as test data;
-    loads a model (i.e. questions with weight scores); generates predictions
-    from the model and compares to the target scores."""
-    pasteliser = pastel.Pastel.load_model(model_file)
-
-    examples = load_examples(test_data_filename)
-    predictions = pasteliser.make_predictions([e[0] for e in examples])
-    targs = [e[1] for e in examples]
-    targs_arr = np.array(targs)
-    pred_arr = np.array(predictions)
-    errors = targs_arr - pred_arr @ pasteliser.weights
-    rms_error = np.sqrt(np.mean(errors**2))
-    _logger.debug(f"RMS Error: {rms_error:.4f}")
