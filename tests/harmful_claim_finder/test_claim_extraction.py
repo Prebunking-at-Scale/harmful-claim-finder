@@ -7,9 +7,12 @@ from pytest import mark, param, raises
 from harmful_claim_finder.claim_extraction import (
     TextClaim,
     VideoClaim,
+    _get_transcript_claims,
+    _get_video_claims,
     extract_claims_from_transcript,
     extract_claims_from_video,
 )
+from harmful_claim_finder.utils.models import ClaimExtractionError
 
 
 @patch("harmful_claim_finder.claim_extraction.run_prompt")
@@ -86,7 +89,7 @@ def test_text_extraction_bad_output(
 ):
     mock_run_prompt.return_value = output
     with raises(error):
-        extract_claims_from_transcript(["1", "2", "3"])
+        _get_transcript_claims(["1", "2", "3"])
 
 
 @mark.parametrize(
@@ -120,4 +123,26 @@ def test_video_extraction_bad_output(
 ):
     mock_run_prompt.return_value = output
     with raises(error):
-        extract_claims_from_video("uri")
+        _get_video_claims("uri")
+
+
+@patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
+def test_transcript_retries(mock_run_prompt):
+    try:
+        extract_claims_from_transcript(["a", "b", "c"], max_attempts=3)
+        assert False
+    except ClaimExtractionError:
+        assert True
+
+    assert mock_run_prompt.call_count == 6
+
+
+@patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
+def test_video_retries(mock_run_prompt):
+    try:
+        extract_claims_from_video("video", max_attempts=3)
+        assert False
+    except ClaimExtractionError:
+        assert True
+
+    assert mock_run_prompt.call_count == 6

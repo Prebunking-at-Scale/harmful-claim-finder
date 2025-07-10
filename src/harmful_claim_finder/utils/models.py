@@ -13,6 +13,12 @@ class PastelError(Exception):
     """
 
 
+class ClaimExtractionError(Exception):
+    """
+    Raised when claim extraction fails.
+    """
+
+
 class CheckworthyError(Exception):
     """
     Raised if checkworthy fails.
