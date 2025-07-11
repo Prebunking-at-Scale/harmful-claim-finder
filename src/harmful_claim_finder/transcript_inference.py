@@ -7,7 +7,6 @@ from harmful_claim_finder.keyword_filter.topic_keyword_filter import TopicKeywor
 from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
 from harmful_claim_finder.utils.models import (
     CheckworthyError,
-    CheckworthyResult,
     PastelError,
     TopicDetectionError,
     TranscriptSentence,

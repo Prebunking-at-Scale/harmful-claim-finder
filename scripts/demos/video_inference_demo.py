@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from uuid import UUID
 
 from harmful_claim_finder.video_inference import get_claims
 
@@ -17,17 +18,15 @@ videos = [
     "gs://pas-prototyping-storage/ds-test-videos/7357367790744931630.mp4",
 ]
 
+video_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
-def find_checkworthy_claims():
+
+def find_checkworthy_claims() -> None:
     output = {}
     for video_uri in videos:
         try:
-            scored_claims = get_claims(video_uri, ["GBR", "USA"])
-            output[video_uri] = []
-            for claim, score in scored_claims:
-                claim_dict = claim.model_dump(mode="json")
-                claim_dict["score"] = float(score)
-                output[video_uri].append(claim_dict)
+            claims = get_claims(video_id, video_uri, ["GBR", "USA"])
+            output[video_uri] = [claim.model_dump(mode="json") for claim in claims]
         except Exception as exc:
             print(f"Something went wrong with {video_uri}: {repr(exc)}")
             continue
