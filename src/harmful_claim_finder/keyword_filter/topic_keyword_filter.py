@@ -212,7 +212,7 @@ class TopicKeywordFilter:
 
         return result_with_all_sentences
 
-    def run_all_for_article(
+    async def run_all_for_article(
         self, article: list[str], max_attempts: int = 3
     ) -> dict[str, list[str]]:
         """Runs all functions on a new article.
@@ -241,13 +241,15 @@ class TopicKeywordFilter:
         for _ in range(max_attempts):
             try:
                 prompt = self.make_keyword_prompt(article)
-                response = run_prompt(prompt)
+                response = await run_prompt(prompt)
                 result = self.parse(response)
                 try:
                     formatted_result = self.format_results(result, article)
                 except ParsingError:
                     logger.info(f"Parsing error: {traceback.format_exc()}")
-                    fixed_json = run_prompt(FIX_JSON.replace("{INPUT_TEXT}", response))
+                    fixed_json = await run_prompt(
+                        FIX_JSON.replace("{INPUT_TEXT}", response)
+                    )
                     fixed_result = self.parse(fixed_json)
                     formatted_result = self.format_results(fixed_result, article)
                 formatted_result = self.do_result_unmapping(formatted_result)

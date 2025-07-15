@@ -43,10 +43,10 @@ scored_claims = [
 
 @patch("harmful_claim_finder.video_inference.CheckworthyClaimDetector")
 @patch("harmful_claim_finder.video_inference.extract_claims_from_video")
-def test_output_format(mock_extract_claims, mock_pastel):
+async def test_output_format(mock_extract_claims, mock_pastel):
     mock_extract_claims.return_value = unscored_claims
     mock_pastel_class = Mock(CheckworthyClaimDetector)
     mock_pastel_class.score_sentences.return_value = [0.9, 0.2, 0]
     mock_pastel.return_value = mock_pastel_class
-    output = get_claims(fake_id, "video_uri", ["GBR"])
+    output = await get_claims(fake_id, "video_uri", ["GBR"])
     assert output == scored_claims

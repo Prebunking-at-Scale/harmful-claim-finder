@@ -46,7 +46,7 @@ def parse_country_codes(codes: list[str]) -> list[str]:
         raise CheckworthyError from exc
 
 
-def get_claims(
+async def get_claims(
     keywords: dict[str, list[str]],
     sentences: list[TranscriptSentence],
     country_codes: list[str],
@@ -85,7 +85,7 @@ def get_claims(
 
         topics_start_time = time.time()
         topic_filter = TopicKeywordFilter(keywords=keywords)
-        topic_keywords = topic_filter.run_all_for_article(texts, max_attempts=2)
+        topic_keywords = await topic_filter.run_all_for_article(texts, max_attempts=2)
 
         have_topic = [sentence for sentence, topics in topic_keywords.items() if topics]
         logger.debug(f"{len(have_topic)} sentences have topics.")
@@ -105,7 +105,7 @@ def get_claims(
 
         checkworthy_model = CheckworthyClaimDetector(countries=country_names)
 
-        scores = checkworthy_model.score_sentences(have_topic, max_attempts=2)
+        scores = await checkworthy_model.score_sentences(have_topic, max_attempts=2)
 
         scored_sentences = {
             sentence: score for sentence, score in zip(have_topic, scores)

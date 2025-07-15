@@ -30,7 +30,7 @@ class CheckworthyClaimDetector:
 
         self.pastel.model[new_question] = -1.0
 
-    def score_sentences(
+    async def score_sentences(
         self, sentences: list[str], max_attempts: int = 3
     ) -> pastel.ARRAY_TYPE:
         """
@@ -54,7 +54,7 @@ class CheckworthyClaimDetector:
         """
         for _ in range(max_attempts):
             try:
-                scores = self.pastel.make_predictions(sentences)
+                scores = await self.pastel.make_predictions(sentences)
                 return scores
             except GeminiError as exc:
                 _logger.info(f"Error while running Gemini: {repr(exc)}")

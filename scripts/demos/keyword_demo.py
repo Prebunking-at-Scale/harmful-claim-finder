@@ -2,6 +2,7 @@
 Runs demo of both prompt types on Full Fact keywords and a collection of demo articles.
 """
 
+import asyncio
 from pprint import pprint
 
 from dummy_text import all_articles, arabic_articles, test_keywords_ar, test_keywords_en
@@ -33,14 +34,22 @@ if __name__ == "__main__":
 
         print("~~~~~~~~~~~~~~~~~~~~~~\n\n### Result for article level prompt:\n\n")
         print("ENGLISH\n")
-        pprint(english_article_filter.run_all_for_article(article))
+        pprint(
+            asyncio.run(english_article_filter.run_all_for_article(article), debug=True)
+        )
         print("\n\nARABIC\n")
-        pprint(arabic_article_filter.run_all_for_article(article))
+        pprint(
+            asyncio.run(arabic_article_filter.run_all_for_article(article), debug=True)
+        )
 
     for article in arabic_articles:
 
         print("~~~~~~~~~~~~~~~~~~~~~~\n\n### Result for article level prompt:\n\n")
         print("ARABIC\n")
-        pprint(arabic_article_filter.run_all_for_article(article))
+        pprint(
+            asyncio.run(arabic_article_filter.run_all_for_article(article), debug=True)
+        )
         print("\n\nENGLISH\n")
-        pprint(english_article_filter.run_all_for_article(article))
+        pprint(
+            asyncio.run(english_article_filter.run_all_for_article(article), debug=True)
+        )

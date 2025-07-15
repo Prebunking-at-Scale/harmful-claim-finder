@@ -1,3 +1,4 @@
+import asyncio
 import json
 from pathlib import Path
 from typing import TypedDict
@@ -71,7 +72,7 @@ def text_example() -> None:
                 )
                 for fragment in transcript
             ]
-            claims = extract_claims_from_transcript(sentences)
+            claims = asyncio.run(extract_claims_from_transcript(sentences))
             print(f"Found {len(claims)} claims in transcript {transcript_path}")
             jsonable = [claim.model_dump(mode="json") for claim in claims]
             output[transcript_path] = jsonable
@@ -88,7 +89,7 @@ def video_example() -> None:
     output = {}
     for video_uri in videos:
         try:
-            claims = extract_claims_from_video(video_id, video_uri)
+            claims = asyncio.run(extract_claims_from_video(video_id, video_uri))
             print(f"Found {len(claims)} claims in video from {video_uri}")
             jsonable = [claim.model_dump(mode="json") for claim in claims]
             output[video_uri] = jsonable

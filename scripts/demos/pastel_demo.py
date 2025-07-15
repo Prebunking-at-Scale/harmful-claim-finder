@@ -1,5 +1,6 @@
 # Simple demos of learning and using a checkworthy-scoring model
 
+import asyncio
 import logging
 from pathlib import Path
 
@@ -65,7 +66,7 @@ def demo_inference() -> None:
         "in Thames Water would 'cost billions and take years'.",
     ]
     cw_predictor = pastel_inference.CheckworthyClaimDetector(countries=["GBR"])
-    scores = cw_predictor.score_sentences(examples)
+    scores = asyncio.run(cw_predictor.score_sentences(examples))
     _ = [print(f"{s:4.1f} \t{e}") for s, e in sorted(zip(scores, examples))]
 
 

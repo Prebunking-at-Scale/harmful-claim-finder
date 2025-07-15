@@ -367,7 +367,7 @@ def test_format_results_error():
 @patch.object(
     TopicKeywordFilter, "format_results", side_effect=ParsingError("Parsing error")
 )
-def test_fix_json(mocked_format, mocked_run_prompt):
+async def test_fix_json(mocked_format, mocked_run_prompt):
     """
     Check if we try fixing the json upon a parsing error
     """
@@ -375,7 +375,7 @@ def test_fix_json(mocked_format, mocked_run_prompt):
     article = ["sentence1", "sentence2", "sentence3", "sentence4"]
 
     try:
-        _ = filter.run_all_for_article(article, 1)
+        _ = await filter.run_all_for_article(article, 1)
     except TopicDetectionError:
         pass
 

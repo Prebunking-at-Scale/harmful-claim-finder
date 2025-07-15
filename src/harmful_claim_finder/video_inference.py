@@ -9,7 +9,7 @@ from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
 from harmful_claim_finder.utils.models import VideoClaims
 
 
-def get_claims(
+async def get_claims(
     video_id: UUID, video_uri: str, country_codes: list[str]
 ) -> list[VideoClaims]:
     """
@@ -30,10 +30,10 @@ def get_claims(
         list[VideoClaims]
             A list of claims, marked up with scores.
     """
-    claims: list[VideoClaims] = extract_claims_from_video(video_id, video_uri)
+    claims: list[VideoClaims] = await extract_claims_from_video(video_id, video_uri)
     pastel = CheckworthyClaimDetector(countries=country_codes)
     claims_text = [claim.claim for claim in claims]
-    scores = pastel.score_sentences(claims_text, max_attempts=2)
+    scores = await pastel.score_sentences(claims_text, max_attempts=2)
 
     for claim, score in zip(claims, scores):
         claim.metadata = (

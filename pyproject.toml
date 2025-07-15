@@ -24,6 +24,7 @@ dependencies = [
     "transformers~=4.53.1",
     "google-cloud-storage~=3.2.0",
     "torch~=2.7.1",
+    "pytest-asyncio>=1.0.0",
 ]
 
 [[tool.uv.index]]
@@ -53,6 +54,7 @@ dev = [
 [tool.pytest.ini_options]
 pythonpath = "src"
 testpaths = ["tests"]
+asyncio_mode = "auto"
 filterwarnings = [
     # "ignore:Deprecated call to `pkg_resources.declare_namespace\\('.*'\\):DeprecationWarning",
     # "ignore::DeprecationWarning:google.rpc",
