@@ -1,3 +1,4 @@
+import json
 import logging
 import traceback
 from textwrap import dedent
@@ -58,6 +59,14 @@ class VideoClaimSchema(BaseModel):
         description="How long, in seconds, is the claim made for?",
     )
 
+    topics: list[str] = Field(
+        description=(
+            "A list of topics which the claim relates to."
+            "The topics should be based on those described in the JSON keywords"
+            " you were given."
+        )
+    )
+
 
 CLAIMS_PROMPT_TEXT = dedent(
     """
@@ -75,8 +84,17 @@ CLAIMS_PROMPT_TEXT = dedent(
 
 CLAIMS_PROMPT_VIDEO = dedent(
     """
-    Find all the claims made in this video.
+    Find all the claims made in this video which relate to the provided topics.
     Include both spoken claims, and claims made visually.
+
+    Topics are defined by a set of keywords.
+    If a claim relates to one of the keywords, then it counts as being of that topic.
+    The claim does not have to contain the exact word, but should contain a very similar 
+    word, or be on a similar subject.
+    A claim can have multiple topics.
+
+    Here are the keywords:
+    {KEYWORDS}
     """
 )
 
@@ -177,16 +195,21 @@ def _parse_video_claims(genai_response: str, video_id: UUID) -> list[VideoClaims
             video_id=video_id,
             claim=claim.claim,
             start_time_s=claim.timestamp,
-            metadata={"quote": claim.original_text},
+            metadata={
+                "quote": claim.original_text,
+                "topics": claim.topics,
+            },
         )
         for claim in genai_claims
     ]
     return output_claims
 
 
-async def _get_video_claims(video_id: UUID, video_uri: str) -> list[VideoClaims]:
+async def _get_video_claims(
+    video_id: UUID, video_uri: str, keywords: dict[str, list[str]]
+) -> list[VideoClaims]:
     response = await run_prompt(
-        CLAIMS_PROMPT_VIDEO,
+        CLAIMS_PROMPT_VIDEO.replace("{KEYWORDS}", json.dumps(keywords)),
         video_uri=video_uri,
         output_schema=list[VideoClaimSchema],
     )
@@ -203,7 +226,10 @@ async def _get_video_claims(video_id: UUID, video_uri: str) -> list[VideoClaims]
 
 
 async def extract_claims_from_video(
-    video_id: UUID, video_uri: str, max_attempts: int = 1
+    video_id: UUID,
+    video_uri: str,
+    keywords: dict[str, list[str]],
+    max_attempts: int = 1,
 ) -> list[VideoClaims]:
     """
     Extract claims made in a video.
@@ -223,7 +249,7 @@ async def extract_claims_from_video(
     """
     for _ in range(max_attempts):
         try:
-            return await _get_video_claims(video_id, video_uri)
+            return await _get_video_claims(video_id, video_uri, keywords)
         except Exception as exc:
             _logger.info(f"Error raised while running claim extraction: {repr(exc)}")
             traceback.print_exc()

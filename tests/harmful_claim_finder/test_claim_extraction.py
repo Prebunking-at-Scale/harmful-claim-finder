@@ -81,41 +81,45 @@ async def test_video_extraction(mock_run_prompt):
             "original_text": "this is quote",
             "timestamp": 0,
             "duration": 1,
+            "topics": ["topic"],
         },
         {
             "claim": "this is also claim",
             "original_text": "this is also quote",
             "timestamp": 1,
             "duration": 1,
+            "topics": ["topic"],
         },
         {
             "claim": "this is third claim",
             "original_text": "this is third quote",
             "timestamp": 2,
             "duration": 1,
+            "topics": ["topic"],
         },
     ]
+    kw = {"topic": ["keyword"]}
     dummy_output = f"```json{json.dumps(dummy_claims)}```"
     mock_run_prompt.return_value = dummy_output
-    claims = await extract_claims_from_video(fake_id, "video_uri")
+    claims = await extract_claims_from_video(fake_id, "video_uri", kw)
     expected = [
         VideoClaims(
             video_id=fake_id,
             claim="this is claim",
             start_time_s=0,
-            metadata={"quote": "this is quote"},
+            metadata={"quote": "this is quote", "topics": ["topic"]},
         ),
         VideoClaims(
             video_id=fake_id,
             claim="this is also claim",
             start_time_s=1,
-            metadata={"quote": "this is also quote"},
+            metadata={"quote": "this is also quote", "topics": ["topic"]},
         ),
         VideoClaims(
             video_id=fake_id,
             claim="this is third claim",
             start_time_s=2,
-            metadata={"quote": "this is third quote"},
+            metadata={"quote": "this is third quote", "topics": ["topic"]},
         ),
     ]
     assert claims == expected
@@ -184,9 +188,10 @@ async def test_text_extraction_bad_output(
 async def test_video_extraction_bad_output(
     mock_run_prompt, output: str, error: type[Exception]
 ):
+    kw = {"topic": ["keyword"]}
     mock_run_prompt.return_value = output
     with raises(error):
-        await _get_video_claims(fake_id, "uri")
+        await _get_video_claims(fake_id, "uri", kw)
 
 
 @patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
@@ -203,7 +208,8 @@ async def test_transcript_retries(mock_run_prompt):
 @patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
 async def test_video_retries(mock_run_prompt):
     try:
-        await extract_claims_from_video(fake_id, "video", max_attempts=3)
+        kw = {"topic": ["keyword"]}
+        await extract_claims_from_video(fake_id, "video", kw, max_attempts=3)
         assert False
     except ClaimExtractionError:
         assert True

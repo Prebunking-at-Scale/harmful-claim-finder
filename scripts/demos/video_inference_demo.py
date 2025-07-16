@@ -24,10 +24,14 @@ video_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
 def find_checkworthy_claims() -> None:
     output = {}
+    kw = {
+        "vaccines": ["covid-19", "vaxxer", "vaccine"],
+        "miracle_cures": ["miracle cure", "magic herbs", "traditional medicine"],
+    }
     for video_uri in videos:
         try:
             claims = asyncio.run(
-                get_claims(video_id, video_uri, ["GBR", "USA"]), debug=True
+                get_claims(video_id, video_uri, kw, ["GBR", "USA"]), debug=True
             )
             output[video_uri] = [claim.model_dump(mode="json") for claim in claims]
         except Exception as exc:

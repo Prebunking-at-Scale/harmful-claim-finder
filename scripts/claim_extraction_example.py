@@ -86,10 +86,14 @@ def text_example() -> None:
 
 
 def video_example() -> None:
+    kw = {
+        "vaccines": ["covid-19", "vaxxer", "vaccine"],
+        "miracle_cures": ["miracle cure", "magic herbs", "traditional medicine"],
+    }
     output = {}
     for video_uri in videos:
         try:
-            claims = asyncio.run(extract_claims_from_video(video_id, video_uri))
+            claims = asyncio.run(extract_claims_from_video(video_id, video_uri, kw))
             print(f"Found {len(claims)} claims in video from {video_uri}")
             jsonable = [claim.model_dump(mode="json") for claim in claims]
             output[video_uri] = jsonable
@@ -103,6 +107,6 @@ def video_example() -> None:
 
 
 if __name__ == "__main__":
-    text_example()
-    print("-" * 100)
+    # text_example()
+    # print("-" * 100)
     video_example()
