@@ -12,18 +12,18 @@ readme = "README.md"
 license = { text = "Apache License 2.0" }
 requires-python = ">=3.13,<3.14" # we can remove the "<3.14" easily if we remove youtube-transcript-api, which is only a dev dependency.
 dependencies = [
-    "python-dotenv~=1.0.0",
-    "structlog~=23.1.0",
-    "pydantic~=2.10.6",
-    "google-genai~=1.21.1",
+    "python-dotenv>=1.0.0",
+    "structlog>=23.1.0",
+    "pydantic>=2.10.6",
+    "google-genai>=1.21.1",
     "json-repair~=0.40.0",
-    "scipy~=1.15.3",
-    "rapidfuzz~=3.13.0",
-    "scipy-stubs~=1.16.0.0",
-    "pycountry~=24.6.1",
-    "transformers~=4.53.1",
-    "google-cloud-storage~=3.2.0",
-    "torch~=2.7.1",
+    "scipy>=1.15.3",
+    "rapidfuzz>=3.13.0",
+    "scipy-stubs>=1.16.0.0",
+    "pycountry>=24.6.1",
+    "transformers>=4.53.1",
+    "google-cloud-storage>=3.2.0",
+    "torch>=2.7.1",
     "pytest-asyncio>=1.0.0",
 ]
 
