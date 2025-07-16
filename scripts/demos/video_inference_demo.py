@@ -1,3 +1,4 @@
+import asyncio
 import json
 from pathlib import Path
 from uuid import UUID
@@ -25,7 +26,9 @@ def find_checkworthy_claims() -> None:
     output = {}
     for video_uri in videos:
         try:
-            claims = get_claims(video_id, video_uri, ["GBR", "USA"])
+            claims = asyncio.run(
+                get_claims(video_id, video_uri, ["GBR", "USA"]), debug=True
+            )
             output[video_uri] = [claim.model_dump(mode="json") for claim in claims]
         except Exception as exc:
             print(f"Something went wrong with {video_uri}: {repr(exc)}")

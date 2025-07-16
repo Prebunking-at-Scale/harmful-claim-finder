@@ -1,6 +1,7 @@
 # First attempt at asking a series of yes/no questions for checkworthiness etc., inspired by Sheffield's PASTEL model
 # See paper: https://arxiv.org/abs/2309.07601v3 "Weakly Supervised Veracity Classification with LLM-Predicted Credibility Signals"
 
+import asyncio
 import enum
 import json
 from collections.abc import Callable
@@ -152,49 +153,53 @@ class Pastel:
 
         return prompt
 
-    def get_answers_to_questions(
+    @staticmethod
+    def _label_mapping(label: str) -> float:
+        """Map yes/no/other response to 1/0/0.5 respectively.
+        If model responds 'unsure', 'don't know', 'uncertain' etc. then return 0.5.
+        """
+        label_map = {"y": 1.0, "n": 0.0}
+        return label_map.get(label[0].lower(), 0.5)
+
+    async def _get_answers_for_single_sentence(
+        self, sentence: str
+    ) -> dict[FEATURE_TYPE, float]:
+        sent_answers: Dict[FEATURE_TYPE, float] = {}
+        # First, get answers to all the questions from genAI:
+        prompt = self.make_prompt(sentence)
+        raw_output = await run_prompt(prompt)
+        raw_output = raw_output.strip().lower()
+        if "question" in raw_output:
+            output = raw_output[raw_output.index("0") :]
+        else:
+            output = raw_output
+        answers = output.split("\n")  # e.g. ["1. yes", "2. no"]
+
+        if len(answers) == len(self.get_questions()):
+            for q, a in zip(self.get_questions(), answers):
+                sent_answers[q] = self._label_mapping(a.split()[1])
+
+        else:
+            raise ValueError(
+                f"Failed to parse output for the sentence: {sentence}. Output received: {output}"
+            )
+        # Second, get values from the functions
+        for f in self.get_functions():
+            sent_answers[f] = f(sentence)
+
+        return sent_answers
+
+    async def get_answers_to_questions(
         self, sentences: list[str]
     ) -> list[dict[FEATURE_TYPE, float]]:
         """Embed each example into the prompt and pass to genAI.
         For each sentence, this Returns a dictionary mapping features to scores."""
 
-        all_answers = []
-
-        def label_mapping(label: str) -> float:
-            """Map yes/no/other response to 1/0/0.5 respectively.
-            If model responds 'unsure', 'don't know', 'uncertain' etc. then return 0.5.
-            """
-            label_map = {"y": 1.0, "n": 0.0}
-            return label_map.get(label[0].lower(), 0.5)
-
-        for ex in sentences:
-            sent_answers: Dict[FEATURE_TYPE, float] = {}
-            # First, get answers to all the questions from genAI:
-            prompt = self.make_prompt(ex)
-            raw_output = run_prompt(prompt).strip().lower()
-            if "question" in raw_output:
-                output = raw_output[raw_output.index("0") :]
-            else:
-                output = raw_output
-            answers = output.split("\n")  # e.g. ["1. yes", "2. no"]
-
-            if len(answers) == len(self.get_questions()):
-                for q, a in zip(self.get_questions(), answers):
-                    sent_answers[q] = label_mapping(a.split()[1])
-
-            else:
-                raise ValueError(
-                    f"Failed to parse output for the sentence: {ex}. Output received: {output}"
-                )
-            # Second, get values from the functions
-            for f in self.get_functions():
-                sent_answers[f] = f(ex)
-
-            # Third and final: append to list of question-answers and function-values
-            all_answers.append(sent_answers)
-
-        # return list of (dicts of features -> scores), one dict per sentence
-        return all_answers
+        jobs = [
+            self._get_answers_for_single_sentence(sentence) for sentence in sentences
+        ]
+        answers = await asyncio.gather(*jobs)
+        return answers
 
     def quantify_answers(self, answers: list[dict[FEATURE_TYPE, float]]) -> ARRAY_TYPE:
         """Build numpy array of answers from list of dicts of answers, with one
@@ -238,9 +243,9 @@ class Pastel:
         scores = X.dot(weights)
         return scores
 
-    def make_predictions(self, sentences: list[str]) -> ARRAY_TYPE:
+    async def make_predictions(self, sentences: list[str]) -> ARRAY_TYPE:
         """Use the Pastel questions and weights model to generate
         a score for each of a list of sentences."""
-        answers = self.get_answers_to_questions(sentences)
+        answers = await self.get_answers_to_questions(sentences)
         scores = self.get_scores_from_answers(answers)
         return scores

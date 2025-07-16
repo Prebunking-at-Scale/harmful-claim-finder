@@ -124,15 +124,17 @@ def _parse_transcript_claims(
     return output_claims
 
 
-def _get_transcript_claims(transcript: list[TranscriptSentence]) -> list[VideoClaims]:
+async def _get_transcript_claims(
+    transcript: list[TranscriptSentence],
+) -> list[VideoClaims]:
     transcript_text = " ".join([s.text for s in transcript])
     prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
-    response = run_prompt(prompt, output_schema=list[TextClaimSchema])
+    response = await run_prompt(prompt, output_schema=list[TextClaimSchema])
     try:
         claims = _parse_transcript_claims(response, transcript)
     except ValueError:
         _logger.info(f"Parsing error: {traceback.format_exc()}")
-        fixed_response = run_prompt(
+        fixed_response = await run_prompt(
             FIX_JSON.replace("{TEXT}", response),
             output_schema=list[TextClaimSchema],
         )
@@ -141,7 +143,7 @@ def _get_transcript_claims(transcript: list[TranscriptSentence]) -> list[VideoCl
     return claims
 
 
-def extract_claims_from_transcript(
+async def extract_claims_from_transcript(
     transcript: list[TranscriptSentence], max_attempts: int = 1
 ) -> list[VideoClaims]:
     """
@@ -158,7 +160,7 @@ def extract_claims_from_transcript(
     """
     for _ in range(max_attempts):
         try:
-            return _get_transcript_claims(transcript)
+            return await _get_transcript_claims(transcript)
         except Exception as exc:
             _logger.info(f"Error raised while running claim extraction: {repr(exc)}")
             traceback.print_exc()
@@ -182,8 +184,8 @@ def _parse_video_claims(genai_response: str, video_id: UUID) -> list[VideoClaims
     return output_claims
 
 
-def _get_video_claims(video_id: UUID, video_uri: str) -> list[VideoClaims]:
-    response = run_prompt(
+async def _get_video_claims(video_id: UUID, video_uri: str) -> list[VideoClaims]:
+    response = await run_prompt(
         CLAIMS_PROMPT_VIDEO,
         video_uri=video_uri,
         output_schema=list[VideoClaimSchema],
@@ -192,7 +194,7 @@ def _get_video_claims(video_id: UUID, video_uri: str) -> list[VideoClaims]:
         claims = _parse_video_claims(response, video_id)
     except ValueError:
         _logger.info(f"Parsing error: {traceback.format_exc()}")
-        fixed_response = run_prompt(
+        fixed_response = await run_prompt(
             FIX_JSON.replace("{TEXT}", response),
             output_schema=list[VideoClaimSchema],
         )
@@ -200,7 +202,7 @@ def _get_video_claims(video_id: UUID, video_uri: str) -> list[VideoClaims]:
     return claims
 
 
-def extract_claims_from_video(
+async def extract_claims_from_video(
     video_id: UUID, video_uri: str, max_attempts: int = 1
 ) -> list[VideoClaims]:
     """
@@ -221,7 +223,7 @@ def extract_claims_from_video(
     """
     for _ in range(max_attempts):
         try:
-            return _get_video_claims(video_id, video_uri)
+            return await _get_video_claims(video_id, video_uri)
         except Exception as exc:
             _logger.info(f"Error raised while running claim extraction: {repr(exc)}")
             traceback.print_exc()

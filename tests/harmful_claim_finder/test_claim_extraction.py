@@ -21,7 +21,7 @@ fake_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
 
 @patch("harmful_claim_finder.claim_extraction.run_prompt")
-def test_text_extraction(mock_run_prompt):
+async def test_text_extraction(mock_run_prompt):
     dummy_claims = [
         {"claim": "this is claim", "original_text": "this is quote"},
         {"claim": "this is also claim", "original_text": "this is also quote"},
@@ -49,7 +49,7 @@ def test_text_extraction(mock_run_prompt):
     ]
     dummy_output = f"```json{json.dumps(dummy_claims)}```"
     mock_run_prompt.return_value = dummy_output
-    claims = extract_claims_from_transcript(dummy_transcript)
+    claims = await extract_claims_from_transcript(dummy_transcript)
     expected = [
         VideoClaims(
             video_id=fake_id,
@@ -74,7 +74,7 @@ def test_text_extraction(mock_run_prompt):
 
 
 @patch("harmful_claim_finder.claim_extraction.run_prompt")
-def test_video_extraction(mock_run_prompt):
+async def test_video_extraction(mock_run_prompt):
     dummy_claims = [
         {
             "claim": "this is claim",
@@ -97,7 +97,7 @@ def test_video_extraction(mock_run_prompt):
     ]
     dummy_output = f"```json{json.dumps(dummy_claims)}```"
     mock_run_prompt.return_value = dummy_output
-    claims = extract_claims_from_video(fake_id, "video_uri")
+    claims = await extract_claims_from_video(fake_id, "video_uri")
     expected = [
         VideoClaims(
             video_id=fake_id,
@@ -147,12 +147,12 @@ def test_video_extraction(mock_run_prompt):
     ],
 )
 @patch("harmful_claim_finder.claim_extraction.run_prompt")
-def test_text_extraction_bad_output(
+async def test_text_extraction_bad_output(
     mock_run_prompt, output: str, error: type[Exception]
 ):
     mock_run_prompt.return_value = output
     with raises(error):
-        _get_transcript_claims([])
+        await _get_transcript_claims([])
 
 
 @mark.parametrize(
@@ -181,18 +181,18 @@ def test_text_extraction_bad_output(
     ],
 )
 @patch("harmful_claim_finder.claim_extraction.run_prompt")
-def test_video_extraction_bad_output(
+async def test_video_extraction_bad_output(
     mock_run_prompt, output: str, error: type[Exception]
 ):
     mock_run_prompt.return_value = output
     with raises(error):
-        _get_video_claims(fake_id, "uri")
+        await _get_video_claims(fake_id, "uri")
 
 
 @patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
-def test_transcript_retries(mock_run_prompt):
+async def test_transcript_retries(mock_run_prompt):
     try:
-        extract_claims_from_transcript([], max_attempts=3)
+        await extract_claims_from_transcript([], max_attempts=3)
         assert False
     except ClaimExtractionError:
         assert True
@@ -201,9 +201,9 @@ def test_transcript_retries(mock_run_prompt):
 
 
 @patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
-def test_video_retries(mock_run_prompt):
+async def test_video_retries(mock_run_prompt):
     try:
-        extract_claims_from_video(fake_id, "video", max_attempts=3)
+        await extract_claims_from_video(fake_id, "video", max_attempts=3)
         assert False
     except ClaimExtractionError:
         assert True

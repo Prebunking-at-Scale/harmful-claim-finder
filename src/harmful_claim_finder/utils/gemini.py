@@ -108,7 +108,7 @@ def generate_model_config() -> ModelConfig:
         raise GeminiError(message) from exc
 
 
-def run_prompt(
+async def run_prompt(
     prompt: str,
     video_uri: str | None = None,
     output_schema: types.SchemaUnion | None = None,
@@ -182,7 +182,7 @@ def run_prompt(
         built_gen_config["response_mime_type"] = "application/json"
         built_gen_config["response_schema"] = output_schema
 
-    response = client.models.generate_content(
+    response = await client.aio.models.generate_content(
         model=model_config.model_name,
         contents=types.Content(role="user", parts=parts),
         config=types.GenerateContentConfig(

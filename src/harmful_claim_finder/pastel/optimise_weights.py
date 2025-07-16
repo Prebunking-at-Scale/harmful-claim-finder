@@ -1,5 +1,6 @@
 """Performs linear regression to optimise & save model weights"""
 
+import asyncio
 import csv
 import logging
 
@@ -57,7 +58,7 @@ def learn_weights(
     weight vector is one longer than the number of questions in the prompt."""
 
     examples = load_examples(training_data_filename)
-    answers = pasteliser.get_answers_to_questions([e[0] for e in examples])
+    answers = asyncio.run(pasteliser.get_answers_to_questions([e[0] for e in examples]))
     predictions = pasteliser.quantify_answers(answers)
     targs = [e[1] for e in examples]
     targs_arr = np.array(targs)

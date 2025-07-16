@@ -2,6 +2,7 @@ import os
 from unittest.mock import Mock, patch
 
 from google.genai import Client
+from google.genai.client import AsyncClient
 from google.genai.models import Models
 
 from harmful_claim_finder.claim_extraction import TextClaimSchema
@@ -17,6 +18,10 @@ from harmful_claim_finder.utils.gemini import (
 class DummyResponse:
     candidates = "yes!"
     text = "response!"
+
+
+async def get_dummy():
+    return DummyResponse()
 
 
 def test_generate_model_config():
@@ -48,23 +53,27 @@ def test_generate_model_config_no_env_vars():
 
 
 @patch("harmful_claim_finder.utils.gemini.genai.Client")
-def test_dont_overwrite_generation_config(mock_client):
+async def test_dont_overwrite_generation_config(mock_client):
     copy_of_params = {**DEFAULT_PARAMETERS}
     client = Mock(Client)
     models = Mock(Models)
-    models.generate_content.return_value = DummyResponse()
-    client.models = models
+    async_client = Mock(AsyncClient)
+
+    models.generate_content.return_value = get_dummy()
+    client.aio = async_client
+    async_client.models = models
     mock_client.return_value = client
 
     assert DEFAULT_PARAMETERS == copy_of_params
-    run_prompt(
+    await run_prompt(
         "do something",
         output_schema=TextClaimSchema,
         model_config=ModelConfig(
             project="project", location="location", model_name="model"
         ),
     )
-    run_prompt(
+    models.generate_content.return_value = get_dummy()
+    await run_prompt(
         "do something",
         model_config=ModelConfig(
             project="project", location="location", model_name="model"

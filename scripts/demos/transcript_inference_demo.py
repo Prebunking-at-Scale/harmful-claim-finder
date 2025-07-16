@@ -2,6 +2,7 @@
 This demo script runs the transcript inference script, which pipes keywords into PASTEL for a transcript.
 """
 
+import asyncio
 from pprint import pp
 from uuid import UUID
 
@@ -66,13 +67,14 @@ sentences = [
     ),
 ]
 
-kw = {
-    "health": ["doctor", "health", "hospital", "nurses", "obesity", "medicine"],
-    "war": ["gun", "bomb", "war", "warplanes", "army", "strike", "attack"],
-    "migration": ["crossings", "migrants", "immigration", "migration"],
-}
+if __name__ == "__main__":
+    kw = {
+        "health": ["doctor", "health", "hospital", "nurses", "obesity", "medicine"],
+        "war": ["gun", "bomb", "war", "warplanes", "army", "strike", "attack"],
+        "migration": ["crossings", "migrants", "immigration", "migration"],
+    }
 
-countries = ["GBR", "USA"]
+    countries = ["GBR", "USA"]
 
-result = get_claims(kw, sentences, countries)
-pp([claim.model_dump() for claim in result])
+    result = asyncio.run(get_claims(kw, sentences, countries), debug=True)
+    pp([claim.model_dump() for claim in result])
