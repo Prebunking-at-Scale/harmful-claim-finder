@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 from google.genai import Client
 from google.genai.models import Models
 
-from harmful_claim_finder.claim_extraction import TextClaim
+from harmful_claim_finder.claim_extraction import TextClaimSchema
 from harmful_claim_finder.utils.gemini import (
     DEFAULT_PARAMETERS,
     GeminiError,
@@ -59,7 +59,7 @@ def test_dont_overwrite_generation_config(mock_client):
     assert DEFAULT_PARAMETERS == copy_of_params
     run_prompt(
         "do something",
-        output_schema=TextClaim,
+        output_schema=TextClaimSchema,
         model_config=ModelConfig(
             project="project", location="location", model_name="model"
         ),

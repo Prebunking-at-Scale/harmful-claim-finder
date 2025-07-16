@@ -2,17 +2,23 @@ import logging
 import traceback
 from textwrap import dedent
 from typing import Any, cast
+from uuid import UUID
 
 from pydantic import BaseModel, Field
 
 from harmful_claim_finder.utils.gemini import run_prompt
-from harmful_claim_finder.utils.models import ClaimExtractionError
+from harmful_claim_finder.utils.models import (
+    ClaimExtractionError,
+    TranscriptSentence,
+    VideoClaims,
+)
 from harmful_claim_finder.utils.parsing import parse_model_json_output
+from harmful_claim_finder.utils.sentence_linking import link_quotes_and_sentences
 
 _logger = logging.getLogger(__name__)
 
 
-class TextClaim(BaseModel):
+class TextClaimSchema(BaseModel):
     claim: str = Field(
         description=(
             "claim being made. "
@@ -28,7 +34,7 @@ class TextClaim(BaseModel):
     )
 
 
-class VideoClaim(BaseModel):
+class VideoClaimSchema(BaseModel):
     claim: str = Field(
         description=(
             "claim being made. "
@@ -43,13 +49,13 @@ class VideoClaim(BaseModel):
             "If the claim is made non-verbally, describe how the claim is made."
         )
     )
-    timestamp: str = Field(
+    timestamp: float = Field(
         description=(
-            "how far through the video was the claim made? Give value in HH:MM:SS"
+            "how far through the video does the claim start? Give value in seconds."
         )
     )
-    duration: int = Field(
-        description="How long, in ms, is the claim made for?",
+    duration: float = Field(
+        description="How long, in seconds, is the claim made for?",
     )
 
 
@@ -85,30 +91,59 @@ FIX_JSON = dedent(
 )
 
 
-def _get_transcript_claims(transcript: list[str]) -> list[TextClaim]:
-    transcript_text = " ".join(transcript)
+def _get_timestamps(
+    claims: list[TextClaimSchema],
+    transcript: list[TranscriptSentence],
+) -> dict[str, float]:
+    sentences = [s.text for s in transcript]
+    quotes = [claim.original_text for claim in claims]
+    linked = link_quotes_and_sentences(quotes, sentences)
+    quote_timestamps = {
+        claims[quote_idx].original_text: transcript[sentence_idx].start_time_s
+        for quote_idx, sentence_idx, _ in linked
+    }
+    return quote_timestamps
+
+
+def _parse_transcript_claims(
+    genai_response: str, transcript: list[TranscriptSentence]
+) -> list[VideoClaims]:
+    parsed = parse_model_json_output(genai_response)
+    parsed = cast(list[dict[str, Any]], parsed)
+    genai_claims = [TextClaimSchema(**claim) for claim in parsed]
+    timestamp_map = _get_timestamps(genai_claims, transcript)
+    output_claims = [
+        VideoClaims(
+            video_id=transcript[0].video_id,
+            claim=claim.original_text,
+            start_time_s=timestamp_map[claim.original_text],
+            metadata={"paraphrased": claim.claim},
+        )
+        for claim in genai_claims
+    ]
+    return output_claims
+
+
+def _get_transcript_claims(transcript: list[TranscriptSentence]) -> list[VideoClaims]:
+    transcript_text = " ".join([s.text for s in transcript])
     prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
-    response = run_prompt(prompt, output_schema=list[TextClaim])
+    response = run_prompt(prompt, output_schema=list[TextClaimSchema])
     try:
-        parsed = parse_model_json_output(response)
-        parsed = cast(list[dict[str, Any]], parsed)
-        claims = [TextClaim(**claim) for claim in parsed]
+        claims = _parse_transcript_claims(response, transcript)
     except ValueError:
         _logger.info(f"Parsing error: {traceback.format_exc()}")
         fixed_response = run_prompt(
             FIX_JSON.replace("{TEXT}", response),
-            output_schema=list[TextClaim],
+            output_schema=list[TextClaimSchema],
         )
-        parsed = parse_model_json_output(fixed_response)
-        parsed = cast(list[dict[str, Any]], parsed)
-        claims = [TextClaim(**claim) for claim in parsed]
+        claims = _parse_transcript_claims(fixed_response, transcript)
 
     return claims
 
 
 def extract_claims_from_transcript(
-    transcript: list[str], max_attempts: int = 1
-) -> list[TextClaim]:
+    transcript: list[TranscriptSentence], max_attempts: int = 1
+) -> list[VideoClaims]:
     """
     Extract claims made in a video transcript.
 
@@ -131,36 +166,50 @@ def extract_claims_from_transcript(
     raise ClaimExtractionError(f"Claim extraction failed {max_attempts} times.")
 
 
-def _get_video_claims(video_uri: str) -> list[VideoClaim]:
+def _parse_video_claims(genai_response: str, video_id: UUID) -> list[VideoClaims]:
+    parsed = parse_model_json_output(genai_response)
+    parsed = cast(list[dict[str, Any]], parsed)
+    genai_claims = [VideoClaimSchema(**claim) for claim in parsed]
+    output_claims = [
+        VideoClaims(
+            video_id=video_id,
+            claim=claim.claim,
+            start_time_s=claim.timestamp,
+            metadata={"quote": claim.original_text},
+        )
+        for claim in genai_claims
+    ]
+    return output_claims
+
+
+def _get_video_claims(video_id: UUID, video_uri: str) -> list[VideoClaims]:
     response = run_prompt(
         CLAIMS_PROMPT_VIDEO,
         video_uri=video_uri,
-        output_schema=list[VideoClaim],
+        output_schema=list[VideoClaimSchema],
     )
     try:
-        parsed = parse_model_json_output(response)
-        parsed = cast(list[dict[str, Any]], parsed)
-        claims = [VideoClaim(**claim) for claim in parsed]
+        claims = _parse_video_claims(response, video_id)
     except ValueError:
         _logger.info(f"Parsing error: {traceback.format_exc()}")
         fixed_response = run_prompt(
             FIX_JSON.replace("{TEXT}", response),
-            output_schema=list[VideoClaim],
+            output_schema=list[VideoClaimSchema],
         )
-        parsed = parse_model_json_output(fixed_response)
-        parsed = cast(list[dict[str, Any]], parsed)
-        claims = [VideoClaim(**claim) for claim in parsed]
+        claims = _parse_video_claims(fixed_response, video_id)
     return claims
 
 
 def extract_claims_from_video(
-    video_uri: str, max_attempts: int = 1
-) -> list[VideoClaim]:
+    video_id: UUID, video_uri: str, max_attempts: int = 1
+) -> list[VideoClaims]:
     """
     Extract claims made in a video.
     The claims can be audio or visual.
 
     Args:
+        video_id: UUID
+            The id of the video being processed.
         video_url: str
             A URI to a video in a Google Cloud Bucket.
             The file should be an mp4.
@@ -172,7 +221,7 @@ def extract_claims_from_video(
     """
     for _ in range(max_attempts):
         try:
-            return _get_video_claims(video_uri)
+            return _get_video_claims(video_id, video_uri)
         except Exception as exc:
             _logger.info(f"Error raised while running claim extraction: {repr(exc)}")
             traceback.print_exc()
