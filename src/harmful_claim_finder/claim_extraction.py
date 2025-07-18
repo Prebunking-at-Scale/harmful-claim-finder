@@ -89,8 +89,8 @@ CLAIMS_PROMPT_VIDEO = dedent(
 
     Topics are defined by a set of keywords.
     If a claim relates to one of the keywords, then it counts as being of that topic.
-    The claim does not have to contain the exact word, but should contain a very similar 
-    word, or be on a similar subject.
+    The claim does not have to contain the exact word, but should contain a very similar
+     word, or be on a similar subject.
     A claim can have multiple topics.
 
     Here are the keywords:
