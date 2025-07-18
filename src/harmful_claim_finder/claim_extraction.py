@@ -33,6 +33,13 @@ class TextClaimSchema(BaseModel):
             "exactly as it appears in the text"
         )
     )
+    topics: list[str] = Field(
+        description=(
+            "A list of topics which the claim relates to."
+            "The topics should be based on those described in the JSON keywords"
+            " you were given."
+        )
+    )
 
 
 class VideoClaimSchema(BaseModel):
@@ -62,17 +69,31 @@ class VideoClaimSchema(BaseModel):
     topics: list[str] = Field(
         description=(
             "A list of topics which the claim relates to."
-            "The topics should be based on those described in the JSON keywords"
-            " you were given."
+            "The topics should be based on those described by the provided keywords."
+            "This should not be []!"
         )
     )
 
 
 CLAIMS_PROMPT_TEXT = dedent(
     """
-    Find the main claims made in the provided text.
-    Include any claims that are significant to the overall narrative of the text.
+    Find the main claims made in the provided text which relate to the provided topics.
+    Include claims that are significant to the overall narrative of the text.
     Include no more than 20 of the most significant claims.
+    Do not include claims if they do not relate to any of the provided topics.
+
+    Topics are defined by a set of keywords.
+    If a claim relates to one of the keywords, then it counts as being of that topic.
+    The claim does not have to contain the exact word, but should contain a very similar
+     word, or be on a similar subject.
+    A claim can have multiple topics.
+    Do not include a claim if it relates to none of the topics.
+
+    The keywords are defined in a dictionary.
+    The keys of the dictionary are the topic names.
+    The values are the keywords, which define the topics.
+    Here are the keywords:
+    {KEYWORDS}
 
     Here is the text:
     ```
@@ -135,7 +156,7 @@ def _parse_transcript_claims(
             video_id=transcript[0].video_id,
             claim=claim.original_text,
             start_time_s=timestamp_map[claim.original_text],
-            metadata={"paraphrased": claim.claim},
+            metadata={"paraphrased": claim.claim, "topics": claim.topics},
         )
         for claim in genai_claims
     ]
@@ -144,9 +165,11 @@ def _parse_transcript_claims(
 
 async def _get_transcript_claims(
     transcript: list[TranscriptSentence],
+    keywords: dict[str, list[str]],
 ) -> list[VideoClaims]:
     transcript_text = " ".join([s.text for s in transcript])
     prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
+    prompt = prompt.replace("{KEYWORDS}", json.dumps(keywords))
     response = await run_prompt(prompt, output_schema=list[TextClaimSchema])
     try:
         claims = _parse_transcript_claims(response, transcript)
@@ -162,14 +185,24 @@ async def _get_transcript_claims(
 
 
 async def extract_claims_from_transcript(
-    transcript: list[TranscriptSentence], max_attempts: int = 1
+    transcript: list[TranscriptSentence],
+    keywords: dict[str, list[str]],
+    max_attempts: int = 1,
 ) -> list[VideoClaims]:
     """
     Extract claims made in a video transcript.
 
     Args:
-        video_url: list[str]
+        transcript: list[str]
             A list of sentences in the transcript.
+        keywords (dict[str, list[str]]):
+            A {topic: keywords} dictionary containing the kw for each topic. E.g.
+            ```python
+            {
+                "crime": ["police", "robbers"],
+                "health": ["doctor", "hospital"],
+            }
+            ```
         max_attempts: int
             The number of times the extraction will be attempted upon failure.
 
@@ -178,7 +211,7 @@ async def extract_claims_from_transcript(
     """
     for _ in range(max_attempts):
         try:
-            return await _get_transcript_claims(transcript)
+            return await _get_transcript_claims(transcript, keywords)
         except Exception as exc:
             _logger.info(f"Error raised while running claim extraction: {repr(exc)}")
             traceback.print_exc()
@@ -241,6 +274,14 @@ async def extract_claims_from_video(
         video_url: str
             A URI to a video in a Google Cloud Bucket.
             The file should be an mp4.
+        keywords (dict[str, list[str]]):
+            A {topic: keywords} dictionary containing the kw for each topic. E.g.
+            ```python
+            {
+                "crime": ["police", "robbers"],
+                "health": ["doctor", "hospital"],
+            }
+            ```
         max_attempts: int
             The number of times the extraction will be attempted upon failure.
 

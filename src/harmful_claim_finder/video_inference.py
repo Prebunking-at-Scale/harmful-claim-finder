@@ -24,7 +24,14 @@ async def get_claims(
         video_uri: str
             A URI to a video in a Google Cloud Bucket.
             The file should be an mp4.
-
+        keywords (dict[str, list[str]]):
+            A {topic: keywords} dictionary containing the kw for each topic. E.g.
+            ```python
+            {
+                "crime": ["police", "robbers"],
+                "health": ["doctor", "hospital"],
+            }
+            ```
         country_codes (list[str]):
             A list of 3-letter ISO country codes for the current sentences.
             e.g. `["GBR", "USA"]`

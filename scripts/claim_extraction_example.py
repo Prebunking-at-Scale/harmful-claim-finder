@@ -57,6 +57,11 @@ video_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
 
 def text_example() -> None:
+    kw = {
+        "vaccines": ["covid-19", "vaxxer", "vaccine"],
+        "miracle_cures": ["miracle cure", "magic herbs", "traditional medicine"],
+        "health": ["pandemic", "disease", "illness", "doctors", "medicine"],
+    }
     output = {}
     for transcript_path in transcripts:
         try:
@@ -72,7 +77,7 @@ def text_example() -> None:
                 )
                 for fragment in transcript
             ]
-            claims = asyncio.run(extract_claims_from_transcript(sentences))
+            claims = asyncio.run(extract_claims_from_transcript(sentences, kw))
             print(f"Found {len(claims)} claims in transcript {transcript_path}")
             jsonable = [claim.model_dump(mode="json") for claim in claims]
             output[transcript_path] = jsonable
@@ -107,6 +112,6 @@ def video_example() -> None:
 
 
 if __name__ == "__main__":
-    # text_example()
-    # print("-" * 100)
+    text_example()
+    print("-" * 100)
     video_example()

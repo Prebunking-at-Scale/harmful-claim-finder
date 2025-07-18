@@ -23,9 +23,21 @@ fake_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 @patch("harmful_claim_finder.claim_extraction.run_prompt")
 async def test_text_extraction(mock_run_prompt):
     dummy_claims = [
-        {"claim": "this is claim", "original_text": "this is quote"},
-        {"claim": "this is also claim", "original_text": "this is also quote"},
-        {"claim": "this is third claim", "original_text": "this is third quote"},
+        {
+            "claim": "this is claim",
+            "original_text": "this is quote",
+            "topics": ["topic"],
+        },
+        {
+            "claim": "this is also claim",
+            "original_text": "this is also quote",
+            "topics": ["topic"],
+        },
+        {
+            "claim": "this is third claim",
+            "original_text": "this is third quote",
+            "topics": ["topic"],
+        },
     ]
     dummy_transcript = [
         TranscriptSentence(
@@ -47,27 +59,28 @@ async def test_text_extraction(mock_run_prompt):
             start_time_s=3,
         ),
     ]
+    kw = {"topic": ["keyword"]}
     dummy_output = f"```json{json.dumps(dummy_claims)}```"
     mock_run_prompt.return_value = dummy_output
-    claims = await extract_claims_from_transcript(dummy_transcript)
+    claims = await extract_claims_from_transcript(dummy_transcript, kw)
     expected = [
         VideoClaims(
             video_id=fake_id,
             claim="this is quote",
             start_time_s=0,
-            metadata={"paraphrased": "this is claim"},
+            metadata={"paraphrased": "this is claim", "topics": ["topic"]},
         ),
         VideoClaims(
             video_id=fake_id,
             claim="this is also quote",
             start_time_s=1,
-            metadata={"paraphrased": "this is also claim"},
+            metadata={"paraphrased": "this is also claim", "topics": ["topic"]},
         ),
         VideoClaims(
             video_id=fake_id,
             claim="this is third quote",
             start_time_s=3,
-            metadata={"paraphrased": "this is third claim"},
+            metadata={"paraphrased": "this is third claim", "topics": ["topic"]},
         ),
     ]
     assert claims == expected
@@ -154,9 +167,10 @@ async def test_video_extraction(mock_run_prompt):
 async def test_text_extraction_bad_output(
     mock_run_prompt, output: str, error: type[Exception]
 ):
+    kw = {"topic": ["keyword"]}
     mock_run_prompt.return_value = output
     with raises(error):
-        await _get_transcript_claims([])
+        await _get_transcript_claims([], kw)
 
 
 @mark.parametrize(
@@ -197,7 +211,8 @@ async def test_video_extraction_bad_output(
 @patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
 async def test_transcript_retries(mock_run_prompt):
     try:
-        await extract_claims_from_transcript([], max_attempts=3)
+        kw = {"topic": ["keyword"]}
+        await extract_claims_from_transcript([], kw, max_attempts=3)
         assert False
     except ClaimExtractionError:
         assert True
