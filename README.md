@@ -61,3 +61,63 @@ This score assignment is handled in [pastel/inference.py](src/harmful_claim_find
 
 3. Each claim with a score is considered a claim.
 So we return a list of these scored claims for each transcript.
+
+
+### More detail
+
+There are a couple of scripts that are useful to know about in this repo.
+
+[transcript_inference.py](/src/harmful_claim_finder/transcript_inference.py) is the main script to worry about.
+This contains a function for finding claims in a transcript, using the process we described above.
+
+[video_inference.py](/src/harmful_claim_finder/video_inference.py) also finds claims, but using a video directly instead of a transcript.
+Instead of checking each sentence for topics, it extracts claims directly from the video.
+These claims are then given to PASTEL for scoring like we described [previously](#how-it-works).
+The advantage of this method is that it can find multimodal claims, not just things that are easily represented as text in a transcript.
+
+#### Components
+There are a few different components to claim detection, which I'll describe below:
+
+##### Claim Type Detection
+> Not in the MVP
+
+Categorises sentences into claim types.
+These are the possible claim types:
+```json
+[
+    "personal",
+    "quantity",
+    "correlation",
+    "rules",
+    "predictions",
+    "voting",
+    "opinion",
+    "support",
+    "other",
+    "not_claim"
+]
+```
+This information can be used by PASTEL as an input.
+
+##### Keyword Filtering
+Returns a list of topics for each sentence provided.
+Topics are defined by keywords given to it, e.g. 
+```json
+{
+    "health": ["doctor", "measles"],
+    "politics": ["parliament", "senate"]
+}
+```
+Sentences that contain similar words to the keywords will be given the relevant topic.
+
+##### Pastel
+Gives a checkworthiness score to provided sentences.
+A LLM is asked a set of yes/no questions about each sentence.
+The answers are turned into a score between 0 and 5 by a regression model.
+More information [here](/src/harmful_claim_finder/pastel).
+
+##### Claim Extraction
+> This is not part of the MVP
+
+Finds claims made in a video.
+Does not make any checkworthiness judgments about them.
