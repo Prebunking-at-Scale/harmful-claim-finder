@@ -38,8 +38,11 @@ if __name__ == "__main__":
         "war": ["gun", "bomb", "war", "warplanes", "army", "strike", "attack"],
         "migration": ["crossings", "migrants", "immigration", "migration"],
     }
+    # These are the keywords that we use to decide topics for each sentence.
 
     countries = ["GBR", "USA"]
+    # These are the countries of interest to an organisation
+    # If the transcript refers to other countries and not these, it's PASTEL score will be negatively affected.
 
     result = asyncio.run(get_claims(kw, sentences, countries), debug=True)
     pp([claim.model_dump() for claim in result])
@@ -55,9 +58,10 @@ Sentences are given a topic if they contain words similar to those listed as key
 This is done by [the topic filter](/src/harmful_claim_finder/keyword_filter/topic_keyword_filter.py).
 
 2. For each sentence which has a topic, calculate a score which says how "checkworthy" it is.
-This score is between 0 and 5, with 5 meaning it is definitely worth checking, and 0 meaning definitely not worth checking.
+This score is between 1 and 5, with 5 meaning it is definitely worth checking, and 1 meaning definitely not worth checking.
 The score is calculated using the PASTEL method, which involves asking a series of yes/no questions to a large language model and learning weights for each question.
 This score assignment is handled in [pastel/inference.py](src/harmful_claim_finder/pastel/inference.py).
+More information can be found in the [PASTEL subdirectory](/src/harmful_claim_finder/pastel/).
 
 3. Each claim with a score is considered a claim.
 So we return a list of these scored claims for each transcript.
@@ -111,13 +115,14 @@ Topics are defined by keywords given to it, e.g.
 }
 ```
 Sentences that contain similar words to the keywords will be given the relevant topic.
+A Gemini model is used for deciding how to assign topics, so it will decide if a given sentence is semantically similar to the keywords.
 
 ([keywords demo](/scripts/demos/keyword_demo.py))
 
 ##### Pastel
 Gives a checkworthiness score to provided sentences.
 A LLM is asked a set of yes/no questions about each sentence.
-The answers are turned into a score between 0 and 5 by a regression model.
+The answers are turned into a score between 1 and 5 by a regression model.
 More information [here](/src/harmful_claim_finder/pastel).
 
 ([pastel demo](/scripts/demos/pastel_demo.py))
