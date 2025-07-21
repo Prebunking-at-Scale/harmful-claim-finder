@@ -54,7 +54,7 @@ This is the basic process for finding claims in transcripts.
 
 1. Assign a list of topics to each sentence of the transcript using a Gemini prompt.
 Topics are defined by the provided keywords.
-Sentences are given a topic if they contain words similar to those listed as keywords for that topic.
+Sentences are given a topic if Gemini decides they contain words semantically similar to those listed as keywords for that topic.
 This is done by [the topic filter](/src/harmful_claim_finder/keyword_filter/topic_keyword_filter.py).
 
 2. For each sentence which has a topic, calculate a score which says how "checkworthy" it is.
