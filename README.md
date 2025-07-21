@@ -69,11 +69,13 @@ There are a couple of scripts that are useful to know about in this repo.
 
 [transcript_inference.py](/src/harmful_claim_finder/transcript_inference.py) is the main script to worry about.
 This contains a function for finding claims in a transcript, using the process we described above.
+([demo](/scripts/demos/transcript_inference_demo.py))
 
 [video_inference.py](/src/harmful_claim_finder/video_inference.py) also finds claims, but using a video directly instead of a transcript.
 Instead of checking each sentence for topics, it extracts claims directly from the video.
 These claims are then given to PASTEL for scoring like we described [previously](#how-it-works).
 The advantage of this method is that it can find multimodal claims, not just things that are easily represented as text in a transcript.
+([demo](/scripts/demos/video_inference_demo.py))
 
 #### Components
 There are a few different components to claim detection, which I'll describe below:
@@ -110,14 +112,20 @@ Topics are defined by keywords given to it, e.g.
 ```
 Sentences that contain similar words to the keywords will be given the relevant topic.
 
+([keywords demo](/scripts/demos/keyword_demo.py))
+
 ##### Pastel
 Gives a checkworthiness score to provided sentences.
 A LLM is asked a set of yes/no questions about each sentence.
 The answers are turned into a score between 0 and 5 by a regression model.
 More information [here](/src/harmful_claim_finder/pastel).
 
+([pastel demo](/scripts/demos/pastel_demo.py))
+
 ##### Claim Extraction
 > This is not part of the MVP
 
 Finds claims made in a video.
 Does not make any checkworthiness judgments about them.
+
+([claim extraction demo](/scripts/demos/claim_extraction_example.py))
