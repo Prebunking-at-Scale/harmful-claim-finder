@@ -40,4 +40,8 @@ async def get_claims(
             {**claim.metadata, "score": score} if claim.metadata else {"score": score}
         )
 
-    return claims
+    return [
+        claim
+        for claim in claims
+        if claim.metadata and claim.metadata["score"] >= pastel.checkworthy_threshold
+    ]

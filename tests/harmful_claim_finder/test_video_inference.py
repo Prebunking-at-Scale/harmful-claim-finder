@@ -24,20 +24,20 @@ scored_claims = [
         video_id=fake_id,
         claim="claim 1",
         start_time_s=0,
-        metadata={"quote": "quote 1", "score": 0.9},
+        metadata={"quote": "quote 1", "score": 5.0},
     ),
     VideoClaims(
         video_id=fake_id,
         claim="claim 2",
         start_time_s=1,
-        metadata={"quote": "quote 2", "score": 0.2},
+        metadata={"quote": "quote 2", "score": 2.5},
     ),
-    VideoClaims(
-        video_id=fake_id,
-        claim="claim 3",
-        start_time_s=2,
-        metadata={"quote": "quote 3", "score": 0},
-    ),
+    # VideoClaims(
+    #     video_id=fake_id,
+    #     claim="claim 3",
+    #     start_time_s=2,
+    #     metadata={"quote": "quote 3", "score": 2.49},
+    # ), # this claim will not be returned because the score is too low
 ]
 
 
@@ -46,7 +46,8 @@ scored_claims = [
 async def test_output_format(mock_extract_claims, mock_pastel):
     mock_extract_claims.return_value = unscored_claims
     mock_pastel_class = Mock(CheckworthyClaimDetector)
-    mock_pastel_class.score_sentences.return_value = [0.9, 0.2, 0]
+    mock_pastel_class.score_sentences.return_value = [5.0, 2.5, 2.49]
+    mock_pastel_class.checkworthy_threshold = 2.5
     mock_pastel.return_value = mock_pastel_class
     output = await get_claims(fake_id, "video_uri", ["GBR"])
     assert output == scored_claims
