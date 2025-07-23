@@ -1,7 +1,7 @@
 from collections import Counter
 from unittest.mock import patch
 
-from pytest import mark, param, raises
+from pytest import mark, param
 from test_data.dummy_keywords import test_keywords as big_test_keywords
 
 from harmful_claim_finder.keyword_filter.topic_keyword_filter import (
