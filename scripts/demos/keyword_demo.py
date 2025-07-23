@@ -7,7 +7,6 @@ from pprint import pprint
 
 from dummy_text import all_articles, test_keywords_en
 
-
 from harmful_claim_finder.keyword_filter.prompts import TOPIC_PROMPT
 from harmful_claim_finder.keyword_filter.topic_keyword_filter import TopicKeywordFilter
 
