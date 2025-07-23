@@ -4,10 +4,6 @@ from unittest.mock import patch
 from pytest import mark, param, raises
 from test_data.dummy_keywords import test_keywords as big_test_keywords
 
-from harmful_claim_finder.keyword_filter.keyword_formatter import (
-    assert_keyword_type,
-    keyword_formatter,
-)
 from harmful_claim_finder.keyword_filter.topic_keyword_filter import (
     AllKeywordsType,
     TopicKeywordFilter,
@@ -15,13 +11,12 @@ from harmful_claim_finder.keyword_filter.topic_keyword_filter import (
 from harmful_claim_finder.utils.models import ParsingError, TopicDetectionError
 
 tiny_test_keywords: AllKeywordsType = {
-    "include_lists": {
-        "test": {
-            "asylum": {"en": ["Small boat crossings"]},
-            "crime": {"en": ["Police officers"]},
-        }
+    "test": {
+        "asylum": ["Small boat crossings"],
+        "crime": ["Police officers"],
     }
 }
+
 
 test_prompt = """
 This is a test prompt.
@@ -38,116 +33,16 @@ test_article = [
 
 
 @mark.parametrize(
-    "keywords",
+    "test_keywords,org",
     [
-        param({}, id="empty dict"),
-        param(
-            {
-                "test": {
-                    "asylum": {"en": ["Small boat crossings"]},
-                    "crime": {"en": ["Police officers"]},
-                }
-            },
-            id="missing include list",
-        ),
-        param({"include_lists": {"test": {}}}, id="no keywords"),
-        param(
-            {
-                "include_lists": {
-                    "asylum": {"en": ["Small boat crossings"]},
-                    "crime": {"en": ["Police officers"]},
-                }
-            },
-            id="missing org name",
-        ),
-        param(
-            {
-                "include_lists": {
-                    "test": {
-                        "asylum": ["Small boat crossings"],
-                        "crime": {"en": ["Police officers"]},
-                    }
-                }
-            },
-            id="missing lang",
-        ),
+        param(tiny_test_keywords, "test", id="tiny keywords"),
+        param(big_test_keywords, "fullfact", id="big keywords"),
     ],
 )
-def test_keyword_type_asserter_fails(keywords) -> None:
-    with raises((AssertionError)):
-        assert_keyword_type(keywords, "en", "test")
-
-
-@mark.parametrize(
-    "keywords,org,lang,expected_reformat",
-    [
-        param(
-            {
-                "include_lists": {
-                    "another_test": {
-                        "asylum": {"en": ["Small boat crossings"]},
-                        "crime": {"en": ["Police officers"]},
-                    }
-                }
-            },
-            "test",
-            "en",
-            {},
-            id="wrong org",
-        ),
-        param(
-            {
-                "include_lists": {
-                    "test": {
-                        "asylum": {"en": ["Small boat crossings"]},
-                        "crime": {"en": ["Police officers"]},
-                    }
-                }
-            },
-            "test",
-            "fr",
-            {},
-            id="wrong lang",
-        ),
-        param(
-            {
-                "include_lists": {
-                    "test": {
-                        "asylum": {
-                            "en": ["Small boat crossings"],
-                            "fr": ["The French for small boat crossings"],
-                        },
-                        "crime": {"en": ["Police officers"], "fr": ["les gendarmes"]},
-                    }
-                }
-            },
-            "test",
-            "fr",
-            {
-                "asylum": ["The French for small boat crossings"],
-                "crime": ["les gendarmes"],
-            },
-            id="two langs",
-        ),
-        # param({}, {}, id=""),
-    ],
-)
-def test_format_keywords(keywords, org, lang, expected_reformat) -> None:
-    assert keyword_formatter(keywords, org, lang) == expected_reformat
-
-
-@mark.parametrize(
-    "test_keywords,org,lang",
-    [
-        param(tiny_test_keywords, "test", "en", id="tiny keywords"),
-        param(big_test_keywords, "fullfact", "en", id="big keywords"),
-    ],
-)
-def test_make_keyword_prompt(test_keywords, org, lang) -> None:
-    formatted_keywords = keyword_formatter(test_keywords, org, lang)
-    filter = TopicKeywordFilter(formatted_keywords, test_prompt)
+def test_make_keyword_prompt(test_keywords, org) -> None:
+    filter = TopicKeywordFilter(test_keywords[org], test_prompt)
     prompt = filter.make_keyword_prompt(test_article)
-    for _topic, keywords in formatted_keywords.items():
+    for _topic, keywords in test_keywords[org].items():
         for keyword in keywords:
             assert keyword in prompt
     assert str(test_article) in prompt
@@ -299,9 +194,8 @@ def test_format_results_article(input, article, expected_output) -> None:
 
 
 def test_mapping():
-    keywords = big_test_keywords
-    formatted_keywords = keyword_formatter(keywords, "fullfact", "en")
-    filter = TopicKeywordFilter(formatted_keywords)
+    keywords = big_test_keywords["fullfact"]
+    filter = TopicKeywordFilter(keywords)
     assert list(filter.mapped_keywords.keys()) == [
         str(i + 1) for i in range(len(filter.mapped_keywords))
     ]
@@ -312,16 +206,15 @@ def test_mapping():
 
 
 def test_unampping():
-    keywords = big_test_keywords
-    formatted_keywords = keyword_formatter(keywords, "fullfact", "en")
-    filter = TopicKeywordFilter(formatted_keywords)
+    keywords = big_test_keywords["fullfact"]
+    filter = TopicKeywordFilter(keywords)
     mapped_result = {
         f"sentence {mapped}": [mapped] for mapped in filter.topic_name_map.keys()
     }
     unmapped_result = filter.do_result_unmapping(mapped_result)
     for _, topics in unmapped_result.items():
         for topic in topics:
-            assert topic in formatted_keywords.keys()
+            assert topic in keywords.keys()
 
 
 def test_format_results_error():
