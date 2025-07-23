@@ -120,6 +120,8 @@ A Gemini model is used for deciding how to assign topics, so it will decide if a
 
 ([keywords demo](/scripts/demos/keyword_demo.py))
 
+[Keywords for EFCSN orgs](/data/EFCSN_keywords.json), and [translations of topic names](/data/topic_name_translations.json), are provided.
+
 ##### Pastel
 Gives a checkworthiness score to provided sentences.
 A LLM is asked a set of yes/no questions about each sentence.

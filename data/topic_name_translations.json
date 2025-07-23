@@ -1,0 +1,57 @@
+{
+    "health": {
+        "Maldita": "Salud",
+        "APA": "Gesundheit",
+        "LeadStories": "Health",
+        "Newtral": "Salud",
+        "DPA": "Gesundheit",
+        "Verificat": "Salud",
+        "Dogrula": "Sağlık",
+        "Info-veritas": "Salud",
+        "PA Media": "Health"
+    },
+    "climate": {
+        "Maldita": "Clima",
+        "APA": "Klima",
+        "LeadStories": "Climate",
+        "Newtral": "Clima",
+        "DPA": "Klima",
+        "Verificat": "Clima",
+        "Dogrula": "İklim",
+        "Info-veritas": "Clima",
+        "PA Media": "Climate"
+    },
+    "EU": {
+        "Maldita": "UE (Unión Europea)",
+        "APA": "EU/Europäische Union",
+        "LeadStories": "EU",
+        "Newtral": "Unión Europea",
+        "DPA": "EU",
+        "Verificat": "UE",
+        "Dogrula": "AB (Avrupa Birliği)",
+        "Info-veritas": "Unión Europea",
+        "PA Media": "EU"
+    },
+    "migration": {
+        "Maldita": "Migración",
+        "APA": "Migration",
+        "LeadStories": "Migration",
+        "Newtral": "Migración",
+        "DPA": "Migration",
+        "Verificat": "Migración",
+        "Dogrula": "Göç",
+        "Info-veritas": "Inmigración",
+        "PA Media": "Migration"
+    },
+    "conflict": {
+        "Maldita": "Conflicto",
+        "APA": "Kriegstreiber",
+        "LeadStories": "Conflict",
+        "Newtral": "Conflictos",
+        "DPA": "Konflikte",
+        "Verificat": "Conflicto",
+        "Dogrula": "Çatışma",
+        "Info-veritas": "Conflicto",
+        "PA Media": "Conflict"
+    }
+}
