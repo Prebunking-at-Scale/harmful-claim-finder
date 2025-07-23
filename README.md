@@ -63,9 +63,8 @@ The score is calculated using the PASTEL method, which involves asking a series 
 This score assignment is handled in [pastel/inference.py](src/harmful_claim_finder/pastel/inference.py).
 More information can be found in the [PASTEL subdirectory](/src/harmful_claim_finder/pastel/).
 
-3. Each claim with a score is considered a claim.
+3. Each claim with a score of at least 2.5 is considered a claim.
 So we return a list of these scored claims for each transcript.
-> Currently all claims with a score are returned, but the plan is to introduce a minimum score threshold.
 
 
 ### More detail
