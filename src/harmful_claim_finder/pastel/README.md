@@ -24,7 +24,7 @@ You can see the questions by looking in [checkworthy_model.json](/src/harmful_cl
 PASTEL can also take the output of functions as input alongside the questions asked to Gemini. 
 Each of these functions return a float.
 
-For example, currently PASTEL will see if a text is short, and if it contains a number.
+Currently, the production model does not use any of these functions, but examples would be functions which see if a text is short, or contains a number.
 
 ### Countries
 

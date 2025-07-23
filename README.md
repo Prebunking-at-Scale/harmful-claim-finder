@@ -65,6 +65,7 @@ More information can be found in the [PASTEL subdirectory](/src/harmful_claim_fi
 
 3. Each claim with a score is considered a claim.
 So we return a list of these scored claims for each transcript.
+> Currently all claims with a score are returned, but the plan is to introduce a minimum score threshold.
 
 
 ### More detail
