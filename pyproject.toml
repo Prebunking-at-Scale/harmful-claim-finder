@@ -69,3 +69,10 @@ profile = "black"
 warn_unused_configs = true
 disallow_untyped_calls = true
 check_untyped_defs = true
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+harmful_claim_finder = ["pastel/checkworthy_model.json"]
