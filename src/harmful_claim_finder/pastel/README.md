@@ -1,5 +1,7 @@
 # Some notes on Pastel models
 
+## Overview
+
 We use Pastel models for estimating checkworthiness of a sentence. Each model consists of a list of questions and a list of functions and a bias term.
 
 The questions are passed to Gemini along with the sentence; Gemini returns a list of "yes" or "no" responses which are then mapped to floats (yes=1.0, no=0.0).
@@ -9,6 +11,26 @@ Any functions in the model are given the sentence as input and generate a float 
 The bias term is a float that is included to make the model a full linear regression model.
 
 All the responses (from questions and functions) are then multiplied by the corresponding weight in the file and summed to give a final score for that sentence.
+
+### Questions
+
+A set of yes/no questions will be passed to Gemini for each sentence.
+The responses are converted to floats and used by the regression model to calculate the score.
+
+You can see the questions by looking in [checkworthy_model.json](/src/harmful_claim_finder/pastel/checkworthy_model.json), alongside their corresponding weights.
+
+### Functions
+
+PASTEL can also take the output of functions as input alongside the questions asked to Gemini. 
+Each of these functions return a float.
+
+Currently, the production model does not use any of these functions, but examples would be functions which see if a text is short, or contains a number.
+
+### Countries
+
+PASTEL will penalise sentences if they relate to any country other than those specified as relevant by an organisation.
+
+For example, if your organisation's country was "USA", and a sentence says "The bond markets in China have hit an all time high", then that sentence will have it's score reduced by 1.
 
 ## Saving/loading models
 
