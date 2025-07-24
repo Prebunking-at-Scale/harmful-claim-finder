@@ -18,6 +18,8 @@ _logger = logging.getLogger(__name__)
 class CheckworthyClaimDetector:
     """A class for detecting which claims may be worth checking"""
 
+    checkworthy_threshold: float = 2.5
+
     def __init__(self, countries: list[str]) -> None:
         self.pastel = pastel.Pastel.load_model(str(CHECKWORTHY_MODEL_FILE))
         # Add the country question, which won't be in the file

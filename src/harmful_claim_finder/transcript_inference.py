@@ -108,7 +108,9 @@ async def get_claims(
         scores = await checkworthy_model.score_sentences(have_topic, max_attempts=2)
 
         scored_sentences = {
-            sentence: score for sentence, score in zip(have_topic, scores)
+            sentence: score
+            for sentence, score in zip(have_topic, scores)
+            if score >= checkworthy_model.checkworthy_threshold
         }
 
         claims = [
