@@ -4,17 +4,30 @@
 import asyncio
 import enum
 import json
+import logging
 from collections.abc import Callable
 from typing import Dict, Tuple, TypeAlias
 
 import numpy as np
 import numpy.typing as npt
+import tenacity
+from google.api_core import exceptions as core_exceptions
 
 from harmful_claim_finder.pastel import pastel_functions
 from harmful_claim_finder.utils.gemini import run_prompt
 
+_logger = logging.getLogger(__name__)
+
 EXAMPLES_TYPE = Tuple[str, float]
 ARRAY_TYPE: TypeAlias = npt.NDArray[np.float64]
+
+RETRYABLE_EXCEPTIONS = (
+    core_exceptions.ResourceExhausted,
+    core_exceptions.InternalServerError,
+    core_exceptions.ServiceUnavailable,
+    core_exceptions.DeadlineExceeded,
+    ValueError,
+)
 
 
 class BiasType(enum.Enum):
@@ -24,6 +37,18 @@ class BiasType(enum.Enum):
 
 
 FEATURE_TYPE: TypeAlias = Callable[[str], float] | str | BiasType
+
+
+def log_retry_attempt(retry_state: tenacity.RetryCallState) -> None:
+    """Log the retry attempt number and the exception that occurred."""
+    if (not retry_state.outcome) or (not retry_state.next_action):
+        return
+
+    _logger.info(
+        f"Retrying request due to {retry_state.outcome.exception()}..."
+        f"Attempt #{retry_state.attempt_number}, "
+        f"waiting {retry_state.next_action.sleep:.2f} seconds."
+    )
 
 
 class Pastel:
@@ -161,6 +186,12 @@ class Pastel:
         label_map = {"y": 1.0, "n": 0.0}
         return label_map.get(label[0].lower(), 0.5)
 
+    @tenacity.retry(
+        wait=tenacity.wait_random_exponential(multiplier=1, max=60),
+        stop=tenacity.stop_after_attempt(3),
+        retry=tenacity.retry_if_exception_type(RETRYABLE_EXCEPTIONS),
+        before=log_retry_attempt,
+    )
     async def _get_answers_for_single_sentence(
         self, sentence: str
     ) -> dict[FEATURE_TYPE, float]:
@@ -191,15 +222,19 @@ class Pastel:
 
     async def get_answers_to_questions(
         self, sentences: list[str]
-    ) -> list[dict[FEATURE_TYPE, float]]:
+    ) -> dict[str, dict[FEATURE_TYPE, float]]:
         """Embed each example into the prompt and pass to genAI.
         For each sentence, this Returns a dictionary mapping features to scores."""
 
         jobs = [
             self._get_answers_for_single_sentence(sentence) for sentence in sentences
         ]
-        answers = await asyncio.gather(*jobs)
-        return answers
+        answers = await asyncio.gather(*jobs, return_exceptions=True)
+
+        # return the answers which didn't cause an exception
+        return {
+            s: a for s, a in zip(sentences, answers) if not isinstance(a, BaseException)
+        }
 
     def quantify_answers(self, answers: list[dict[FEATURE_TYPE, float]]) -> ARRAY_TYPE:
         """Build numpy array of answers from list of dicts of answers, with one
@@ -247,5 +282,14 @@ class Pastel:
         """Use the Pastel questions and weights model to generate
         a score for each of a list of sentences."""
         answers = await self.get_answers_to_questions(sentences)
-        scores = self.get_scores_from_answers(answers)
-        return scores
+        scores = self.get_scores_from_answers(list(answers.values()))
+
+        scores_dict = {}
+        for sentence, score in zip(answers.keys(), scores):
+            scores_dict[sentence] = float(score)
+
+        for sentence in sentences:
+            if sentence not in scores:
+                scores_dict[sentence] = 0.0
+
+        return np.array([scores_dict[sentence] for sentence in sentences])
