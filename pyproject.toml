@@ -25,6 +25,7 @@ dependencies = [
     "google-cloud-storage>=3.2.0",
     "torch>=2.7.1",
     "pytest-asyncio>=1.0.0",
+    "tenacity>=8.5.0",
 ]
 
 [[tool.uv.index]]
