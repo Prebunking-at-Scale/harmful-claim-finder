@@ -282,14 +282,17 @@ class Pastel:
         """Use the Pastel questions and weights model to generate
         a score for each of a list of sentences."""
         answers = await self.get_answers_to_questions(sentences)
-        scores = self.get_scores_from_answers(list(answers.values()))
+        if answers:
+            scores = self.get_scores_from_answers(list(answers.values()))
+        else:
+            scores = np.array([])
 
         scores_dict = {}
         for sentence, score in zip(answers.keys(), scores):
             scores_dict[sentence] = float(score)
 
         for sentence in sentences:
-            if sentence not in scores:
+            if sentence not in scores_dict:
                 scores_dict[sentence] = 0.0
 
         return np.array([scores_dict[sentence] for sentence in sentences])

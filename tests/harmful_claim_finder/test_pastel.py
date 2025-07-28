@@ -4,6 +4,9 @@ import tempfile
 import numpy as np
 import pytest
 
+from pytest import mark, param
+from unittest.mock import patch, AsyncMock
+
 from harmful_claim_finder.pastel.pastel import BiasType, Pastel
 
 # mypy: ignore-errors
@@ -78,3 +81,82 @@ def test_quantify_answers(pastel_instance: Pastel) -> None:
     assert all(x == 1 for x in numeric_answers[:, 0])
     # Given no sentences, return no answers
     assert pastel_instance.quantify_answers([]).shape[0] == 0
+
+
+@patch(
+    "harmful_claim_finder.pastel.pastel.run_prompt",
+    side_effect=ValueError("Gemini failed"),
+)
+async def test_retries(mock_run_prompt: AsyncMock, pastel_instance: Pastel) -> None:
+    sentence = "This is a claim."
+    try:
+        await pastel_instance._get_answers_for_single_sentence(sentence)
+        assert False
+    except Exception:
+        assert True
+
+    assert mock_run_prompt.call_count == 3
+
+
+@mark.parametrize(
+    "sentences,return_values,expected",
+    [
+        param(
+            ["s1", "s2"],
+            [{Q1: 1.0, Q2: 1.0}, {Q1: 1.0, Q2: 0.0}],
+            {"s1": {Q1: 1.0, Q2: 1.0}, "s2": {Q1: 1.0, Q2: 0.0}},
+            id="Normal case",
+        ),
+        param(
+            ["s1", "s2"],
+            [{Q1: 1.0, Q2: 1.0}, ValueError()],
+            {"s1": {Q1: 1.0, Q2: 1.0}},
+            id="One sentence fails",
+        ),
+        param(
+            ["s1", "s2"],
+            [ValueError, ValueError()],
+            {},
+            id="All sentences fail",
+        ),
+    ],
+)
+async def test_get_answers_to_questions(
+    sentences, return_values, expected, pastel_instance: Pastel
+):
+    with patch.object(
+        pastel_instance, "_get_answers_for_single_sentence", side_effect=return_values
+    ):
+        answers = await pastel_instance.get_answers_to_questions(sentences)
+        assert answers == expected
+
+
+@mark.parametrize(
+    "sentences,answers,expected",
+    [
+        param(
+            ["s1", "s2"],
+            {"s1": {Q1: 0.0, Q2: 1.0}, "s2": {Q1: 0.0, Q2: 0.5}},
+            np.array([3.0, 2.0]),
+            id="Normal case",
+        ),
+        param(
+            ["s1", "s2"],
+            {"s1": {Q1: 0.0, Q2: 1.0}},
+            np.array([3.0, 0.0]),
+            id="One sentence fails",
+        ),
+        param(
+            ["s1", "s2"],
+            {},
+            np.array([0.0, 0.0]),
+            id="All sentences fail",
+        ),
+    ],
+)
+async def test_make_predictions(sentences, answers, expected, pastel_instance: Pastel):
+    with patch.object(
+        pastel_instance, "get_answers_to_questions", return_value=answers
+    ):
+        predictions = await pastel_instance.make_predictions(sentences)
+        assert all(predictions == expected)
