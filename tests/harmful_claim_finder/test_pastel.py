@@ -114,7 +114,7 @@ async def test_retries(mock_run_prompt: AsyncMock, pastel_instance: Pastel) -> N
         ),
         param(
             ["s1", "s2"],
-            [ValueError, ValueError()],
+            [ValueError(), ValueError()],
             {},
             id="All sentences fail",
         ),
