@@ -1,11 +1,10 @@
 import json
 import tempfile
+from unittest.mock import AsyncMock, patch
 
 import numpy as np
 import pytest
-
 from pytest import mark, param
-from unittest.mock import patch, AsyncMock
 
 from harmful_claim_finder.pastel.pastel import BiasType, Pastel
 
@@ -122,7 +121,10 @@ async def test_retries(mock_run_prompt: AsyncMock, pastel_instance: Pastel) -> N
     ],
 )
 async def test_get_answers_to_questions(
-    sentences, return_values, expected, pastel_instance: Pastel
+    sentences: list[str],
+    return_values: list[dict[str, float] | BaseException],
+    expected: dict[str, dict[str, float]],
+    pastel_instance: Pastel,
 ):
     with patch.object(
         pastel_instance, "_get_answers_for_single_sentence", side_effect=return_values
@@ -154,7 +156,12 @@ async def test_get_answers_to_questions(
         ),
     ],
 )
-async def test_make_predictions(sentences, answers, expected, pastel_instance: Pastel):
+async def test_make_predictions(
+    sentences: list[str],
+    answers: dict[str, dict[str, float]],
+    expected: np.ndarray,
+    pastel_instance: Pastel,
+):
     with patch.object(
         pastel_instance, "get_answers_to_questions", return_value=answers
     ):
