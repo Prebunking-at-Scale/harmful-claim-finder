@@ -59,8 +59,10 @@ def learn_weights(
 
     examples = load_examples(training_data_filename)
     answers = asyncio.run(pasteliser.get_answers_to_questions([e[0] for e in examples]))
-    predictions = pasteliser.quantify_answers(answers)
-    targs = [e[1] for e in examples]
+    predictions = pasteliser.quantify_answers(list(answers.values()))
+
+    examples_with_scores = [ex for ex in examples if ex[0] in answers.keys()]
+    targs = [e[1] for e in examples_with_scores]
     targs_arr = np.array(targs)
     pred_arr = np.array(predictions)
     weights = lin_reg(pred_arr, targs_arr)
