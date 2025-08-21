@@ -74,7 +74,5 @@ if __name__ == "__main__":
         "migration": ["crossings", "migrants", "immigration", "migration"],
     }
 
-    countries = ["GBR", "USA"]
-
-    result = asyncio.run(get_claims(kw, sentences, countries), debug=True)
+    result = asyncio.run(get_claims(kw, sentences), debug=True)
     pp([claim.model_dump() for claim in result])
