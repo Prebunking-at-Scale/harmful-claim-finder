@@ -65,7 +65,7 @@ def demo_inference() -> None:
         "Environment Secretary Steve Reed has previously said government intervention "
         "in Thames Water would 'cost billions and take years'.",
     ]
-    cw_predictor = pastel_inference.CheckworthyClaimDetector(countries=["GBR"])
+    cw_predictor = pastel_inference.CheckworthyClaimDetector()
     scores = asyncio.run(cw_predictor.score_sentences(examples))
     _ = [print(f"{s:4.1f} \t{e}") for s, e in sorted(zip(scores, examples))]
 

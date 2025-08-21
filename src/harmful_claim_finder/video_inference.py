@@ -13,7 +13,6 @@ async def get_claims(
     video_id: UUID,
     video_uri: str,
     keywords: dict[str, list[str]],
-    country_codes: list[str],
 ) -> list[VideoClaims]:
     """
     Retrieve claims from a video directly.
@@ -32,9 +31,6 @@ async def get_claims(
                 "health": ["doctor", "hospital"],
             }
             ```
-        country_codes (list[str]):
-            A list of 3-letter ISO country codes for the current sentences.
-            e.g. `["GBR", "USA"]`
 
     Returns:
         list[VideoClaims]
@@ -43,7 +39,7 @@ async def get_claims(
     claims: list[VideoClaims] = await extract_claims_from_video(
         video_id, video_uri, keywords
     )
-    pastel = CheckworthyClaimDetector(countries=country_codes)
+    pastel = CheckworthyClaimDetector()
     claims_text = [claim.claim for claim in claims]
     scores = await pastel.score_sentences(claims_text, max_attempts=2)
 

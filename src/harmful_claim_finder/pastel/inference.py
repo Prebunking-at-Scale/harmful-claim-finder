@@ -18,17 +18,8 @@ _logger = logging.getLogger(__name__)
 class CheckworthyClaimDetector:
     """A class for detecting which claims may be worth checking"""
 
-    def __init__(self, countries: list[str]) -> None:
+    def __init__(self) -> None:
         self.pastel = pastel.Pastel.load_model(str(CHECKWORTHY_MODEL_FILE))
-        # Add the country question, which won't be in the file
-        country_list = "[" + ", ".join(countries) + "]"
-        new_question = (
-            "Identify any country named in the sentence, ignoring cities, regions and other places. "
-            f"If this sentence mentions any country in this list: {country_list} answer 'no'. If it doesn't name any country at all then also answer 'no'. "
-            "If you're not sure, answer 'no'. Only answer 'yes' if it mentions or is clearly about some other country not on that list. "
-        )
-
-        self.pastel.model[new_question] = -1.0
 
     async def score_sentences(
         self, sentences: list[str], max_attempts: int = 3
