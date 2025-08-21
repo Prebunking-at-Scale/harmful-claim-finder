@@ -26,12 +26,6 @@ Each of these functions return a float.
 
 Currently, the production model does not use any of these functions, but examples would be functions which see if a text is short, or contains a number.
 
-### Countries
-
-PASTEL will penalise sentences if they relate to any country other than those specified as relevant by an organisation.
-
-For example, if your organisation's country was "USA", and a sentence says "The bond markets in China have hit an all time high", then that sentence will have it's score reduced by 1.
-
 ## Saving/loading models
 
 Models are stored a JSON files. To achieve this, Callable functions are converted to strings (i.e. the function names) in `save_model()`. When re-loaded (i.e `load_model()`), any key that matches a function name in `pastel_functions.py` is converted to a Callable. Similarly, the bias term is saved with the key `bias` and that's converted to the special bias type on load.
