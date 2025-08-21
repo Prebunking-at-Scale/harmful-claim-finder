@@ -40,11 +40,7 @@ if __name__ == "__main__":
     }
     # These are the keywords that we use to decide topics for each sentence.
 
-    countries = ["GBR", "USA"]
-    # These are the countries of interest to an organisation
-    # If the transcript refers to other countries and not these, it's PASTEL score will be negatively affected.
-
-    result = asyncio.run(get_claims(kw, sentences, countries), debug=True)
+    result = asyncio.run(get_claims(kw, sentences), debug=True)
     pp([claim.model_dump() for claim in result])
 
 ```
