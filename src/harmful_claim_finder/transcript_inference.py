@@ -1,7 +1,6 @@
 import logging
 import time
 
-import pycountry
 
 from harmful_claim_finder.keyword_filter.topic_keyword_filter import TopicKeywordFilter
 from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
@@ -16,40 +15,9 @@ from harmful_claim_finder.utils.models import (
 logger = logging.getLogger(__name__)
 
 
-def parse_country_codes(codes: list[str]) -> list[str]:
-    """
-    Converts a list of ISO 3 letter country codes into a list of country names.
-    For some countries that are known by multiple names, we manually expand the
-    list accordingly.
-
-    Args:
-        codes (list[str]):
-            A list of ISO country codes, e.g. `["GBR", "USA"]`.
-
-    Returns:
-        A list of country names, e.g. `["United Kingdom", "United States"]`
-    """
-    try:
-        country_names = [pycountry.countries.get(alpha_3=code).name for code in codes]
-        if "United Kingdom" in country_names:
-            country_names.extend(
-                ["England", "Wales", "Scotland", "Northern Ireland", "Britain", "UK"]
-            )
-        if "United States" in country_names:
-            country_names.extend(["America", "USA"])
-
-        return country_names
-    except AttributeError as exc:
-        logger.error(
-            "One of the countries in %s could not be found by pycountry.", codes
-        )
-        raise CheckworthyError from exc
-
-
 async def get_claims(
     keywords: dict[str, list[str]],
     sentences: list[TranscriptSentence],
-    country_codes: list[str],
 ) -> list[VideoClaims]:
     """
     A wrapper function to run genai checkworthy.
@@ -67,10 +35,6 @@ async def get_claims(
             ```
         sentences (list[TranscriptSentence]):
             A list of transcript sentences to run checkworthy on.
-
-        country_codes (list[str]):
-            A list of 3-letter ISO country codes for the current sentences.
-            e.g. `["GBR", "USA"]`
 
     Returns:
         A list of claims contained within the transcript.
@@ -101,9 +65,8 @@ async def get_claims(
             return []
 
         pastel_start_time = time.time()
-        country_names = parse_country_codes(country_codes)
 
-        checkworthy_model = CheckworthyClaimDetector(countries=country_names)
+        checkworthy_model = CheckworthyClaimDetector()
 
         scores = await checkworthy_model.score_sentences(have_topic, max_attempts=2)
 
