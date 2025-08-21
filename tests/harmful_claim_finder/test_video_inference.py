@@ -58,5 +58,5 @@ async def test_output_format(mock_extract_claims, mock_pastel):
     mock_pastel_class.score_sentences.return_value = [0.9, 0.2, 0]
     mock_pastel.return_value = mock_pastel_class
     kw = {"topic": ["keyword"]}
-    output = await get_claims(fake_id, "video_uri", kw, ["GBR"])
+    output = await get_claims(fake_id, "video_uri", kw)
     assert output == scored_claims
