@@ -66,21 +66,21 @@ async def test_text_extraction(mock_run_prompt):
     expected = [
         VideoClaims(
             video_id=fake_id,
-            claim="this is quote",
+            claim="this is claim",
             start_time_s=0,
-            metadata={"paraphrased": "this is claim", "topics": ["topic"]},
+            metadata={"quote": "this is quote", "topics": ["topic"]},
         ),
         VideoClaims(
             video_id=fake_id,
-            claim="this is also quote",
+            claim="this is also claim",
             start_time_s=1,
-            metadata={"paraphrased": "this is also claim", "topics": ["topic"]},
+            metadata={"quote": "this is also quote", "topics": ["topic"]},
         ),
         VideoClaims(
             video_id=fake_id,
-            claim="this is third quote",
+            claim="this is third claim",
             start_time_s=3,
-            metadata={"paraphrased": "this is third claim", "topics": ["topic"]},
+            metadata={"quote": "this is third quote", "topics": ["topic"]},
         ),
     ]
     assert claims == expected

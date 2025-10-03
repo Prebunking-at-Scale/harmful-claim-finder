@@ -5,7 +5,7 @@ from textwrap import dedent
 from typing import Any, cast
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 
 from harmful_claim_finder.utils.gemini import run_prompt
 from harmful_claim_finder.utils.models import (
@@ -136,7 +136,7 @@ def _get_timestamps(
 ) -> dict[str, float]:
     sentences = [s.text for s in transcript]
     quotes = [claim.original_text for claim in claims]
-    linked = link_quotes_and_sentences(quotes, sentences)
+    linked = link_quotes_and_sentences(quotes, sentences, 70)
     quote_timestamps = {
         claims[quote_idx].original_text: transcript[sentence_idx].start_time_s
         for quote_idx, sentence_idx, _ in linked
@@ -149,17 +149,29 @@ def _parse_transcript_claims(
 ) -> list[VideoClaims]:
     parsed = parse_model_json_output(genai_response)
     parsed = cast(list[dict[str, Any]], parsed)
-    genai_claims = [TextClaimSchema(**claim) for claim in parsed]
+    genai_claims = []
+    for claim_dict in parsed:
+        try:
+            genai_claims.append(TextClaimSchema(**claim_dict))
+        except ValidationError:
+            _logger.info(
+                f"Skipped malformed json: {json.dumps(claim_dict, ensure_ascii=False)}"
+            )
     timestamp_map = _get_timestamps(genai_claims, transcript)
-    output_claims = [
-        VideoClaims(
-            video_id=transcript[0].video_id,
-            claim=claim.original_text,
-            start_time_s=timestamp_map[claim.original_text],
-            metadata={"paraphrased": claim.claim, "topics": claim.topics},
+
+    most_recent_time = 0.0
+    output_claims = []
+    for claim in genai_claims:
+        new_timestamp = timestamp_map.get(claim.original_text, most_recent_time)
+        most_recent_time = new_timestamp
+        output_claims.append(
+            VideoClaims(
+                video_id=transcript[0].video_id,
+                claim=claim.claim,
+                start_time_s=new_timestamp,
+                metadata={"quote": claim.original_text, "topics": claim.topics},
+            )
         )
-        for claim in genai_claims
-    ]
     return output_claims
 
 
