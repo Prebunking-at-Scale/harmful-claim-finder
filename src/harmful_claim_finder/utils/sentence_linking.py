@@ -11,7 +11,9 @@ class Span(BaseModel):
 
 
 def find_quote_in_sentence(
-    sentence: str, quote: str, threshold: float = 80
+    sentence: str,
+    quote: str,
+    threshold: float,
 ) -> Span | None:
     """
     Returns a span for the quote within the sentence if there's a match.
@@ -22,6 +24,9 @@ def find_quote_in_sentence(
         The sentence to search inside
     quote: str
         The string to find inside the sentence
+    threshold: float
+        The threshold for what counts as a sentence.
+        You can think of it as a percentage of overlap required for something to be a match.
 
     Returns
     -------
@@ -41,7 +46,9 @@ def find_quote_in_sentence(
 
 
 def get_best_matching_sentence_for_quote(
-    original_quote: str, sentences: list[str]
+    original_quote: str,
+    sentences: list[str],
+    match_threshold: float,
 ) -> tuple[int, Span, float] | None:
     """
     Finds the best matching sentence for the given quote out of the provided sentences.
@@ -53,6 +60,9 @@ def get_best_matching_sentence_for_quote(
         In most use cases, this would be the quote made by the Gen AI model.
     sentences: list[str]
         A list of sentences to search.
+    match_threshold: float
+        The threshold for what counts as a sentence.
+        You can think of it as a percentage of overlap required for something to be a match.
 
     Returns
     -------
@@ -66,7 +76,8 @@ def get_best_matching_sentence_for_quote(
     sentences_matching_quote = [
         (sentence_idx, span, fuzz.ratio(original_quote, sentence))
         for sentence_idx, sentence in enumerate(sentences)
-        if (span := find_quote_in_sentence(sentence, original_quote)) is not None
+        if (span := find_quote_in_sentence(sentence, original_quote, match_threshold))
+        is not None
     ]
 
     # return None if there's no matching sentences
@@ -80,7 +91,9 @@ def get_best_matching_sentence_for_quote(
 
 
 def link_quotes_and_sentences(
-    quotes: list[str], sentences: list[str]
+    quotes: list[str],
+    sentences: list[str],
+    match_threshold: float = 80,
 ) -> list[tuple[int, int, Span]]:
     """
     Links pairs of matching quotes and sentences.
@@ -93,6 +106,9 @@ def link_quotes_and_sentences(
         A list of quotes to find matches for.
     sentences: list[str]
         A list of sentences to search against each quote.
+    match_threshold: float = 80
+        The threshold for what counts as a sentence.
+        You can think of it as a percentage of overlap required for something to be a match.
 
     Returns
     -------
@@ -106,6 +122,10 @@ def link_quotes_and_sentences(
     return [
         (quote_idx, best_sentence[0], best_sentence[1])
         for quote_idx, quote in enumerate(quotes)
-        if (best_sentence := get_best_matching_sentence_for_quote(quote, sentences))
+        if (
+            best_sentence := get_best_matching_sentence_for_quote(
+                quote, sentences, match_threshold
+            )
+        )
         is not None
     ]
