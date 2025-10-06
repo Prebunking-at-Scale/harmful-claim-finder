@@ -11,7 +11,9 @@ class Span(BaseModel):
 
 
 def find_quote_in_sentence(
-    sentence: str, quote: str, threshold: float = 80
+    sentence: str,
+    quote: str,
+    threshold: float,
 ) -> Span | None:
     """
     Returns a span for the quote within the sentence if there's a match.
@@ -22,7 +24,7 @@ def find_quote_in_sentence(
         The sentence to search inside
     quote: str
         The string to find inside the sentence
-    threshold: float = 80
+    threshold: float
         The threshold for what counts as a sentence.
         You can think of it as a percentage of overlap required for something to be a match.
 
@@ -46,7 +48,7 @@ def find_quote_in_sentence(
 def get_best_matching_sentence_for_quote(
     original_quote: str,
     sentences: list[str],
-    match_threshold: float = 80,
+    match_threshold: float,
 ) -> tuple[int, Span, float] | None:
     """
     Finds the best matching sentence for the given quote out of the provided sentences.
@@ -58,7 +60,7 @@ def get_best_matching_sentence_for_quote(
         In most use cases, this would be the quote made by the Gen AI model.
     sentences: list[str]
         A list of sentences to search.
-    match_threshold: float = 80
+    match_threshold: float
         The threshold for what counts as a sentence.
         You can think of it as a percentage of overlap required for something to be a match.
 

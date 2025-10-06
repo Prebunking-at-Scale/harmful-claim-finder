@@ -38,6 +38,11 @@ async def test_text_extraction(mock_run_prompt):
             "original_text": "this is third quote",
             "topics": ["topic"],
         },
+        {
+            "claim": "this is fourth claim",
+            "original_text": "doesn't appear anywhere",
+            "topics": ["topic"],
+        },
     ]
     dummy_transcript = [
         TranscriptSentence(
@@ -57,6 +62,12 @@ async def test_text_extraction(mock_run_prompt):
             source="",
             text="this is third quote from PM",
             start_time_s=3,
+        ),
+        TranscriptSentence(
+            video_id=fake_id,
+            source="",
+            text="fourth sentence now please",
+            start_time_s=4,
         ),
     ]
     kw = {"topic": ["keyword"]}
@@ -81,6 +92,12 @@ async def test_text_extraction(mock_run_prompt):
             claim="this is third claim",
             start_time_s=3,
             metadata={"quote": "this is third quote", "topics": ["topic"]},
+        ),
+        VideoClaims(
+            video_id=fake_id,
+            claim="this is fourth claim",
+            start_time_s=3,
+            metadata={"quote": "doesn't appear anywhere", "topics": ["topic"]},
         ),
     ]
     assert claims == expected

@@ -86,7 +86,7 @@ from harmful_claim_finder.utils.sentence_linking import (
     ],
 )
 def test_find_claim_in_sentence(sentence: str, claim: str, expected: Span):
-    span = find_quote_in_sentence(sentence, claim)
+    span = find_quote_in_sentence(sentence, claim, 80)
     assert span == expected
 
 
@@ -165,7 +165,7 @@ def test_get_best_matching_sentence_for_quote(
     sentences: list[str],
     expected_sent_idx: int,
 ):
-    best_match = get_best_matching_sentence_for_quote(quote, sentences)
+    best_match = get_best_matching_sentence_for_quote(quote, sentences, 80)
 
     if best_match is None:
         assert expected_sent_idx == -1
