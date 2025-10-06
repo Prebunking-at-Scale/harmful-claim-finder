@@ -152,14 +152,9 @@ async def test_video_extraction(mock_run_prompt):
             id="String - won't parse",
         ),
         param(
-            """{"1": {"claim": "c", "quote": "q"},}""",
+            """{"1": {"claim": "c", "original_text": "q"},}""",
             TypeError,
             id="Dictionary",
-        ),
-        param(
-            """[{"claim": "claim", "quote": "quote"}]""",
-            ValidationError,
-            id="Wrong keys",
         ),
     ],
 )
@@ -171,6 +166,69 @@ async def test_text_extraction_bad_output(
     mock_run_prompt.return_value = output
     with raises(error):
         await _get_transcript_claims([], kw)
+
+
+@mark.parametrize(
+    "output,transcript,expected",
+    [
+        param(
+            """[{"claim": "claim", "original_text": "quote"}]""",
+            [
+                TranscriptSentence(
+                    video_id=fake_id,
+                    source="",
+                    text="quote",
+                    start_time_s=0,
+                    metadata=None,
+                )
+            ],
+            [],
+            id="All missing",
+        ),
+        param(
+            """
+            [{"claim": "claim", "original_text": "quote 1"},
+            {"claim": "claim", "original_text": "quote 2", "topics": ["topic"]}]
+            """,
+            [
+                TranscriptSentence(
+                    video_id=fake_id,
+                    source="",
+                    text="quote 1",
+                    start_time_s=0,
+                    metadata=None,
+                ),
+                TranscriptSentence(
+                    video_id=fake_id,
+                    source="",
+                    text="quote 2",
+                    start_time_s=1,
+                    metadata=None,
+                ),
+            ],
+            [
+                VideoClaims(
+                    video_id=fake_id,
+                    claim="claim",
+                    start_time_s=1.0,
+                    metadata={"quote": "quote 2", "topics": ["topic"]},
+                )
+            ],
+            id="Some missing",
+        ),
+    ],
+)
+@patch("harmful_claim_finder.claim_extraction.run_prompt")
+async def test_text_extraction_missing_keys(
+    mock_run_prompt,
+    output: str,
+    transcript: list[TranscriptSentence],
+    expected: list[VideoClaims],
+):
+    kw = {"topic": ["keyword"]}
+    mock_run_prompt.return_value = output
+    claims = await _get_transcript_claims(transcript, kw)
+    assert claims == expected
 
 
 @mark.parametrize(
