@@ -6,7 +6,13 @@ Claims can span more than one sentence, or be a span within a sentence.
 
 from harmful_claim_finder.claim_extraction import extract_claims_from_transcript
 from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
-from harmful_claim_finder.utils.models import TranscriptSentence, VideoClaims
+from harmful_claim_finder.utils.models import (
+    CheckworthyError,
+    ClaimExtractionError,
+    PastelError,
+    TranscriptSentence,
+    VideoClaims,
+)
 
 
 async def get_claims(
@@ -32,17 +38,26 @@ async def get_claims(
     Returns:
         list[VideoClaims]
             A list of claims, marked up with scores.
+
+    Raises:
+        CheckworthyError:
+            If something goes wrong during claim extraction or
+            pastel, the CheckworthyError will say what went wrong.
     """
-    claims: list[VideoClaims] = await extract_claims_from_transcript(
-        transcript=transcript, keywords=keywords, max_attempts=2
-    )
-    pastel = CheckworthyClaimDetector()
-    claims_text = [claim.claim for claim in claims]
-    scores = await pastel.score_sentences(claims_text, max_attempts=2)
-
-    for claim, score in zip(claims, scores):
-        claim.metadata = (
-            {**claim.metadata, "score": score} if claim.metadata else {"score": score}
+    try:
+        claims: list[VideoClaims] = await extract_claims_from_transcript(
+            transcript=transcript, keywords=keywords, max_attempts=2
         )
+        pastel = CheckworthyClaimDetector()
+        claims_text = [claim.claim for claim in claims]
+        scores = await pastel.score_sentences(claims_text, max_attempts=2)
 
-    return claims
+        for claim, score in zip(claims, scores):
+            claim.metadata = (
+                {**claim.metadata, "score": score}
+                if claim.metadata
+                else {"score": score}
+            )
+        return claims
+    except (ClaimExtractionError, PastelError) as exc:
+        raise CheckworthyError from exc
