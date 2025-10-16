@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from pytest import mark, param
 
-from harmful_claim_finder.pastel.pastel import BiasType, Pastel
+from harmful_claim_finder.pastel.pastel import BiasType, Pastel, ScoresAndAnswers
 
 # mypy: ignore-errors
 # getting "Untyped decorator makes function ... untyped " so ignoring for now:
@@ -139,19 +139,28 @@ async def test_get_answers_to_questions(
         param(
             ["s1", "s2"],
             {"s1": {Q1: 0.0, Q2: 1.0}, "s2": {Q1: 0.0, Q2: 0.5}},
-            np.array([3.0, 2.0]),
+            {
+                "s1": ScoresAndAnswers(score=3.0, answers={Q1: 0.0, Q2: 1.0}),
+                "s2": ScoresAndAnswers(score=2.0, answers={Q1: 0.0, Q2: 0.5}),
+            },
             id="Normal case",
         ),
         param(
             ["s1", "s2"],
             {"s1": {Q1: 0.0, Q2: 1.0}},
-            np.array([3.0, 0.0]),
+            {
+                "s1": ScoresAndAnswers(score=3.0, answers={Q1: 0.0, Q2: 1.0}),
+                "s2": ScoresAndAnswers(score=0.0, answers={}),
+            },
             id="One sentence fails",
         ),
         param(
             ["s1", "s2"],
             {},
-            np.array([0.0, 0.0]),
+            {
+                "s1": ScoresAndAnswers(score=0.0, answers={}),
+                "s2": ScoresAndAnswers(score=0.0, answers={}),
+            },
             id="All sentences fail",
         ),
     ],
@@ -159,11 +168,11 @@ async def test_get_answers_to_questions(
 async def test_make_predictions(
     sentences: list[str],
     answers: dict[str, dict[str, float]],
-    expected: np.ndarray,
+    expected: dict[str, ScoresAndAnswers],
     pastel_instance: Pastel,
 ):
     with patch.object(
         pastel_instance, "get_answers_to_questions", return_value=answers
     ):
         predictions = await pastel_instance.make_predictions(sentences)
-        assert all(predictions == expected)
+        assert predictions == expected
