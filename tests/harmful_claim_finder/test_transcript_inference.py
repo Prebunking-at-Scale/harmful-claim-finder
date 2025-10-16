@@ -1,13 +1,13 @@
 from unittest.mock import Mock, patch
 from uuid import UUID
 
-from harmful_claim_finder.utils.models import TranscriptSentence, VideoClaims
+from harmful_claim_finder.pastel.pastel import ScoresAndAnswers
 from harmful_claim_finder.transcript_inference import (
-    get_claims,
     CheckworthyClaimDetector,
     TopicKeywordFilter,
+    get_claims,
 )
-from harmful_claim_finder.pastel.pastel import ScoresAndAnswers
+from harmful_claim_finder.utils.models import TranscriptSentence, VideoClaims
 
 fake_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 

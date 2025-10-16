@@ -2,9 +2,9 @@ from unittest.mock import Mock, patch
 from uuid import UUID
 
 from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
+from harmful_claim_finder.pastel.pastel import ScoresAndAnswers
 from harmful_claim_finder.utils.models import VideoClaims
 from harmful_claim_finder.video_inference import get_claims
-from harmful_claim_finder.pastel.pastel import ScoresAndAnswers
 
 fake_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
