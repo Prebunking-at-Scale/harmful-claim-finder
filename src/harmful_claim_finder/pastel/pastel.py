@@ -301,6 +301,8 @@ class Pastel:
         for sentence in sentences:
             if sentence not in scores_dict:
                 scores_dict[sentence] = 0.0
+            if sentence not in answers.keys():
+                answers[sentence] = {}
 
         return {
             sentence: ScoresAndAnswers(
