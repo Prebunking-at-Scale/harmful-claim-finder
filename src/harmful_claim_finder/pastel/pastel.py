@@ -6,7 +6,7 @@ import enum
 import json
 import logging
 from collections.abc import Callable
-from typing import Dict, Tuple, TypeAlias
+from typing import Dict, Tuple, TypeAlias, TypedDict
 
 import numpy as np
 import numpy.typing as npt
@@ -37,6 +37,11 @@ class BiasType(enum.Enum):
 
 
 FEATURE_TYPE: TypeAlias = Callable[[str], float] | str | BiasType
+
+
+class ScoresAndAnswers(TypedDict):
+    score: float
+    answers: dict[FEATURE_TYPE, float]
 
 
 def log_retry_attempt(retry_state: tenacity.RetryCallState) -> None:
@@ -278,7 +283,9 @@ class Pastel:
         scores = X.dot(weights)
         return scores
 
-    async def make_predictions(self, sentences: list[str]) -> ARRAY_TYPE:
+    async def make_predictions(
+        self, sentences: list[str]
+    ) -> dict[str, ScoresAndAnswers]:
         """Use the Pastel questions and weights model to generate
         a score for each of a list of sentences."""
         answers = await self.get_answers_to_questions(sentences)
@@ -295,4 +302,9 @@ class Pastel:
             if sentence not in scores_dict:
                 scores_dict[sentence] = 0.0
 
-        return np.array([scores_dict[sentence] for sentence in sentences])
+        return {
+            sentence: ScoresAndAnswers(
+                score=scores_dict[sentence], answers=answers[sentence]
+            )
+            for sentence in sentences
+        }
