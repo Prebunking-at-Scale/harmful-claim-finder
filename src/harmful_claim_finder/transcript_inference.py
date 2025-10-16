@@ -23,8 +23,9 @@ async def get_claims(
     First finds the topics for each provided sentence.
     Next runs any sentences with topics through PASTEL to get a checkworthy score.
 
-    Args:
-        keywords (dict[str, list[str]]):
+    Args
+    ----
+        keywords (dict[str, list[str]])
             A {topic: keywords} dictionary containing the kw for each topic. E.g.
             ```python
             {
@@ -32,13 +33,15 @@ async def get_claims(
                 "health": ["doctor", "hospital"],
             }
             ```
-        sentences (list[TranscriptSentence]):
+        sentences (list[TranscriptSentence])
             A list of transcript sentences to run checkworthy on.
 
-    Returns:
+    Returns
+    -------
         A list of claims contained within the transcript.
 
-    Raises:
+    Raises
+    ------
         CheckworthyError:
             If something goes wrong during topic detection or
             pastel, the CheckworthyError will say what went wrong.
@@ -67,7 +70,7 @@ async def get_claims(
 
         checkworthy_model = CheckworthyClaimDetector()
 
-        scores_and_answers = await checkworthy_model.score_sentences(
+        all_scores_and_answers = await checkworthy_model.score_sentences(
             have_topic, max_attempts=2
         )
 
@@ -79,21 +82,21 @@ async def get_claims(
                 metadata=(
                     {
                         **sentence.metadata,
-                        "score": float(scores_and_answers[sentence.text]["score"]),
+                        "score": float(all_scores_and_answers[sentence.text]["score"]),
                         "topics": topic_keywords[sentence.text],
-                        "answers": scores_and_answers[sentence.text]["answers"],
+                        "answers": all_scores_and_answers[sentence.text]["answers"],
                     }
                     if sentence.metadata
                     else {
-                        "score": float(scores_and_answers[sentence.text]["score"]),
+                        "score": float(all_scores_and_answers[sentence.text]["score"]),
                         "topics": topic_keywords[sentence.text],
-                        "answers": scores_and_answers[sentence.text]["answers"],
+                        "answers": all_scores_and_answers[sentence.text]["answers"],
                     }
                 ),
             )
             for sentence in sentences
-            if sentence.text in scores_and_answers.keys()
-            and scores_and_answers[sentence.text]["score"] > 0
+            if sentence.text in all_scores_and_answers.keys()
+            and all_scores_and_answers[sentence.text]["score"] > 0
         ]
 
         pastel_runtime = time.time() - pastel_start_time

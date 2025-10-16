@@ -40,6 +40,9 @@ FEATURE_TYPE: TypeAlias = Callable[[str], float] | str | BiasType
 
 
 class ScoresAndAnswers(TypedDict):
+    """Used to parse scores for sentences and store the answers to
+    PASTEL questions."""
+
     score: float
     answers: dict[FEATURE_TYPE, float]
 
@@ -287,7 +290,8 @@ class Pastel:
         self, sentences: list[str]
     ) -> dict[str, ScoresAndAnswers]:
         """Use the Pastel questions and weights model to generate
-        a score for each of a list of sentences."""
+        a score for each of a list of sentences. Return this along with
+        the questions and their scores."""
         answers = await self.get_answers_to_questions(sentences)
         if answers:
             scores = self.get_scores_from_answers(list(answers.values()))

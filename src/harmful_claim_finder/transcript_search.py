@@ -23,8 +23,9 @@ async def get_claims(
     Retrieve claims from a video transcript.
     Claims can be more than one sentence, or part of a sentence.
 
-    Args:
-        keywords (dict[str, list[str]]):
+    Args
+    ----
+        keywords (dict[str, list[str]])
             A {topic: keywords} dictionary containing the kw for each topic. E.g.
             ```python
             {
@@ -32,15 +33,17 @@ async def get_claims(
                 "health": ["doctor", "hospital"],
             }
             ```
-        transcript (list[TranscriptSentence]):
+        transcript (list[TranscriptSentence])
             The transcript you want to search for claims.
 
-    Returns:
+    Returns
+    -------
         list[VideoClaims]
             A list of claims, marked up with scores.
 
-    Raises:
-        CheckworthyError:
+    Raises
+    ------
+        CheckworthyError
             If something goes wrong during claim extraction or
             pastel, the CheckworthyError will say what went wrong.
     """
