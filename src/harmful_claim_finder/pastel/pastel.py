@@ -43,6 +43,7 @@ class ScoresAndAnswers(TypedDict):
     """Used to parse scores for sentences and store the answers to
     PASTEL questions."""
 
+    sentence: str
     score: float
     answers: dict[FEATURE_TYPE, float]
 
@@ -310,7 +311,9 @@ class Pastel:
 
         return {
             sentence: ScoresAndAnswers(
-                score=scores_dict[sentence], answers=answers[sentence]
+                sentence=sentence,
+                score=scores_dict[sentence],
+                answers=answers[sentence],
             )
             for sentence in sentences
         }

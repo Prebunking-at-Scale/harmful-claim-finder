@@ -140,8 +140,12 @@ async def test_get_answers_to_questions(
             ["s1", "s2"],
             {"s1": {Q1: 0.0, Q2: 1.0}, "s2": {Q1: 0.0, Q2: 0.5}},
             {
-                "s1": ScoresAndAnswers(score=3.0, answers={Q1: 0.0, Q2: 1.0}),
-                "s2": ScoresAndAnswers(score=2.0, answers={Q1: 0.0, Q2: 0.5}),
+                "s1": ScoresAndAnswers(
+                    sentence="s1", score=3.0, answers={Q1: 0.0, Q2: 1.0}
+                ),
+                "s2": ScoresAndAnswers(
+                    sentence="s2", score=2.0, answers={Q1: 0.0, Q2: 0.5}
+                ),
             },
             id="Normal case",
         ),
@@ -149,8 +153,10 @@ async def test_get_answers_to_questions(
             ["s1", "s2"],
             {"s1": {Q1: 0.0, Q2: 1.0}},
             {
-                "s1": ScoresAndAnswers(score=3.0, answers={Q1: 0.0, Q2: 1.0}),
-                "s2": ScoresAndAnswers(score=0.0, answers={}),
+                "s1": ScoresAndAnswers(
+                    sentence="s1", score=3.0, answers={Q1: 0.0, Q2: 1.0}
+                ),
+                "s2": ScoresAndAnswers(sentence="s2", score=0.0, answers={}),
             },
             id="One sentence fails",
         ),
@@ -158,8 +164,8 @@ async def test_get_answers_to_questions(
             ["s1", "s2"],
             {},
             {
-                "s1": ScoresAndAnswers(score=0.0, answers={}),
-                "s2": ScoresAndAnswers(score=0.0, answers={}),
+                "s1": ScoresAndAnswers(sentence="s1", score=0.0, answers={}),
+                "s2": ScoresAndAnswers(sentence="s2", score=0.0, answers={}),
             },
             id="All sentences fail",
         ),
