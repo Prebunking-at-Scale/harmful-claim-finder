@@ -18,9 +18,9 @@ async def get_claims(
     Retrieve claims from a video directly.
 
     Args:
-        video_id: UUID
+        video_id (UUID):
             The id of the video being processed.
-        video_uri: str
+        video_uri (str):
             A URI to a video in a Google Cloud Bucket.
             The file should be an mp4.
         keywords (dict[str, list[str]]):
@@ -33,7 +33,7 @@ async def get_claims(
             ```
 
     Returns:
-        list[VideoClaims]
+        list[VideoClaims]:
             A list of claims, marked up with scores.
     """
     claims: list[VideoClaims] = await extract_claims_from_video(
@@ -41,11 +41,12 @@ async def get_claims(
     )
     pastel = CheckworthyClaimDetector()
     claims_text = [claim.claim for claim in claims]
-    scores = await pastel.score_sentences(claims_text, max_attempts=2)
+    scores_and_answers = await pastel.score_sentences(claims_text, max_attempts=2)
 
-    for claim, score in zip(claims, scores):
-        claim.metadata = (
-            {**claim.metadata, "score": score} if claim.metadata else {"score": score}
-        )
-
+    for claim in claims:
+        claim.metadata = {
+            **claim.metadata,
+            "score": scores_and_answers[claim.claim].score,
+            "answers": scores_and_answers[claim.claim].answers,
+        }
     return claims

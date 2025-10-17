@@ -46,25 +46,25 @@ async def test_text_extraction(mock_run_prompt):
     ]
     dummy_transcript = [
         TranscriptSentence(
-            video_id=fake_id, source="", text="this is quote from PM", start_time_s=0
+            id=fake_id, source="", text="this is quote from PM", start_time_s=0
         ),
         TranscriptSentence(
-            video_id=fake_id,
+            id=fake_id,
             source="",
             text="this is also quote from PM",
             start_time_s=1,
         ),
         TranscriptSentence(
-            video_id=fake_id, source="", text="extra sentence", start_time_s=2
+            id=fake_id, source="", text="extra sentence", start_time_s=2
         ),
         TranscriptSentence(
-            video_id=fake_id,
+            id=fake_id,
             source="",
             text="this is third quote from PM",
             start_time_s=3,
         ),
         TranscriptSentence(
-            video_id=fake_id,
+            id=fake_id,
             source="",
             text="fourth sentence now please",
             start_time_s=4,
@@ -192,11 +192,11 @@ async def test_text_extraction_bad_output(
             """[{"claim": "claim", "original_text": "quote"}]""",
             [
                 TranscriptSentence(
-                    video_id=fake_id,
+                    id=fake_id,
                     source="",
                     text="quote",
                     start_time_s=0,
-                    metadata=None,
+                    metadata={},
                 )
             ],
             [],
@@ -209,18 +209,18 @@ async def test_text_extraction_bad_output(
             """,
             [
                 TranscriptSentence(
-                    video_id=fake_id,
+                    id=fake_id,
                     source="",
                     text="quote 1",
                     start_time_s=0,
-                    metadata=None,
+                    metadata={},
                 ),
                 TranscriptSentence(
-                    video_id=fake_id,
+                    id=fake_id,
                     source="",
                     text="quote 2",
                     start_time_s=1,
-                    metadata=None,
+                    metadata={},
                 ),
             ],
             [
