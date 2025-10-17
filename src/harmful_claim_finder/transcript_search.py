@@ -56,13 +56,13 @@ async def get_claims(
             claim.metadata = (
                 {
                     **claim.metadata,
-                    "score": score_and_answers[claim.claim]["score"],
-                    "answers": score_and_answers[claim.claim]["answers"],
+                    "score": score_and_answers[claim.claim].score,
+                    "answers": score_and_answers[claim.claim].answers,
                 }
                 if claim.metadata
                 else {
-                    "score": score_and_answers[claim.claim]["score"],
-                    "answers": score_and_answers[claim.claim]["answers"],
+                    "score": score_and_answers[claim.claim].score,
+                    "answers": score_and_answers[claim.claim].answers,
                 }
             )
         return claims

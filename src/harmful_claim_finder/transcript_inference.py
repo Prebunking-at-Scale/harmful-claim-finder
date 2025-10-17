@@ -79,21 +79,21 @@ async def get_claims(
                 metadata=(
                     {
                         **sentence.metadata,
-                        "score": float(all_score_and_answers[sentence.text]["score"]),
+                        "score": float(all_score_and_answers[sentence.text].score),
                         "topics": topic_keywords[sentence.text],
-                        "answers": all_score_and_answers[sentence.text]["answers"],
+                        "answers": all_score_and_answers[sentence.text].answers,
                     }
                     if sentence.metadata
                     else {
-                        "score": float(all_score_and_answers[sentence.text]["score"]),
+                        "score": float(all_score_and_answers[sentence.text].score),
                         "topics": topic_keywords[sentence.text],
-                        "answers": all_score_and_answers[sentence.text]["answers"],
+                        "answers": all_score_and_answers[sentence.text].answers,
                     }
                 ),
             )
             for sentence in sentences
             if sentence.text in all_score_and_answers.keys()
-            and all_score_and_answers[sentence.text]["score"] > 0
+            and all_score_and_answers[sentence.text].score > 0
         ]
 
         pastel_runtime = time.time() - pastel_start_time

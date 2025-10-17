@@ -67,7 +67,7 @@ def demo_inference() -> None:
     ]
     cw_predictor = pastel_inference.CheckworthyClaimDetector()
     score_and_answers = asyncio.run(cw_predictor.score_sentences(examples))
-    _ = [print(f"{score_and_answers[e]["score"]:4.1f} \t{e}") for e in examples]
+    _ = [print(f"{score_and_answers[e].score:4.1f} \t{e}") for e in examples]
 
 
 def learn_weights(training_examples_file: str, new_model_file: str) -> None:

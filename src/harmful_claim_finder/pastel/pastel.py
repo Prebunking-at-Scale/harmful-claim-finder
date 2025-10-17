@@ -6,7 +6,8 @@ import enum
 import json
 import logging
 from collections.abc import Callable
-from typing import Dict, Tuple, TypeAlias, TypedDict
+from typing import Dict, Tuple, TypeAlias
+from pydantic import BaseModel
 
 import numpy as np
 import numpy.typing as npt
@@ -39,7 +40,7 @@ class BiasType(enum.Enum):
 FEATURE_TYPE: TypeAlias = Callable[[str], float] | str | BiasType
 
 
-class ScoreAndAnswers(TypedDict):
+class ScoreAndAnswers(BaseModel):
     """Used to parse scores for sentences and store the answers to
     PASTEL questions."""
 
