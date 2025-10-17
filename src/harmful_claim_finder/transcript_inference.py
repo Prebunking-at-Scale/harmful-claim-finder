@@ -67,7 +67,7 @@ async def get_claims(
 
         checkworthy_model = CheckworthyClaimDetector()
 
-        all_score_and_answers = await checkworthy_model.score_sentences(
+        all_scores_and_answers = await checkworthy_model.score_sentences(
             have_topic, max_attempts=2
         )
 
@@ -79,21 +79,21 @@ async def get_claims(
                 metadata=(
                     {
                         **sentence.metadata,
-                        "score": float(all_score_and_answers[sentence.text].score),
+                        "score": float(all_scores_and_answers[sentence.text].score),
                         "topics": topic_keywords[sentence.text],
-                        "answers": all_score_and_answers[sentence.text].answers,
+                        "answers": all_scores_and_answers[sentence.text].answers,
                     }
                     if sentence.metadata
                     else {
-                        "score": float(all_score_and_answers[sentence.text].score),
+                        "score": float(all_scores_and_answers[sentence.text].score),
                         "topics": topic_keywords[sentence.text],
-                        "answers": all_score_and_answers[sentence.text].answers,
+                        "answers": all_scores_and_answers[sentence.text].answers,
                     }
                 ),
             )
             for sentence in sentences
-            if sentence.text in all_score_and_answers.keys()
-            and all_score_and_answers[sentence.text].score > 0
+            if sentence.text in all_scores_and_answers.keys()
+            and all_scores_and_answers[sentence.text].score > 0
         ]
 
         pastel_runtime = time.time() - pastel_start_time

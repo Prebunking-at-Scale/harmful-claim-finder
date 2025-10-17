@@ -46,8 +46,8 @@ class CheckworthyClaimDetector:
         """
         for _ in range(max_attempts):
             try:
-                score_and_answers = await self.pastel.make_predictions(sentences)
-                return score_and_answers
+                scores_and_answers = await self.pastel.make_predictions(sentences)
+                return scores_and_answers
             except GeminiError as exc:
                 _logger.info(f"Error while running Gemini: {repr(exc)}")
             except ValueError as exc:
