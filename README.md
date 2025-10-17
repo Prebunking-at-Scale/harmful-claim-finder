@@ -19,13 +19,11 @@ from harmful_claim_finder.utils.models import TranscriptSentence
 
 sentences = [
     TranscriptSentence(
-        id=UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
         source="video",
         start_time_s=6,
         text="Giving obese children weight loss jabs works and could help avoid arguments over mealtimes, according to research.",
     ),
     TranscriptSentence(
-        id=UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
         source="video",
         start_time_s=7,
         text="The clinicians found that nearly a third of these children dropped enough weight to improve their health, compared with about 27% in earlier treated groups with no access to the drugs.",

@@ -39,7 +39,6 @@ def find_checkworthy_claims() -> None:
             )
             sentences = [
                 TranscriptSentence(
-                    id=video_id,
                     source="",
                     text=fragment["text"],
                     start_time_s=fragment["start"],
