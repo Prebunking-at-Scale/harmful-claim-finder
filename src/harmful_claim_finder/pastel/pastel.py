@@ -106,7 +106,7 @@ class Pastel:
         for feature, weight in model_json.items():
             if feature in pastel_functions.__all__:
                 new_model[getattr(pastel_functions, feature)] = weight
-            if feature == "bias":
+            elif feature == "bias":
                 new_model[BiasType.BIAS] = weight
             else:
                 new_model[feature] = weight
