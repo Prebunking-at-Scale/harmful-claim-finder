@@ -7,12 +7,12 @@ import json
 import logging
 from collections.abc import Callable
 from typing import Dict, Tuple, TypeAlias
-from pydantic import BaseModel
 
 import numpy as np
 import numpy.typing as npt
 import tenacity
 from google.api_core import exceptions as core_exceptions
+from pydantic import BaseModel
 
 from harmful_claim_finder.pastel import pastel_functions
 from harmful_claim_finder.utils.gemini import run_prompt
