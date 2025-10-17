@@ -39,7 +39,7 @@ class BiasType(enum.Enum):
 FEATURE_TYPE: TypeAlias = Callable[[str], float] | str | BiasType
 
 
-class ScoresAndAnswers(TypedDict):
+class ScoreAndAnswers(TypedDict):
     """Used to parse scores for sentences and store the answers to
     PASTEL questions."""
 
@@ -289,7 +289,7 @@ class Pastel:
 
     async def make_predictions(
         self, sentences: list[str]
-    ) -> dict[str, ScoresAndAnswers]:
+    ) -> dict[str, ScoreAndAnswers]:
         """Use the Pastel questions and weights model to generate
         a score for each of a list of sentences. Return this along with
         the questions and their scores."""
@@ -310,7 +310,7 @@ class Pastel:
                 answers[sentence] = {}
 
         return {
-            sentence: ScoresAndAnswers(
+            sentence: ScoreAndAnswers(
                 sentence=sentence,
                 score=scores_dict[sentence],
                 answers=answers[sentence],

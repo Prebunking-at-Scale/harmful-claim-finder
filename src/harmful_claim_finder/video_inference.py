@@ -43,19 +43,19 @@ async def get_claims(
     )
     pastel = CheckworthyClaimDetector()
     claims_text = [claim.claim for claim in claims]
-    scores_and_answers = await pastel.score_sentences(claims_text, max_attempts=2)
+    score_and_answers = await pastel.score_sentences(claims_text, max_attempts=2)
 
     for claim in claims:
         claim.metadata = (
             {
                 **claim.metadata,
-                "score": scores_and_answers[claim.claim]["score"],
-                "answers": scores_and_answers[claim.claim]["answers"],
+                "score": score_and_answers[claim.claim]["score"],
+                "answers": score_and_answers[claim.claim]["answers"],
             }
             if claim.metadata
             else {
-                "score": scores_and_answers[claim.claim]["score"],
-                "answers": scores_and_answers[claim.claim]["answers"],
+                "score": score_and_answers[claim.claim]["score"],
+                "answers": score_and_answers[claim.claim]["answers"],
             }
         )
     return claims
