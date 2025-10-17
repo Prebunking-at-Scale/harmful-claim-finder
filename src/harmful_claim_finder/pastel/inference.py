@@ -23,28 +23,25 @@ class CheckworthyClaimDetector:
 
     async def score_sentences(
         self, sentences: list[str], max_attempts: int = 3
-    ) -> dict[str, pastel.ScoresAndAnswers]:
+    ) -> dict[str, pastel.ScoreAndAnswers]:
         """
         Returns a checkworthy score for each of a list of sentences.
         High scores suggest more checkworthy
 
-        Args
-        ----
-            sentences (list[str])
+        Args:
+            sentences (list[str]):
                 The list of sentences for which to run Pastel.
 
-            max_attempts (int)
+            max_attempts (int):
                 The number of retries to attempt if there's an exception.
 
-        Returns
-        -------
-            dict[str, pastel.ScoresAndAnswers]
+        Returns:
+            dict[str, pastel.ScoreAndAnswers]:
                 Checkworthy scores for each sentence, with answers for each
                 PASTEL question.
 
-        Raises
-        ------
-            PastelError
+        Raises:
+            PastelError:
                 Raises an exception if Pastel fails `max_attempts` times.
         """
         for _ in range(max_attempts):

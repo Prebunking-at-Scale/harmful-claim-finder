@@ -6,12 +6,13 @@ import enum
 import json
 import logging
 from collections.abc import Callable
-from typing import Dict, Tuple, TypeAlias, TypedDict
+from typing import Dict, Tuple, TypeAlias
 
 import numpy as np
 import numpy.typing as npt
 import tenacity
 from google.api_core import exceptions as core_exceptions
+from pydantic import BaseModel
 
 from harmful_claim_finder.pastel import pastel_functions
 from harmful_claim_finder.utils.gemini import run_prompt
@@ -39,7 +40,7 @@ class BiasType(enum.Enum):
 FEATURE_TYPE: TypeAlias = Callable[[str], float] | str | BiasType
 
 
-class ScoresAndAnswers(TypedDict):
+class ScoreAndAnswers(BaseModel):
     """Used to parse scores for sentences and store the answers to
     PASTEL questions."""
 
@@ -289,7 +290,7 @@ class Pastel:
 
     async def make_predictions(
         self, sentences: list[str]
-    ) -> dict[str, ScoresAndAnswers]:
+    ) -> dict[str, ScoreAndAnswers]:
         """Use the Pastel questions and weights model to generate
         a score for each of a list of sentences. Return this along with
         the questions and their scores."""
@@ -310,7 +311,7 @@ class Pastel:
                 answers[sentence] = {}
 
         return {
-            sentence: ScoresAndAnswers(
+            sentence: ScoreAndAnswers(
                 sentence=sentence,
                 score=scores_dict[sentence],
                 answers=answers[sentence],

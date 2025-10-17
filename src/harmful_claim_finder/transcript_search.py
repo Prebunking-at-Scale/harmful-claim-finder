@@ -23,9 +23,8 @@ async def get_claims(
     Retrieve claims from a video transcript.
     Claims can be more than one sentence, or part of a sentence.
 
-    Args
-    ----
-        keywords (dict[str, list[str]])
+    Args:
+        keywords (dict[str, list[str]]):
             A {topic: keywords} dictionary containing the kw for each topic. E.g.
             ```python
             {
@@ -33,17 +32,15 @@ async def get_claims(
                 "health": ["doctor", "hospital"],
             }
             ```
-        transcript (list[TranscriptSentence])
+        transcript (list[TranscriptSentence]):
             The transcript you want to search for claims.
 
-    Returns
-    -------
-        list[VideoClaims]
+    Returns:
+        list[VideoClaims]:
             A list of claims, marked up with scores.
 
-    Raises
-    ------
-        CheckworthyError
+    Raises:
+        CheckworthyError:
             If something goes wrong during claim extraction or
             pastel, the CheckworthyError will say what went wrong.
     """
@@ -56,18 +53,11 @@ async def get_claims(
         scores_and_answers = await pastel.score_sentences(claims_text, max_attempts=2)
 
         for claim in claims:
-            claim.metadata = (
-                {
-                    **claim.metadata,
-                    "score": scores_and_answers[claim.claim]["score"],
-                    "answers": scores_and_answers[claim.claim]["answers"],
-                }
-                if claim.metadata
-                else {
-                    "score": scores_and_answers[claim.claim]["score"],
-                    "answers": scores_and_answers[claim.claim]["answers"],
-                }
-            )
+            claim.metadata = {
+                **claim.metadata,
+                "score": scores_and_answers[claim.claim].score,
+                "answers": scores_and_answers[claim.claim].answers,
+            }
         return claims
     except (ClaimExtractionError, PastelError) as exc:
         raise CheckworthyError from exc

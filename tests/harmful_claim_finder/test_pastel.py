@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from pytest import mark, param
 
-from harmful_claim_finder.pastel.pastel import BiasType, Pastel, ScoresAndAnswers
+from harmful_claim_finder.pastel.pastel import BiasType, Pastel, ScoreAndAnswers
 
 # mypy: ignore-errors
 # getting "Untyped decorator makes function ... untyped " so ignoring for now:
@@ -140,10 +140,10 @@ async def test_get_answers_to_questions(
             ["s1", "s2"],
             {"s1": {Q1: 0.0, Q2: 1.0}, "s2": {Q1: 0.0, Q2: 0.5}},
             {
-                "s1": ScoresAndAnswers(
+                "s1": ScoreAndAnswers(
                     sentence="s1", score=3.0, answers={Q1: 0.0, Q2: 1.0}
                 ),
-                "s2": ScoresAndAnswers(
+                "s2": ScoreAndAnswers(
                     sentence="s2", score=2.0, answers={Q1: 0.0, Q2: 0.5}
                 ),
             },
@@ -153,10 +153,10 @@ async def test_get_answers_to_questions(
             ["s1", "s2"],
             {"s1": {Q1: 0.0, Q2: 1.0}},
             {
-                "s1": ScoresAndAnswers(
+                "s1": ScoreAndAnswers(
                     sentence="s1", score=3.0, answers={Q1: 0.0, Q2: 1.0}
                 ),
-                "s2": ScoresAndAnswers(sentence="s2", score=0.0, answers={}),
+                "s2": ScoreAndAnswers(sentence="s2", score=0.0, answers={}),
             },
             id="One sentence fails",
         ),
@@ -164,8 +164,8 @@ async def test_get_answers_to_questions(
             ["s1", "s2"],
             {},
             {
-                "s1": ScoresAndAnswers(sentence="s1", score=0.0, answers={}),
-                "s2": ScoresAndAnswers(sentence="s2", score=0.0, answers={}),
+                "s1": ScoreAndAnswers(sentence="s1", score=0.0, answers={}),
+                "s2": ScoreAndAnswers(sentence="s2", score=0.0, answers={}),
             },
             id="All sentences fail",
         ),
@@ -174,7 +174,7 @@ async def test_get_answers_to_questions(
 async def test_make_predictions(
     sentences: list[str],
     answers: dict[str, dict[str, float]],
-    expected: dict[str, ScoresAndAnswers],
+    expected: dict[str, ScoreAndAnswers],
     pastel_instance: Pastel,
 ):
     with patch.object(
