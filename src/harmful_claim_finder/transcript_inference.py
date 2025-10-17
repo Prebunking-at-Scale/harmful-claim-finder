@@ -23,9 +23,8 @@ async def get_claims(
     First finds the topics for each provided sentence.
     Next runs any sentences with topics through PASTEL to get a checkworthy score.
 
-    Args
-    ----
-        keywords (dict[str, list[str]])
+    Args:
+        keywords (dict[str, list[str]]):
             A {topic: keywords} dictionary containing the kw for each topic. E.g.
             ```python
             {
@@ -33,15 +32,13 @@ async def get_claims(
                 "health": ["doctor", "hospital"],
             }
             ```
-        sentences (list[TranscriptSentence])
+        sentences (list[TranscriptSentence]):
             A list of transcript sentences to run checkworthy on.
 
-    Returns
-    -------
+    Returns:
         A list of claims contained within the transcript.
 
-    Raises
-    ------
+    Raises:
         CheckworthyError:
             If something goes wrong during topic detection or
             pastel, the CheckworthyError will say what went wrong.

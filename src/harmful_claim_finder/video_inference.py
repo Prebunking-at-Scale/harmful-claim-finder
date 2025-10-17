@@ -17,14 +17,13 @@ async def get_claims(
     """
     Retrieve claims from a video directly.
 
-    Args
-    ----
-        video_id (UUID)
+    Args:
+        video_id (UUID):
             The id of the video being processed.
-        video_uri (str)
+        video_uri (str):
             A URI to a video in a Google Cloud Bucket.
             The file should be an mp4.
-        keywords (dict[str, list[str]])
+        keywords (dict[str, list[str]]):
             A {topic: keywords} dictionary containing the kw for each topic. E.g.
             ```python
             {
@@ -33,9 +32,8 @@ async def get_claims(
             }
             ```
 
-    Returns
-    -------
-        list[VideoClaims]
+    Returns:
+        list[VideoClaims]:
             A list of claims, marked up with scores.
     """
     claims: list[VideoClaims] = await extract_claims_from_video(
