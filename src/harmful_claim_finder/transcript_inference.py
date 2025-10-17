@@ -73,18 +73,12 @@ async def get_claims(
 
         claims = [
             VideoClaims(
-                video_id=sentence.video_id,
+                video_id=sentence.id,
                 claim=sentence.text,
                 start_time_s=sentence.start_time_s,
                 metadata=(
                     {
                         **sentence.metadata,
-                        "score": float(all_scores_and_answers[sentence.text].score),
-                        "topics": topic_keywords[sentence.text],
-                        "answers": all_scores_and_answers[sentence.text].answers,
-                    }
-                    if sentence.metadata
-                    else {
                         "score": float(all_scores_and_answers[sentence.text].score),
                         "topics": topic_keywords[sentence.text],
                         "answers": all_scores_and_answers[sentence.text].answers,

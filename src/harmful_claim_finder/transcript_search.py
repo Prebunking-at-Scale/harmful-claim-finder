@@ -53,18 +53,11 @@ async def get_claims(
         scores_and_answers = await pastel.score_sentences(claims_text, max_attempts=2)
 
         for claim in claims:
-            claim.metadata = (
-                {
-                    **claim.metadata,
-                    "score": scores_and_answers[claim.claim].score,
-                    "answers": scores_and_answers[claim.claim].answers,
-                }
-                if claim.metadata
-                else {
-                    "score": scores_and_answers[claim.claim].score,
-                    "answers": scores_and_answers[claim.claim].answers,
-                }
-            )
+            claim.metadata = {
+                **claim.metadata,
+                "score": scores_and_answers[claim.claim].score,
+                "answers": scores_and_answers[claim.claim].answers,
+            }
         return claims
     except (ClaimExtractionError, PastelError) as exc:
         raise CheckworthyError from exc
