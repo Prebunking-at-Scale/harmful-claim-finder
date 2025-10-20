@@ -48,6 +48,7 @@ class VideoClaims(BaseModel):
 
 class TranscriptSentence(BaseModel):
     id: UUID = Field(default_factory=uuid4)
+    video_id: UUID
     source: str  # Speech-to-text, OCR, etc
     text: str  # The actual text of the sentence
     start_time_s: float  # Start time in seconds

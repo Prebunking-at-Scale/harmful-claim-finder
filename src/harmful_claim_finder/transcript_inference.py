@@ -73,7 +73,7 @@ async def get_claims(
 
         claims = [
             VideoClaims(
-                video_id=sentence.id,
+                video_id=sentence.video_id,
                 claim=sentence.text,
                 start_time_s=sentence.start_time_s,
                 metadata=(

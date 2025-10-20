@@ -166,7 +166,7 @@ def _parse_transcript_claims(
         most_recent_time = new_timestamp
         output_claims.append(
             VideoClaims(
-                video_id=transcript[0].id,
+                video_id=transcript[0].video_id,
                 claim=claim.claim,
                 start_time_s=new_timestamp,
                 metadata={"quote": claim.original_text, "topics": claim.topics},

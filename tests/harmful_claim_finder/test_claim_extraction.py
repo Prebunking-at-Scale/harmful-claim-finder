@@ -46,7 +46,11 @@ async def test_text_extraction(mock_run_prompt):
     ]
     dummy_transcript = [
         TranscriptSentence(
-            id=fake_id, source="", text="this is quote from PM", start_time_s=0
+            id=fake_id,
+            video_id=fake_id,
+            source="",
+            text="this is quote from PM",
+            start_time_s=0,
         ),
         TranscriptSentence(
             id=fake_id,
