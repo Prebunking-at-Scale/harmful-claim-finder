@@ -1,12 +1,15 @@
 {
-    "Does the sentence contain a strong accusation of systemic wrongdoing, corruption, or deliberate deception by powerful entities, institutions, or systems?": 0.3886377936442318,
-    "Could believing this claim lead to violence?": -0.000772794391419529,
-    "Does the sentence suggest a course of action?": -0.20100726061684449,
-    "Answer 'yes' if this sentence is making a specific claim or answer 'no' if it is vague or unclear": 0.6555674929321598,
-    "Does the sentence offer an unconventional or alternative explanation for a problem, phenomenon, or situation, presented as a 'deeper truth' or a non-obvious cause?": 0.14950537152190957,
-    "Does the sentence contain specific numbers or quantities?": 0.5342517998190763,
-    "Does the claim directly contradict or challenge widely accepted facts, official narratives, or mainstream scientific/medical understanding?": 0.4801646679247924,
-    "Does the sentence imply the existence of hidden or unacknowledged forces, agendas, or truths that are secretly influencing events or systems?": -0.3873257831095036,
-    "Is this sentence about someone's personal experience?": -0.7865049446018539,
-    "bias": 1.3903730674914663
+    "Does the sentence contain specific numbers or quantities?": 0.4430644763219683,
+    "Does the sentence contain compare quantities, such as 'more' or 'less'?": 0.2562748831053927,
+    "Does the sentence discuss superlatives, such as 'biggest ever' or  'fastest growth'?": -0.10605210983880742,
+    "Does the sentence imply the existence of hidden or unacknowledged forces, agendas, or truths that are secretly influencing events or systems?": -0.36352815381067516,
+    "Does the sentence contain a strong accusation of systemic wrongdoing, corruption, or deliberate deception by powerful entities, institutions, or systems?": 0.4647077607567477,
+    "Is this sentence about someone's personal experience?": -0.8245053974707071,
+    "Answer 'yes' if this sentence is making a specific claim or answer 'no' if it is vague or unclear": 0.36255860368945936,
+    "Could believing this claim harm someone's health?": 0.4760686068616736,
+    "Is this sentence interesting to the average reader?": 0.5178633051289614,
+    "Does the sentence suggest a course of action?": -0.1811692071358202,
+    "Does the sentence offer an unconventional or alternative explanation for a problem, phenomenon, or situation, presented as a 'deeper truth' or a non-obvious cause?": 0.18411361113453129,
+    "bias": 1.3129054696158433
 }
+]
