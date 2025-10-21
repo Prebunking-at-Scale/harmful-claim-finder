@@ -46,25 +46,36 @@ async def test_text_extraction(mock_run_prompt):
     ]
     dummy_transcript = [
         TranscriptSentence(
-            id=fake_id, source="", text="this is quote from PM", start_time_s=0
+            id=fake_id,
+            video_id=fake_id,
+            source="",
+            text="this is quote from PM",
+            start_time_s=0,
         ),
         TranscriptSentence(
             id=fake_id,
+            video_id=fake_id,
             source="",
             text="this is also quote from PM",
             start_time_s=1,
         ),
         TranscriptSentence(
-            id=fake_id, source="", text="extra sentence", start_time_s=2
+            id=fake_id,
+            video_id=fake_id,
+            source="",
+            text="extra sentence",
+            start_time_s=2,
         ),
         TranscriptSentence(
             id=fake_id,
+            video_id=fake_id,
             source="",
             text="this is third quote from PM",
             start_time_s=3,
         ),
         TranscriptSentence(
             id=fake_id,
+            video_id=fake_id,
             source="",
             text="fourth sentence now please",
             start_time_s=4,
@@ -193,6 +204,7 @@ async def test_text_extraction_bad_output(
             [
                 TranscriptSentence(
                     id=fake_id,
+                    video_id=fake_id,
                     source="",
                     text="quote",
                     start_time_s=0,
@@ -210,6 +222,7 @@ async def test_text_extraction_bad_output(
             [
                 TranscriptSentence(
                     id=fake_id,
+                    video_id=fake_id,
                     source="",
                     text="quote 1",
                     start_time_s=0,
@@ -217,6 +230,7 @@ async def test_text_extraction_bad_output(
                 ),
                 TranscriptSentence(
                     id=fake_id,
+                    video_id=fake_id,
                     source="",
                     text="quote 2",
                     start_time_s=1,
