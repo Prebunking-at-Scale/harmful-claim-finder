@@ -23,21 +23,22 @@ class CheckworthyClaimDetector:
 
     async def score_sentences(
         self, sentences: list[str], max_attempts: int = 3
-    ) -> pastel.ARRAY_TYPE:
+    ) -> dict[str, pastel.ScoreAndAnswers]:
         """
         Returns a checkworthy score for each of a list of sentences.
         High scores suggest more checkworthy
 
         Args:
-            sentences (list[str])
+            sentences (list[str]):
                 The list of sentences for which to run Pastel.
 
             max_attempts (int):
                 The number of retries to attempt if there's an exception.
 
         Returns:
-            pastel.ARRAY_TYPE:
-                Checkworthy scores for each sentence.
+            dict[str, pastel.ScoreAndAnswers]:
+                Checkworthy scores for each sentence, with answers for each
+                PASTEL question.
 
         Raises:
             PastelError:
@@ -45,8 +46,8 @@ class CheckworthyClaimDetector:
         """
         for _ in range(max_attempts):
             try:
-                scores = await self.pastel.make_predictions(sentences)
-                return scores
+                scores_and_answers = await self.pastel.make_predictions(sentences)
+                return scores_and_answers
             except GeminiError as exc:
                 _logger.info(f"Error while running Gemini: {repr(exc)}")
             except ValueError as exc:

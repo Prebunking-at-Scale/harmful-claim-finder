@@ -66,8 +66,8 @@ def demo_inference() -> None:
         "in Thames Water would 'cost billions and take years'.",
     ]
     cw_predictor = pastel_inference.CheckworthyClaimDetector()
-    scores = asyncio.run(cw_predictor.score_sentences(examples))
-    _ = [print(f"{s:4.1f} \t{e}") for s, e in sorted(zip(scores, examples))]
+    scores_and_answers = asyncio.run(cw_predictor.score_sentences(examples))
+    _ = [print(f"{scores_and_answers[e].score:4.1f} \t{e}") for e in examples]
 
 
 def learn_weights(training_examples_file: str, new_model_file: str) -> None:

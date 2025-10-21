@@ -12,6 +12,7 @@ import numpy as np
 import numpy.typing as npt
 import tenacity
 from google.api_core import exceptions as core_exceptions
+from pydantic import BaseModel
 
 from harmful_claim_finder.pastel import pastel_functions
 from harmful_claim_finder.utils.gemini import run_prompt
@@ -37,6 +38,15 @@ class BiasType(enum.Enum):
 
 
 FEATURE_TYPE: TypeAlias = Callable[[str], float] | str | BiasType
+
+
+class ScoreAndAnswers(BaseModel):
+    """Used to parse scores for sentences and store the answers to
+    PASTEL questions."""
+
+    sentence: str
+    score: float
+    answers: dict[FEATURE_TYPE, float]
 
 
 def log_retry_attempt(retry_state: tenacity.RetryCallState) -> None:
@@ -278,9 +288,12 @@ class Pastel:
         scores = X.dot(weights)
         return scores
 
-    async def make_predictions(self, sentences: list[str]) -> ARRAY_TYPE:
+    async def make_predictions(
+        self, sentences: list[str]
+    ) -> dict[str, ScoreAndAnswers]:
         """Use the Pastel questions and weights model to generate
-        a score for each of a list of sentences."""
+        a score for each of a list of sentences. Return this along with
+        the questions and their scores."""
         answers = await self.get_answers_to_questions(sentences)
         if answers:
             scores = self.get_scores_from_answers(list(answers.values()))
@@ -294,5 +307,14 @@ class Pastel:
         for sentence in sentences:
             if sentence not in scores_dict:
                 scores_dict[sentence] = 0.0
+            if sentence not in answers.keys():
+                answers[sentence] = {}
 
-        return np.array([scores_dict[sentence] for sentence in sentences])
+        return {
+            sentence: ScoreAndAnswers(
+                sentence=sentence,
+                score=scores_dict[sentence],
+                answers=answers[sentence],
+            )
+            for sentence in sentences
+        }

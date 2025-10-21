@@ -67,24 +67,27 @@ async def get_claims(
 
         checkworthy_model = CheckworthyClaimDetector()
 
-        scores = await checkworthy_model.score_sentences(have_topic, max_attempts=2)
-
-        scored_sentences = {
-            sentence: score for sentence, score in zip(have_topic, scores)
-        }
+        all_scores_and_answers = await checkworthy_model.score_sentences(
+            have_topic, max_attempts=2
+        )
 
         claims = [
             VideoClaims(
                 video_id=sentence.video_id,
                 claim=sentence.text,
                 start_time_s=sentence.start_time_s,
-                metadata={
-                    "score": float(scored_sentences[sentence.text]),
-                    "topics": topic_keywords[sentence.text],
-                },
+                metadata=(
+                    {
+                        **sentence.metadata,
+                        "score": float(all_scores_and_answers[sentence.text].score),
+                        "topics": topic_keywords[sentence.text],
+                        "answers": all_scores_and_answers[sentence.text].answers,
+                    }
+                ),
             )
             for sentence in sentences
-            if sentence.text in scored_sentences and scored_sentences[sentence.text] > 0
+            if sentence.text in all_scores_and_answers.keys()
+            and all_scores_and_answers[sentence.text].score > 0
         ]
 
         pastel_runtime = time.time() - pastel_start_time

@@ -36,7 +36,7 @@ async def get_claims(
             The transcript you want to search for claims.
 
     Returns:
-        list[VideoClaims]
+        list[VideoClaims]:
             A list of claims, marked up with scores.
 
     Raises:
@@ -50,14 +50,14 @@ async def get_claims(
         )
         pastel = CheckworthyClaimDetector()
         claims_text = [claim.claim for claim in claims]
-        scores = await pastel.score_sentences(claims_text, max_attempts=2)
+        scores_and_answers = await pastel.score_sentences(claims_text, max_attempts=2)
 
-        for claim, score in zip(claims, scores):
-            claim.metadata = (
-                {**claim.metadata, "score": score}
-                if claim.metadata
-                else {"score": score}
-            )
+        for claim in claims:
+            claim.metadata = {
+                **claim.metadata,
+                "score": scores_and_answers[claim.claim].score,
+                "answers": scores_and_answers[claim.claim].answers,
+            }
         return claims
     except (ClaimExtractionError, PastelError) as exc:
         raise CheckworthyError from exc
