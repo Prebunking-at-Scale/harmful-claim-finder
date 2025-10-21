@@ -13,7 +13,6 @@ fake_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
 unscored_claims = [
     TranscriptSentence(
-        id=fake_id,
         video_id=fake_id,
         source="test",
         text="claim 1",
@@ -21,7 +20,6 @@ unscored_claims = [
         metadata={"quote": "quote 1"},
     ),
     TranscriptSentence(
-        id=fake_id,
         video_id=fake_id,
         source="test",
         text="claim 2",
@@ -29,7 +27,6 @@ unscored_claims = [
         metadata={"quote": "quote 2"},
     ),
     TranscriptSentence(
-        id=fake_id,
         video_id=fake_id,
         source="test",
         text="claim 3",
