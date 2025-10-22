@@ -24,13 +24,17 @@ class TextClaimSchema(BaseModel):
         description=(
             "claim being made. "
             "Do not change the meaning of the claim, "
-            "but rephrase to make the claim clear without context."
+            "but rephrase to make the claim clear without context. "
+            "The claim should have enough context to make sense "
+            "to a fact checker without seeing the whole transcript"
         )
     )
     original_text: str = Field(
         description=(
-            "The original sentence containing the claim, "
-            "exactly as it appears in the text"
+            "The original chunk of text containing the claim, "
+            "exactly as it appears in the provided transcript. "
+            "If a claim does not neatly appear in one span of text, "
+            "include the most representative span of text available."
         )
     )
     topics: list[str] = Field(
@@ -94,6 +98,15 @@ CLAIMS_PROMPT_TEXT = dedent(
     The values are the keywords, which define the topics.
     Here are the keywords:
     {KEYWORDS}
+
+    Claims should contain enough context to make sense in isolation.
+    A fact checker needs to be able to understand a single claim without necessarily seeing the others.
+    For example, if quoting a person or a document, make it clear what that is.
+    If something has a causal relationship, make both the alleged claim and effect clear.
+
+    Once you've found all the claims, check the following:
+    - Are there any duplicate claims? If there are, only include the most significant instance of the claim.
+    - Do all the claims contain enough context to be understood by a fact checker? If not, go back and fill out any missing context.
 
     Here is the text:
     ```
