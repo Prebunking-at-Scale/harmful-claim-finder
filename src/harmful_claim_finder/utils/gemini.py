@@ -111,6 +111,7 @@ def generate_model_config() -> ModelConfig:
 async def run_prompt(
     prompt: str,
     video_uri: str | None = None,
+    system_instruction: str = DEFAULT_SYSTEM_INSTRUCTION,
     output_schema: types.SchemaUnion | None = None,
     generation_config: dict[str, Any] = DEFAULT_PARAMETERS,
     safety_settings: list[types.SafetySetting] = DEFAULT_SAFETY_SETTINGS,
@@ -125,6 +126,8 @@ async def run_prompt(
         The prompt given to the model
     video_uri: str
         A Google Cloud URI for a video that you want to prompt.
+    system_instruction: str
+        Optionally provide a system instruction.
     output_schema: types.SchemaUnion
         A valid schema for the model output.
         Generally, we'd recommend this being a pydantic BaseModel inheriting class,
@@ -186,7 +189,7 @@ async def run_prompt(
         model=model_config.model_name,
         contents=types.Content(role="user", parts=parts),
         config=types.GenerateContentConfig(
-            system_instruction=DEFAULT_SYSTEM_INSTRUCTION,
+            system_instruction=system_instruction,
             safety_settings=safety_settings,
             **built_gen_config,
         ),
