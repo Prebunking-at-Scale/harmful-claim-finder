@@ -27,7 +27,7 @@ class TextClaimSchema(BaseModel):
             "but rephrase to make the claim clear without context. "
             "The claim should have enough context to make sense "
             "to a fact checker without seeing the whole transcript. "
-            "Must be in the same language as the original text."
+            "Must be in the same language as the original transcript."
             "Do not translate into English."
         )
     )
@@ -91,8 +91,7 @@ CLAIMS_INSTRUCTION_TEXT = dedent(
     You are assisting a fact checker.
     Ensure your answers are clear and correct.
     Always return output in the requested format.
-    When asked to extract results from non-English text, return results in the original language.
-    Don't translate them into English.
+    Do not translate results into English.
 
     Find the main claims made in the provided text which relate to the provided topics.
     Include claims that are significant to the overall narrative of the text.
@@ -118,6 +117,8 @@ CLAIMS_INSTRUCTION_TEXT = dedent(
     Once you've found all the claims, check the following:
     - Are there any duplicate claims? If there are, only include the most significant instance of the claim.
     - Do all the claims contain enough context to be understood by a fact checker? If not, go back and fill out any missing context.
+    - Are all claims in the language they appeared in the original transcript? If not, go back and fix this.
+    - Double check that the claims are all the same language as their corresponding quotes.
     """
 )
 
@@ -139,8 +140,7 @@ CLAIMS_INSTRUCTION_VIDEO = dedent(
     You are assisting a fact checker.
     Ensure your answers are clear and correct.
     Always return output in the requested format.
-    If the video is not in English, return results in the original language.
-    Don't translate them into English.
+    Do not translate results into English.
 
     Find all the claims made in this video which relate to the provided topics.
     Include claims that are significant to the overall narrative of the text.
@@ -166,6 +166,8 @@ CLAIMS_INSTRUCTION_VIDEO = dedent(
     Once you've found all the claims, check the following:
     - Are there any duplicate claims? If there are, only include the most significant instance of the claim.
     - Do all the claims contain enough context to be understood by a fact checker? If not, go back and fill out any missing context.
+    - Are all claims in the language they appeared in the original video? If not, go back and fix this.
+    - Double check that the claims are all the same language as their corresponding quotes.
     """
 )
 
