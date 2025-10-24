@@ -22,15 +22,22 @@ _logger = logging.getLogger(__name__)
 class TextClaimSchema(BaseModel):
     claim: str = Field(
         description=(
-            "claim being made. "
+            "The claim being made. "
             "Do not change the meaning of the claim, "
-            "but rephrase to make the claim clear without context."
+            "but rephrase to make the claim clear without context. "
+            "The claim should have enough context to make sense "
+            "to a fact checker without seeing the whole transcript. "
+            "Must be in the same language as the original transcript."
+            "Do not translate into English."
         )
     )
     original_text: str = Field(
         description=(
-            "The original sentence containing the claim, "
-            "exactly as it appears in the text"
+            "The original chunk of text containing the claim, "
+            "exactly as it appears in the provided transcript, "
+            "in the original language. "
+            "If a claim does not neatly appear in one span of text, "
+            "include the most representative span of text available."
         )
     )
     topics: list[str] = Field(
@@ -45,15 +52,19 @@ class TextClaimSchema(BaseModel):
 class VideoClaimSchema(BaseModel):
     claim: str = Field(
         description=(
-            "claim being made. "
+            "The claim being made. "
             "Do not change the meaning of the claim, "
-            "but rephrase to make the claim clear without context."
+            "but rephrase to make the claim clear without context. "
+            "The claim should have enough context to make sense "
+            "to a fact checker without seeing the whole video. "
+            "Must be in the same language as the original text."
+            "Do not translate into English."
         )
     )
     original_text: str = Field(
         description=(
             "The original sentence containing the claim, "
-            "exactly as it appears in the input."
+            "exactly as it appears in the input, in the original language."
             "If the claim is made non-verbally, describe how the claim is made."
         )
     )
@@ -75,8 +86,13 @@ class VideoClaimSchema(BaseModel):
     )
 
 
-CLAIMS_PROMPT_TEXT = dedent(
+CLAIMS_INSTRUCTION_TEXT = dedent(
     """
+    You are assisting a fact checker.
+    Ensure your answers are clear and correct.
+    Always return output in the requested format.
+    Do not translate results into English.
+
     Find the main claims made in the provided text which relate to the provided topics.
     Include claims that are significant to the overall narrative of the text.
     Include no more than 20 of the most significant claims.
@@ -92,6 +108,22 @@ CLAIMS_PROMPT_TEXT = dedent(
     The keywords are defined in a dictionary.
     The keys of the dictionary are the topic names.
     The values are the keywords, which define the topics.
+
+    Claims should contain enough context to make sense in isolation.
+    A fact checker needs to be able to understand a single claim without necessarily seeing the others.
+    For example, if quoting a person or a document, make it clear what that is.
+    If something has a causal relationship, make both the alleged claim and effect clear.
+
+    Once you've found all the claims, check the following:
+    - Are there any duplicate claims? If there are, only include the most significant instance of the claim.
+    - Do all the claims contain enough context to be understood by a fact checker? If not, go back and fill out any missing context.
+    - Are all claims in the language they appeared in the original transcript? If not, go back and fix this.
+    - Double check that the claims are all the same language as their corresponding quotes.
+    """
+)
+
+CLAIMS_PROMPT_TEXT = dedent(
+    """
     Here are the keywords:
     {KEYWORDS}
 
@@ -103,9 +135,17 @@ CLAIMS_PROMPT_TEXT = dedent(
 )
 
 
-CLAIMS_PROMPT_VIDEO = dedent(
+CLAIMS_INSTRUCTION_VIDEO = dedent(
     """
+    You are assisting a fact checker.
+    Ensure your answers are clear and correct.
+    Always return output in the requested format.
+    Do not translate results into English.
+
     Find all the claims made in this video which relate to the provided topics.
+    Include claims that are significant to the overall narrative of the text.
+    Include no more than 20 of the most significant claims.
+    Do not include claims if they do not relate to any of the provided topics.
     Include both spoken claims, and claims made visually.
 
     Topics are defined by a set of keywords.
@@ -114,6 +154,25 @@ CLAIMS_PROMPT_VIDEO = dedent(
      word, or be on a similar subject.
     A claim can have multiple topics.
 
+    The keywords are defined in a dictionary.
+    The keys of the dictionary are the topic names.
+    The values are the keywords, which define the topics.
+
+    Claims should contain enough context to make sense in isolation.
+    A fact checker needs to be able to understand a single claim without necessarily seeing the others.
+    For example, if quoting a person or a document, make it clear what that is.
+    If something has a causal relationship, make both the alleged claim and effect clear.
+
+    Once you've found all the claims, check the following:
+    - Are there any duplicate claims? If there are, only include the most significant instance of the claim.
+    - Do all the claims contain enough context to be understood by a fact checker? If not, go back and fill out any missing context.
+    - Are all claims in the language they appeared in the original video? If not, go back and fix this.
+    - Double check that the claims are all the same language as their corresponding quotes.
+    """
+)
+
+CLAIMS_PROMPT_VIDEO = dedent(
+    """
     Here are the keywords:
     {KEYWORDS}
     """
@@ -182,7 +241,11 @@ async def _get_transcript_claims(
     transcript_text = " ".join([s.text for s in transcript])
     prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
     prompt = prompt.replace("{KEYWORDS}", json.dumps(keywords))
-    response = await run_prompt(prompt, output_schema=list[TextClaimSchema])
+    response = await run_prompt(
+        prompt,
+        system_instruction=CLAIMS_INSTRUCTION_TEXT,
+        output_schema=list[TextClaimSchema],
+    )
     try:
         claims = _parse_transcript_claims(response, transcript)
     except ValueError:
@@ -256,6 +319,7 @@ async def _get_video_claims(
     response = await run_prompt(
         CLAIMS_PROMPT_VIDEO.replace("{KEYWORDS}", json.dumps(keywords)),
         video_uri=video_uri,
+        system_instruction=CLAIMS_INSTRUCTION_VIDEO,
         output_schema=list[VideoClaimSchema],
     )
     try:
