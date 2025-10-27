@@ -163,11 +163,19 @@ CLAIMS_INSTRUCTION_VIDEO = dedent(
     For example, if quoting a person or a document, make it clear what that is.
     If something has a causal relationship, make both the alleged claim and effect clear.
 
+    Claims can be audible words in the video, visible text, or the actions that take place in the video.
+    If a claim is made visually, the claim should be a description of the relevant part of the video.
+    Visual claims may be gestures, actions, or images which suggest a claim.
+    Decide if any visual cues might be implying anything harmful, and if so include it as a claim.
+    Bear in mind that sometimes video creators will be trying to hide their message from social media algorithms, so won't say things explicitly.
+
     Once you've found all the claims, check the following:
     - Are there any duplicate claims? If there are, only include the most significant instance of the claim.
     - Do all the claims contain enough context to be understood by a fact checker? If not, go back and fill out any missing context.
     - Are all claims in the language they appeared in the original video? If not, go back and fix this.
     - Double check that the claims are all the same language as their corresponding quotes.
+    - Check if the image element of the video can fill out any gaps in the claims. For example, where something wasn't said explicitly but instead shown in the video.
+    - If there's an overall claim the whole video was making, add that as a claim at the end, if it's not already there. For these, the claim will be a description of the claim, and 'original_text' will be your explanation of how the video was putting that across. Include these claims in the output json object in exactly the same format.'
     """
 )
 
