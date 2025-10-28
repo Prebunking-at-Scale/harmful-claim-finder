@@ -1,12 +1,14 @@
 import json
 import tempfile
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, patch, Mock, call
+from uuid import uuid4
 
 import numpy as np
 import pytest
 from pytest import mark, param
 
 from harmful_claim_finder.pastel.pastel import BiasType, Pastel, ScoreAndAnswers
+from harmful_claim_finder.utils.models import VideoClaims
 
 # mypy: ignore-errors
 # getting "Untyped decorator makes function ... untyped " so ignoring for now:
@@ -182,3 +184,37 @@ async def test_make_predictions(
     ):
         predictions = await pastel_instance.make_predictions(sentences)
         assert predictions == expected
+
+
+def test_update_predictions(pastel_instance):
+    sentences = ["claim 1", "claim 2", "claim 3"]
+    old_answers = [{Q1: 1.0, Q2: 0.0}, {Q1: 0.0, Q2: 1.0}, {Q1: 1.0, Q2: 1.0}]
+
+    with (
+        patch.object(
+            pastel_instance,
+            "_get_function_answers_for_single_sentence",
+            return_value={"updated_feature": 1.0},
+        ) as mock_get_func_answers,
+        patch.object(
+            pastel_instance,
+            "get_scores_from_answers",
+            return_value=np.array([1.0, 2.0, 3.0]),
+        ) as mock_get_scores,
+    ):
+        updates = pastel_instance.update_predictions(sentences, old_answers)
+
+        mock_get_func_answers.assert_has_calls(
+            [call(sentence, {}) for sentence in sentences]
+        )
+
+        mock_get_scores.assert_called_once()
+
+        assert len(updates) == len(sentences)
+        for sentence, score, old_answer in zip(sentences, [1.0, 2.0, 3.0], old_answers):
+            assert sentence in updates
+            assert isinstance(updates[sentence], ScoreAndAnswers)
+            assert updates[sentence].sentence == sentence
+            assert updates[sentence].score == score
+            expected_answers = old_answer | {"updated_feature": 1.0}
+            assert updates[sentence].answers == expected_answers
