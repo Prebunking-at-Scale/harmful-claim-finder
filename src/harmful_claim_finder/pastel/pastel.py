@@ -158,11 +158,10 @@ class Pastel:
 
         return functions
 
-    def make_prompt(self, sentence: str, questions: list[str] | None = None) -> str:
+    def make_prompt(self, sentence: str) -> str:
         """Makes a prompt for a single given sentence."""
 
-        if not questions:
-            questions = self.get_questions()
+        questions = self.get_questions()
 
         prompt = """
 Your task is to answer a series of questions about a sentence. Ensure your answers are truthful and reliable.
