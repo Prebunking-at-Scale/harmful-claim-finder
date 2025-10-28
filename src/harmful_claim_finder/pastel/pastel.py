@@ -6,7 +6,7 @@ import enum
 import json
 import logging
 from collections.abc import Callable
-from typing import Dict, Tuple, TypeAlias
+from typing import Tuple, TypeAlias
 
 import numpy as np
 import numpy.typing as npt
@@ -202,10 +202,11 @@ Here is the sentence: ```[SENT1]```
         retry=tenacity.retry_if_exception_type(RETRYABLE_EXCEPTIONS),
         before=log_retry_attempt,
     )
-    async def _get_llm_questions_for_single_sentence(
-        self, sentence: str, sent_answers: Dict[FEATURE_TYPE, float]
-    ) -> Dict[FEATURE_TYPE, float]:
+    async def _get_llm_answers_for_single_sentence(
+        self, sentence: str
+    ) -> dict[FEATURE_TYPE, float]:
         """Runs all genAI questions on the given sentence."""
+        sent_answers: dict[FEATURE_TYPE, float] = {}
         prompt = self.make_prompt(sentence)
         raw_output = await run_prompt(prompt)
         raw_output = raw_output.strip().lower()
@@ -226,9 +227,10 @@ Here is the sentence: ```[SENT1]```
         return sent_answers
 
     def _get_function_answers_for_single_sentence(
-        self, sentence: str, sent_answers: dict[FEATURE_TYPE, float]
+        self, sentence: str
     ) -> dict[FEATURE_TYPE, float]:
         """Runs all the functions in the model on the given sentence."""
+        sent_answers: dict[FEATURE_TYPE, float] = {}
         for f in self.get_functions():
             sent_answers[f] = f(sentence)
         return sent_answers
@@ -236,17 +238,13 @@ Here is the sentence: ```[SENT1]```
     async def _get_answers_for_single_sentence(
         self, sentence: str
     ) -> dict[FEATURE_TYPE, float]:
-        sent_answers: Dict[FEATURE_TYPE, float] = {}
         # First, get answers to all the questions from genAI:
-        sent_answers = await self._get_llm_questions_for_single_sentence(
-            sentence, sent_answers
-        )
+        llm_sent_answers = await self._get_llm_answers_for_single_sentence(sentence)
 
         # Second, get values from the functions
-        sent_answers = self._get_function_answers_for_single_sentence(
-            sentence, sent_answers
-        )
-        return sent_answers
+        function_sent_answers = self._get_function_answers_for_single_sentence(sentence)
+
+        return llm_sent_answers | function_sent_answers
 
     async def get_answers_to_questions(
         self, sentences: list[str]
@@ -345,7 +343,7 @@ Here is the sentence: ```[SENT1]```
         then re-runs the functions only and updates the scores with these new answers.
         Returns ScoresAndAnswers for each sentence as before."""
         new_answers = [
-            self._get_function_answers_for_single_sentence(sentence, {})
+            self._get_function_answers_for_single_sentence(sentence)
             for sentence in sentences
         ]
         updated_answers = [old | new for old, new in zip(old_answers, new_answers)]
