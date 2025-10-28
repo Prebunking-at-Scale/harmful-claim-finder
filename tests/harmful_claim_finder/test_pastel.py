@@ -203,7 +203,7 @@ def test_update_predictions(pastel_instance):
         updates = pastel_instance.update_predictions(sentences, old_answers)
 
         mock_get_func_answers.assert_has_calls(
-            [call(sentence, {}) for sentence in sentences]
+            [call(sentence) for sentence in sentences]
         )
 
         mock_get_scores.assert_called_once()
