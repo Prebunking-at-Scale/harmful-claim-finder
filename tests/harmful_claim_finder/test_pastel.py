@@ -1,14 +1,12 @@
 import json
 import tempfile
-from unittest.mock import AsyncMock, patch, Mock, call
-from uuid import uuid4
+from unittest.mock import AsyncMock, call, patch
 
 import numpy as np
 import pytest
 from pytest import mark, param
 
 from harmful_claim_finder.pastel.pastel import BiasType, Pastel, ScoreAndAnswers
-from harmful_claim_finder.utils.models import VideoClaims
 
 # mypy: ignore-errors
 # getting "Untyped decorator makes function ... untyped " so ignoring for now:

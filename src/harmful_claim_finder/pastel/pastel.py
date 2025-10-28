@@ -165,7 +165,7 @@ class Pastel:
             questions = self.get_questions()
 
         prompt = """
-Your task is to answer a series of questions about a sentence. Ensure your answers are truthful and reliable. 
+Your task is to answer a series of questions about a sentence. Ensure your answers are truthful and reliable.
 You are expected to answer with ‘Yes’ or ‘No’ but you are also allowed to answer with ‘Unsure’ if you do not
 have enough information or context to provide a reliable answer.
 Your response should be limited to the question number and yes/no/unsure.
