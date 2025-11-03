@@ -17,6 +17,7 @@ videos = [
     "gs://pas-prototyping-storage/ds-test-videos/7331223830645509419.mp4",
     "gs://pas-prototyping-storage/ds-test-videos/7337234721497271598.mp4",
     "gs://pas-prototyping-storage/ds-test-videos/7357367790744931630.mp4",
+    "gs://pas-prototyping-storage/ds-test-videos/test-twitter-video.mp4",
 ]
 
 video_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
@@ -32,6 +33,7 @@ def find_checkworthy_claims() -> None:
         try:
             claims = asyncio.run(get_claims(video_id, video_uri, kw), debug=True)
             output[video_uri] = [claim.model_dump(mode="json") for claim in claims]
+            print(f"Finished video: {video_uri}")
         except Exception as exc:
             print(f"Something went wrong with {video_uri}: {repr(exc)}")
             continue

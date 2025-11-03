@@ -75,4 +75,7 @@ check_untyped_defs = true
 where = ["src"]
 
 [tool.setuptools.package-data]
-harmful_claim_finder = ["pastel/checkworthy_model.json"]
+harmful_claim_finder = [
+    "pastel/checkworthy_model.json",
+    "prompts/*.md"
+]
