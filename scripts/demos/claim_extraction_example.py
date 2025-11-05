@@ -70,7 +70,7 @@ def text_example() -> None:
             )
             sentences = [
                 TranscriptSentence(
-                    id=video_id,
+                    video_id=video_id,
                     source="",
                     text=fragment["text"],
                     start_time_s=fragment["start"],

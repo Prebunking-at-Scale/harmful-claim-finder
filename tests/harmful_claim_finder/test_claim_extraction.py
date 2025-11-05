@@ -118,6 +118,8 @@ async def test_video_extraction(mock_run_prompt):
             "timestamp": 0,
             "duration": 1,
             "topics": ["topic"],
+            "claim_type": "SPOKEN",
+            "reasoning": None,
         },
         {
             "claim": "this is also claim",
@@ -125,6 +127,8 @@ async def test_video_extraction(mock_run_prompt):
             "timestamp": 1,
             "duration": 1,
             "topics": ["topic"],
+            "claim_type": "VISUAL_TEXT",
+            "reasoning": None,
         },
         {
             "claim": "this is third claim",
@@ -132,6 +136,8 @@ async def test_video_extraction(mock_run_prompt):
             "timestamp": 2,
             "duration": 1,
             "topics": ["topic"],
+            "claim_type": "IMPLICIT_VISUAL",
+            "reasoning": "reason",
         },
     ]
     kw = {"topic": ["keyword"]}
@@ -143,19 +149,34 @@ async def test_video_extraction(mock_run_prompt):
             video_id=fake_id,
             claim="this is claim",
             start_time_s=0,
-            metadata={"quote": "this is quote", "topics": ["topic"]},
+            metadata={
+                "quote": "this is quote",
+                "topics": ["topic"],
+                "claim_medium": "SPOKEN",
+                "reasoning": None,
+            },
         ),
         VideoClaims(
             video_id=fake_id,
             claim="this is also claim",
             start_time_s=1,
-            metadata={"quote": "this is also quote", "topics": ["topic"]},
+            metadata={
+                "quote": "this is also quote",
+                "topics": ["topic"],
+                "claim_medium": "VISUAL_TEXT",
+                "reasoning": None,
+            },
         ),
         VideoClaims(
             video_id=fake_id,
             claim="this is third claim",
             start_time_s=2,
-            metadata={"quote": "this is third quote", "topics": ["topic"]},
+            metadata={
+                "quote": "this is third quote",
+                "topics": ["topic"],
+                "claim_medium": "IMPLICIT_VISUAL",
+                "reasoning": "reason",
+            },
         ),
     ]
     assert claims == expected
