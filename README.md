@@ -14,7 +14,7 @@ from pprint import pp
 from uuid import UUID
 
 from harmful_claim_finder.transcript_inference import get_claims
-from harmful_claim_finder.utils.models import TranscriptSentence
+from genai_utils.models import TranscriptSentence
 
 
 sentences = [
