@@ -34,15 +34,15 @@ name = "pytorch-cpu"
 url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
+[tool.uv.sources]
+genai_utils = { git = "https://github.com/FullFact/genai-utils.git", tag = "5.0.0"}
+pastel = { git = "https://github.com/FullFact/pastel.git", tag = "v0.7.0-dev.0"}
+
 [build-system]
 requires = ["setuptools >= 61.0",
             "wheel"
 ]
 build-backend = "setuptools.build_meta"
-
-[tool.uv.sources]
-genai_utils = { git = "ssh://git@github.com/FullFact/genai-utils.git", tag = "5.0.0"}
-pastel = { git = "ssh://git@github.com/FullFact/pastel.git", tag = "v0.6.0-dev.0"}
 
 [dependency-groups]
 dev = [

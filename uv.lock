@@ -171,7 +171,7 @@ wheels = [
 [[package]]
 name = "genai-utils"
 version = "0.0.1"
-source = { git = "ssh://git@github.com/FullFact/genai-utils.git?tag=5.0.0#0a689e2a20bd32e09f1bb0d0543e2ba969392965" }
+source = { git = "https://github.com/FullFact/genai-utils.git?tag=5.0.0#0a689e2a20bd32e09f1bb0d0543e2ba969392965" }
 dependencies = [
     { name = "google-cloud-core" },
     { name = "google-genai" },
@@ -349,11 +349,11 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "genai-utils", git = "ssh://git@github.com/FullFact/genai-utils.git?tag=5.0.0" },
+    { name = "genai-utils", git = "https://github.com/FullFact/genai-utils.git?tag=5.0.0" },
     { name = "google-cloud-storage", specifier = ">=3.2.0" },
     { name = "google-genai", specifier = ">=1.21.1" },
     { name = "json-repair", specifier = "~=0.40.0" },
-    { name = "pastel", git = "ssh://git@github.com/FullFact/pastel.git?tag=v0.6.0-dev.0" },
+    { name = "pastel", git = "https://github.com/FullFact/pastel.git?tag=v0.7.0-dev.0" },
     { name = "pydantic", specifier = ">=2.10.6" },
     { name = "pytest-asyncio", specifier = ">=1.0.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
@@ -784,7 +784,7 @@ wheels = [
 [[package]]
 name = "pastel"
 version = "0.0.1"
-source = { git = "ssh://git@github.com/FullFact/pastel.git?tag=v0.6.0-dev.0#3dbd8898bb693f11ecfe71e6b19d484f25b251e9" }
+source = { git = "https://github.com/FullFact/pastel.git?tag=v0.7.0-dev.0#fa37e3d5059bc12d0a26c2e908cfa0de0c046a01" }
 dependencies = [
     { name = "genai-utils" },
     { name = "google-cloud-core" },
