@@ -1,11 +1,10 @@
-from pytest import mark, param
-
-from harmful_claim_finder.utils.sentence_linking import (
-    Span,
+from genai_utils.models import Span
+from genai_utils.sentence_linking import (
     find_quote_in_sentence,
     get_best_matching_sentence_for_quote,
     link_quotes_and_sentences,
 )
+from pytest import mark, param
 
 
 @mark.parametrize(
@@ -165,7 +164,7 @@ def test_get_best_matching_sentence_for_quote(
     sentences: list[str],
     expected_sent_idx: int,
 ):
-    best_match = get_best_matching_sentence_for_quote(quote, sentences, 80)
+    best_match = get_best_matching_sentence_for_quote(quote, sentences)
 
     if best_match is None:
         assert expected_sent_idx == -1

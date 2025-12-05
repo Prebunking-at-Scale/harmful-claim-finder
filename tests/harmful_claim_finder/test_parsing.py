@@ -1,6 +1,5 @@
+from genai_utils.parsing import parse_model_json_output
 from pytest import mark, param, raises
-
-from harmful_claim_finder.utils.parsing import parse_model_json_output
 
 
 @mark.parametrize(
