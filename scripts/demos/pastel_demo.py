@@ -4,9 +4,11 @@ import asyncio
 import logging
 from pathlib import Path
 
-import harmful_claim_finder.pastel.inference as pastel_inference
-import harmful_claim_finder.pastel.pastel_functions as pfun
-from harmful_claim_finder.pastel import optimise_weights, pastel
+import pastel.pastel_functions as pfun
+from pastel import optimise_weights, pastel
+from pastel.models import Sentence
+
+import harmful_claim_finder.pastel_inference as pastel_inference
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="demo.log", encoding="utf-8", level=logging.DEBUG)
@@ -69,12 +71,16 @@ def demo_inference() -> None:
     scores_and_answers = asyncio.run(cw_predictor.score_sentences(examples))
     _ = [print(f"{scores_and_answers[e].score:4.1f} \t{e}") for e in examples]
 
+    sentence_model_examples = [Sentence(e) for e in examples]
     print("---------------\nUpdated scores:")
     new_scores_and_answers = pastelizer.update_predictions(
-        examples,
+        sentence_model_examples,
         [scores_and_answers[e].answers for e in examples],
     )
-    _ = [print(f"{new_scores_and_answers[e].score:4.1f} \t{e}") for e in examples]
+    _ = [
+        print(f"{new_scores_and_answers[e].score:4.1f} \t{e}")
+        for e in sentence_model_examples
+    ]
 
 
 def learn_weights(training_examples_file: str, new_model_file: str) -> None:

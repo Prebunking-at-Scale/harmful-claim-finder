@@ -3,8 +3,10 @@ import logging
 import os
 from pathlib import Path
 
-from harmful_claim_finder.pastel import pastel
-from harmful_claim_finder.utils.gemini import GeminiError
+from genai_utils.gemini import GeminiError
+from pastel import pastel
+from pastel.models import ScoreAndAnswers, Sentence
+
 from harmful_claim_finder.utils.models import PastelError
 
 # flake8: noqa
@@ -23,7 +25,7 @@ class CheckworthyClaimDetector:
 
     async def score_sentences(
         self, sentences: list[str], max_attempts: int = 3
-    ) -> dict[str, pastel.ScoreAndAnswers]:
+    ) -> dict[str, ScoreAndAnswers]:
         """
         Returns a checkworthy score for each of a list of sentences.
         High scores suggest more checkworthy
@@ -46,8 +48,13 @@ class CheckworthyClaimDetector:
         """
         for _ in range(max_attempts):
             try:
-                scores_and_answers = await self.pastel.make_predictions(sentences)
-                return scores_and_answers
+                scores_and_answers = await self.pastel.make_predictions(
+                    [Sentence(s, ()) for s in sentences]
+                )
+                return {
+                    sent.sentence_text: scores
+                    for sent, scores in scores_and_answers.items()
+                }
             except GeminiError as exc:
                 _logger.info(f"Error while running Gemini: {repr(exc)}")
             except ValueError as exc:
