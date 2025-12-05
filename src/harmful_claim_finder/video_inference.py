@@ -40,8 +40,8 @@ async def get_claims(
         video_id, video_uri, keywords
     )
     pastel = CheckworthyClaimDetector()
-    claims_sentences = [claim.claim for claim in claims]
-    scores_and_answers = await pastel.score_sentences(claims_sentences, max_attempts=2)
+    claims_text = [claim.claim for claim in claims]
+    scores_and_answers = await pastel.score_sentences(claims_text, max_attempts=2)
 
     for claim in claims:
         claim.metadata = {
