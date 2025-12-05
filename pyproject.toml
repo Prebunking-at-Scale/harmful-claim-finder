@@ -25,6 +25,8 @@ dependencies = [
     "torch>=2.7.1",
     "pytest-asyncio>=1.0.0",
     "tenacity>=8.5.0",
+    "genai_utils",
+    "pastel"
 ]
 
 [[tool.uv.index]]
@@ -37,6 +39,10 @@ requires = ["setuptools >= 61.0",
             "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.uv.sources]
+genai_utils = { git = "ssh://git@github.com/FullFact/genai-utils.git", tag = "5.0.0"}
+pastel = { git = "ssh://git@github.com/FullFact/pastel.git", tag = "v0.6.0-dev.0"}
 
 [dependency-groups]
 dev = [
