@@ -11,7 +11,9 @@ from harmful_claim_finder.utils.models import PastelError
 
 # flake8: noqa
 CHECKWORTHY_MODEL_FILE = (
-    Path(os.path.dirname(os.path.abspath(__file__))) / "checkworthy_model.json"
+    Path(os.path.dirname(os.path.abspath(__file__)))
+    / "pastel"
+    / "checkworthy_model.json"
 )
 
 _logger = logging.getLogger(__name__)
