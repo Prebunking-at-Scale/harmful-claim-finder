@@ -353,7 +353,7 @@ requires-dist = [
     { name = "google-cloud-storage", specifier = ">=3.2.0" },
     { name = "google-genai", specifier = ">=1.21.1" },
     { name = "json-repair", specifier = "~=0.40.0" },
-    { name = "pastel", git = "https://github.com/FullFact/pastel.git?tag=v0.7.0-dev.0" },
+    { name = "pastel", git = "https://github.com/FullFact/pastel.git?tag=v0.7.0" },
     { name = "pydantic", specifier = ">=2.10.6" },
     { name = "pytest-asyncio", specifier = ">=1.0.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
@@ -784,7 +784,7 @@ wheels = [
 [[package]]
 name = "pastel"
 version = "0.0.1"
-source = { git = "https://github.com/FullFact/pastel.git?tag=v0.7.0-dev.0#fa37e3d5059bc12d0a26c2e908cfa0de0c046a01" }
+source = { git = "https://github.com/FullFact/pastel.git?tag=v0.7.0#f4fd60a8a7bdc701e78b7fd94d5ed9b4477d996a" }
 dependencies = [
     { name = "genai-utils" },
     { name = "google-cloud-core" },
