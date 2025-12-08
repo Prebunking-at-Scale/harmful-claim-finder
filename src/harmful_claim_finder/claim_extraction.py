@@ -7,16 +7,16 @@ from textwrap import dedent
 from typing import Any, cast
 from uuid import UUID
 
+from genai_utils.gemini import run_prompt
+from genai_utils.parsing import parse_model_json_output
+from genai_utils.sentence_linking import link_quotes_and_sentences
 from pydantic import BaseModel, Field, ValidationError
 
-from harmful_claim_finder.utils.gemini import run_prompt
 from harmful_claim_finder.utils.models import (
     ClaimExtractionError,
     TranscriptSentence,
     VideoClaims,
 )
-from harmful_claim_finder.utils.parsing import parse_model_json_output
-from harmful_claim_finder.utils.sentence_linking import link_quotes_and_sentences
 
 _logger = logging.getLogger(__name__)
 
@@ -147,7 +147,7 @@ def _get_timestamps(
 ) -> dict[str, float]:
     sentences = [s.text for s in transcript]
     quotes = [claim.original_text for claim in claims]
-    linked = link_quotes_and_sentences(quotes, sentences, 70)
+    linked = link_quotes_and_sentences(quotes, sentences)
     quote_timestamps = {
         claims[quote_idx].original_text: transcript[sentence_idx].start_time_s
         for quote_idx, sentence_idx, _ in linked
@@ -193,7 +193,7 @@ async def _get_transcript_claims(
     transcript_text = " ".join([s.text for s in transcript])
     prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
     prompt = prompt.replace("{KEYWORDS}", json.dumps(keywords))
-    response = await run_prompt(
+    response = run_prompt(
         prompt,
         system_instruction=CLAIMS_INSTRUCTION_TEXT,
         output_schema=list[TextClaimSchema],
@@ -202,7 +202,7 @@ async def _get_transcript_claims(
         claims = _parse_transcript_claims(response, transcript)
     except ValueError:
         _logger.info(f"Parsing error: {traceback.format_exc()}")
-        fixed_response = await run_prompt(
+        fixed_response = run_prompt(
             FIX_JSON.replace("{TEXT}", response),
             output_schema=list[TextClaimSchema],
         )
@@ -270,7 +270,7 @@ def _parse_video_claims(genai_response: str, video_id: UUID) -> list[VideoClaims
 async def _get_video_claims(
     video_id: UUID, video_uri: str, keywords: dict[str, list[str]]
 ) -> list[VideoClaims]:
-    response = await run_prompt(
+    response = run_prompt(
         CLAIMS_PROMPT_VIDEO.replace("{KEYWORDS}", json.dumps(keywords)),
         video_uri=video_uri,
         system_instruction=CLAIMS_INSTRUCTION_VIDEO,
@@ -280,7 +280,7 @@ async def _get_video_claims(
         claims = _parse_video_claims(response, video_id)
     except ValueError:
         _logger.info(f"Parsing error: {traceback.format_exc()}")
-        fixed_response = await run_prompt(
+        fixed_response = run_prompt(
             FIX_JSON.replace("{TEXT}", response),
             output_schema=list[VideoClaimSchema],
         )

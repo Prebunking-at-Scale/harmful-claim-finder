@@ -5,7 +5,7 @@ Claims can span more than one sentence, or be a span within a sentence.
 """
 
 from harmful_claim_finder.claim_extraction import extract_claims_from_transcript
-from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
+from harmful_claim_finder.pastel_inference import CheckworthyClaimDetector
 from harmful_claim_finder.utils.models import (
     CheckworthyError,
     ClaimExtractionError,

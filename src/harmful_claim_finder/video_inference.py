@@ -5,7 +5,7 @@ Code for extracting claims from a provided short form video
 from uuid import UUID
 
 from harmful_claim_finder.claim_extraction import extract_claims_from_video
-from harmful_claim_finder.pastel.inference import CheckworthyClaimDetector
+from harmful_claim_finder.pastel_inference import CheckworthyClaimDetector
 from harmful_claim_finder.utils.models import VideoClaims
 
 
