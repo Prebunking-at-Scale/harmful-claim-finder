@@ -20,7 +20,7 @@ from harmful_claim_finder.utils.models import (
 fake_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
 
-@patch("harmful_claim_finder.claim_extraction.run_prompt")
+@patch("harmful_claim_finder.claim_extraction.run_prompt_async")
 async def test_text_extraction(mock_run_prompt):
     dummy_claims = [
         {
@@ -109,7 +109,7 @@ async def test_text_extraction(mock_run_prompt):
     assert claims == expected
 
 
-@patch("harmful_claim_finder.claim_extraction.run_prompt")
+@patch("harmful_claim_finder.claim_extraction.run_prompt_async")
 async def test_video_extraction(mock_run_prompt):
     dummy_claims = [
         {
@@ -202,7 +202,7 @@ async def test_video_extraction(mock_run_prompt):
         ),
     ],
 )
-@patch("harmful_claim_finder.claim_extraction.run_prompt")
+@patch("harmful_claim_finder.claim_extraction.run_prompt_async")
 async def test_text_extraction_bad_output(
     mock_run_prompt, output: str, error: type[Exception]
 ):
@@ -262,7 +262,7 @@ async def test_text_extraction_bad_output(
         ),
     ],
 )
-@patch("harmful_claim_finder.claim_extraction.run_prompt")
+@patch("harmful_claim_finder.claim_extraction.run_prompt_async")
 async def test_text_extraction_missing_keys(
     mock_run_prompt,
     output: str,
@@ -300,7 +300,7 @@ async def test_text_extraction_missing_keys(
         ),
     ],
 )
-@patch("harmful_claim_finder.claim_extraction.run_prompt")
+@patch("harmful_claim_finder.claim_extraction.run_prompt_async")
 async def test_video_extraction_bad_output(
     mock_run_prompt, output: str, error: type[Exception]
 ):
@@ -310,7 +310,9 @@ async def test_video_extraction_bad_output(
         await _get_video_claims(fake_id, "uri", kw)
 
 
-@patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
+@patch(
+    "harmful_claim_finder.claim_extraction.run_prompt_async", return_value="BAD OUTPUT"
+)
 async def test_transcript_retries(mock_run_prompt):
     try:
         kw = {"topic": ["keyword"]}
@@ -322,7 +324,9 @@ async def test_transcript_retries(mock_run_prompt):
     assert mock_run_prompt.call_count == 6
 
 
-@patch("harmful_claim_finder.claim_extraction.run_prompt", return_value="BAD OUTPUT")
+@patch(
+    "harmful_claim_finder.claim_extraction.run_prompt_async", return_value="BAD OUTPUT"
+)
 async def test_video_retries(mock_run_prompt):
     try:
         kw = {"topic": ["keyword"]}
