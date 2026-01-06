@@ -254,7 +254,7 @@ def test_format_results_error():
 
 
 @patch(
-    "harmful_claim_finder.keyword_filter.topic_keyword_filter.run_prompt",
+    "harmful_claim_finder.keyword_filter.topic_keyword_filter.run_prompt_async",
     return_value='{"1": ["sentence1", "sentence2"], "2": ["sentence3"]}',
 )
 @patch.object(

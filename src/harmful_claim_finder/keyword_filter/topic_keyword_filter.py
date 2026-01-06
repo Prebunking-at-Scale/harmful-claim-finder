@@ -2,7 +2,7 @@ import logging
 import re
 import traceback
 
-from genai_utils.gemini import GeminiError, run_prompt
+from genai_utils.gemini import GeminiError, run_prompt_async
 from genai_utils.parsing import ParsedType, parse_model_json_output
 
 from harmful_claim_finder.keyword_filter.prompts import FIX_JSON, TOPIC_PROMPT
@@ -242,13 +242,15 @@ class TopicKeywordFilter:
         for _ in range(max_attempts):
             try:
                 prompt = self.make_keyword_prompt(article)
-                response = run_prompt(prompt)
+                response = await run_prompt_async(prompt)
                 result = self.parse(response)
                 try:
                     formatted_result = self.format_results(result, article)
                 except ParsingError:
                     logger.info(f"Parsing error: {traceback.format_exc()}")
-                    fixed_json = run_prompt(FIX_JSON.replace("{INPUT_TEXT}", response))
+                    fixed_json = await run_prompt_async(
+                        FIX_JSON.replace("{INPUT_TEXT}", response)
+                    )
                     fixed_result = self.parse(fixed_json)
                     formatted_result = self.format_results(fixed_result, article)
                 formatted_result = self.do_result_unmapping(formatted_result)

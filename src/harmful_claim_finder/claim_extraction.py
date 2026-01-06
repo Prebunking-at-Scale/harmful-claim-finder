@@ -7,7 +7,7 @@ from textwrap import dedent
 from typing import Any, cast
 from uuid import UUID
 
-from genai_utils.gemini import run_prompt
+from genai_utils.gemini import run_prompt_async
 from genai_utils.parsing import parse_model_json_output
 from genai_utils.sentence_linking import link_quotes_and_sentences
 from pydantic import BaseModel, Field, ValidationError
@@ -193,7 +193,7 @@ async def _get_transcript_claims(
     transcript_text = " ".join([s.text for s in transcript])
     prompt = CLAIMS_PROMPT_TEXT.replace("{TEXT}", transcript_text)
     prompt = prompt.replace("{KEYWORDS}", json.dumps(keywords))
-    response = run_prompt(
+    response = await run_prompt_async(
         prompt,
         system_instruction=CLAIMS_INSTRUCTION_TEXT,
         output_schema=list[TextClaimSchema],
@@ -202,7 +202,7 @@ async def _get_transcript_claims(
         claims = _parse_transcript_claims(response, transcript)
     except ValueError:
         _logger.info(f"Parsing error: {traceback.format_exc()}")
-        fixed_response = run_prompt(
+        fixed_response = await run_prompt_async(
             FIX_JSON.replace("{TEXT}", response),
             output_schema=list[TextClaimSchema],
         )
@@ -270,7 +270,7 @@ def _parse_video_claims(genai_response: str, video_id: UUID) -> list[VideoClaims
 async def _get_video_claims(
     video_id: UUID, video_uri: str, keywords: dict[str, list[str]]
 ) -> list[VideoClaims]:
-    response = run_prompt(
+    response = await run_prompt_async(
         CLAIMS_PROMPT_VIDEO.replace("{KEYWORDS}", json.dumps(keywords)),
         video_uri=video_uri,
         system_instruction=CLAIMS_INSTRUCTION_VIDEO,
@@ -280,7 +280,7 @@ async def _get_video_claims(
         claims = _parse_video_claims(response, video_id)
     except ValueError:
         _logger.info(f"Parsing error: {traceback.format_exc()}")
-        fixed_response = run_prompt(
+        fixed_response = await run_prompt_async(
             FIX_JSON.replace("{TEXT}", response),
             output_schema=list[VideoClaimSchema],
         )
