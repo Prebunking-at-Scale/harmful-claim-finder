@@ -24,21 +24,25 @@ fake_id = UUID("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 async def test_text_extraction(mock_run_prompt):
     dummy_claims = [
         {
+            "language": "English",
             "claim": "this is claim",
             "original_text": "this is quote",
             "topics": ["topic"],
         },
         {
+            "language": "English",
             "claim": "this is also claim",
             "original_text": "this is also quote",
             "topics": ["topic"],
         },
         {
+            "language": "English",
             "claim": "this is third claim",
             "original_text": "this is third quote",
             "topics": ["topic"],
         },
         {
+            "language": "English",
             "claim": "this is fourth claim",
             "original_text": "doesn't appear anywhere",
             "topics": ["topic"],
@@ -113,6 +117,7 @@ async def test_text_extraction(mock_run_prompt):
 async def test_video_extraction(mock_run_prompt):
     dummy_claims = [
         {
+            "language": "English",
             "claim": "this is claim",
             "original_text": "this is quote",
             "timestamp": 0,
@@ -122,6 +127,7 @@ async def test_video_extraction(mock_run_prompt):
             "reasoning": None,
         },
         {
+            "language": "English",
             "claim": "this is also claim",
             "original_text": "this is also quote",
             "timestamp": 1,
@@ -131,6 +137,7 @@ async def test_video_extraction(mock_run_prompt):
             "reasoning": None,
         },
         {
+            "language": "English",
             "claim": "this is third claim",
             "original_text": "this is third quote",
             "timestamp": 2,
@@ -232,7 +239,7 @@ async def test_text_extraction_bad_output(
         param(
             """
             [{"claim": "claim", "original_text": "quote 1"},
-            {"claim": "claim", "original_text": "quote 2", "topics": ["topic"]}]
+            {"language": "English", "claim": "claim", "original_text": "quote 2", "topics": ["topic"]}]
             """,
             [
                 TranscriptSentence(
