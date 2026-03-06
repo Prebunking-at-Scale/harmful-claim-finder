@@ -32,15 +32,20 @@ TRANSCRIPT_PROMPT_FILE = (
 
 
 class TextClaimSchema(BaseModel):
+    language: str = Field(
+        description=(
+            "The language of this claim/quote (e.g. 'French', 'Arabic', 'Spanish'). "
+            "Identify this before writing the claim."
+        )
+    )
     claim: str = Field(
         description=(
-            "The claim being made. "
-            "Do not change the meaning of the claim, "
-            "but rephrase to make the claim clear without context. "
+            "The claim being made, written in the SAME language as the original quote. "
+            "Rephrase to make the claim clear without context, "
+            "but do not change the meaning or language. "
             "The claim should have enough context to make sense "
             "to a fact checker without seeing the whole transcript. "
-            "Must be in the same language as the original transcript."
-            "Do not translate into English."
+            "This MUST be in the same language identified above."
         )
     )
     original_text: str = Field(
@@ -62,13 +67,18 @@ class TextClaimSchema(BaseModel):
 
 
 class VideoClaimSchema(BaseModel):
+    language: str = Field(
+        description=(
+            "The language of this quote (e.g. 'French', 'Arabic', 'Spanish'). "
+            "Identify this before writing the claim."
+        )
+    )
     claim: str = Field(
         description=(
-            "A concise, self-contained description of the claim, rewritten for clarity and context."
+            "A concise, self-contained description of the claim, rewritten for clarity and context. "
             "The claim should have enough context to make sense "
             "to a fact checker without seeing the whole video. "
-            "Must be in the same language as the original text."
-            "Do not translate into English."
+            "This MUST be in the same language as the original quote (the language identified above)."
         )
     )
     original_text: str = Field(
