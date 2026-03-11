@@ -64,7 +64,7 @@ class TopicKeywordFilter:
             Dict of topic numbers (as strings) mapping back to topic names.
         """
         mapped_keywords = mapped_keywords = {
-            f"{i+1}": words for i, words in enumerate(self.keywords.values())
+            f"{i + 1}": words for i, words in enumerate(self.keywords.values())
         }
         topic_name_map = {
             mapped: unmapped
@@ -242,14 +242,22 @@ class TopicKeywordFilter:
         for _ in range(max_attempts):
             try:
                 prompt = self.make_keyword_prompt(article)
-                response = await run_prompt_async(prompt)
+                response = await run_prompt_async(
+                    prompt,
+                    labels={
+                        "feature": "run_all_for_article",
+                    },
+                )
                 result = self.parse(response)
                 try:
                     formatted_result = self.format_results(result, article)
                 except ParsingError:
                     logger.info(f"Parsing error: {traceback.format_exc()}")
                     fixed_json = await run_prompt_async(
-                        FIX_JSON.replace("{INPUT_TEXT}", response)
+                        FIX_JSON.replace("{INPUT_TEXT}", response),
+                        labels={
+                            "feature": "run_all_for_article/fix_json",
+                        },
                     )
                     fixed_result = self.parse(fixed_json)
                     formatted_result = self.format_results(fixed_result, article)

@@ -207,6 +207,9 @@ async def _get_transcript_claims(
         prompt,
         system_instruction=CLAIMS_INSTRUCTION_TEXT,
         output_schema=list[TextClaimSchema],
+        labels={
+            "feature": "get_transcript_claims",
+        },
     )
     try:
         claims = _parse_transcript_claims(response, transcript)
@@ -215,6 +218,9 @@ async def _get_transcript_claims(
         fixed_response = await run_prompt_async(
             FIX_JSON.replace("{TEXT}", response),
             output_schema=list[TextClaimSchema],
+            labels={
+                "feature": "get_transcript_claims/fix_json",
+            },
         )
         claims = _parse_transcript_claims(fixed_response, transcript)
 
@@ -285,6 +291,9 @@ async def _get_video_claims(
         video_uri=video_uri,
         system_instruction=CLAIMS_INSTRUCTION_VIDEO,
         output_schema=list[VideoClaimSchema],
+        labels={
+            "feature": "get_video_claims",
+        },
     )
     try:
         claims = _parse_video_claims(response, video_id)
@@ -293,6 +302,9 @@ async def _get_video_claims(
         fixed_response = await run_prompt_async(
             FIX_JSON.replace("{TEXT}", response),
             output_schema=list[VideoClaimSchema],
+            labels={
+                "feature": "get_video_claims/fix_json",
+            },
         )
         claims = _parse_video_claims(fixed_response, video_id)
     return claims
